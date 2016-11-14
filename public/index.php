@@ -2,7 +2,7 @@
 use Phalcon\Di\FactoryDefault;
 
 error_reporting(E_ALL);
-
+session_start();
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
 
@@ -28,6 +28,11 @@ try {
      * Include Autoloader
      */
     include APP_PATH . '/config/loader.php';
+
+    /**
+     * Include Autoloader
+     */
+    include APP_PATH . '/config/acl.php';
 
     /**
      * Handle the request

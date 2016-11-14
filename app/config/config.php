@@ -3,16 +3,19 @@
  * Modified: preppend directory path of current file, because of this file own different ENV under between Apache and command line.
  * NOTE: please remove this comment.
  */
-defined('BASE_PATH') || define('BASE_PATH', getenv('BASE_PATH') ?: realpath(dirname(__FILE__) . '/../..'));
-defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
+defined('PUBLIC_URL') || define('PUBLIC_URL', 'account');
+defined('BASE_PATH')  || define('BASE_PATH', getenv('BASE_PATH') ?: realpath(dirname(__FILE__) . '/../..'));
+defined('APP_PATH')   || define('APP_PATH', BASE_PATH . '/app');
+defined('URL')        || define('URL', 'http://localhost/bus/');
+defined('MOVE_PHOTO') || define('MOVE_PHOTO', BASE_PATH . '/public/img/users/');
 
 return new \Phalcon\Config([
     'database' => [
         'adapter'     => 'Mysql',
         'host'        => 'localhost',
         'username'    => 'root',
-        'password'    => '',
-        'dbname'      => 'test',
+        'password'    => 'theger092290',
+        'dbname'      => 'bus',
         'charset'     => 'utf8',
     ],
     'application' => [
@@ -21,6 +24,7 @@ return new \Phalcon\Config([
         'modelsDir'      => APP_PATH . '/models/',
         'migrationsDir'  => APP_PATH . '/migrations/',
         'viewsDir'       => APP_PATH . '/views/',
+        'dataDir'       => APP_PATH . '/data/',
         'pluginsDir'     => APP_PATH . '/plugins/',
         'libraryDir'     => APP_PATH . '/library/',
         'cacheDir'       => BASE_PATH . '/cache/',
