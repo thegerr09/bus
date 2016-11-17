@@ -157,7 +157,7 @@
         list();
       }
     });
-
+ 
     e.preventDefault();
   });
 

@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form()"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Input User</h4>
       </div>
       <form name="form" action="{{ url('Users/input') }}" method="POST" enctype="multipart/form-data" data-remote="data-remote">
@@ -45,7 +45,7 @@
                   <div class="form-group">
                     {% for ug in group %}
                     <label class="usergroup">
-                      <input type="checkbox" class="flat-blue" name="usergroup[]" value="{{ ug.id }}"> {{ ug.usergroup }}
+                      <input type="checkbox" class="flat-blue" name="usergroup[]" id="data{{ ug.id }}" value="{{ ug.id }}"> {{ ug.usergroup }}
                     </label><br>
                     {% endfor %}
                   </div>
@@ -53,7 +53,8 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Upload Foto</label>
-                    <input type="file" class="filestyle" name="foto" id="uploadImage" onchange="PreviewImage()">
+                    <input type="file" class="filestyle" name="image" id="uploadImage" onchange="PreviewImage()">
+                    <input type="hidden" name="remove_image">
                   </div>
                   {{ image("img/users/users.png", "width":"150", "height":"150", "id":"uploadPreview", "class":"img-rounded") }}
                 </div>
@@ -62,7 +63,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>
           <button type="submit" class="btn btn-success">Save</button>
         </div>
       </form>

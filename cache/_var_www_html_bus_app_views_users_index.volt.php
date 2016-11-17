@@ -61,7 +61,7 @@
                 <tr id="del<?= $x->id ?>">
                   <td align="center"><?php echo $no++; ?></td>
                   <td style="vertical-align:middle;">
-                    <i class="fa fa-edit cursor" style="font-size:18px;"></i> |
+                    <i class="fa fa-edit cursor" style="font-size:18px;" data-toggle="modal" data-target="#Tambah" onclick="update(<?= $x->id ?>)"></i> |
                     <i class="fa fa-trash cursor" style="font-size:18px;" data-toggle="modal" data-target="#Delete" onclick="deleted(<?= $x->id ?>, '<?= $x->username ?>')"></i> |
                     <?php if ($x->active == 'Y') { ?>
                     <i class="fa fa-power-off cursor text-green" style="font-size:18px;" id="button_status<?= $x->id ?>" onclick="status_action(<?= $x->id ?>, 'N', 'red')"></i> |
@@ -96,7 +96,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form()"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Input User</h4>
       </div>
       <form name="form" action="<?= $this->url->get('Users/input') ?>" method="POST" enctype="multipart/form-data" data-remote="data-remote">
@@ -139,7 +139,7 @@
                   <div class="form-group">
                     <?php foreach ($group as $ug) { ?>
                     <label class="usergroup">
-                      <input type="checkbox" class="flat-blue" name="usergroup[]" value="<?= $ug->id ?>"> <?= $ug->usergroup ?>
+                      <input type="checkbox" class="flat-blue" name="usergroup[]" id="data<?= $ug->id ?>" value="<?= $ug->id ?>"> <?= $ug->usergroup ?>
                     </label><br>
                     <?php } ?>
                   </div>
@@ -147,7 +147,8 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Upload Foto</label>
-                    <input type="file" class="filestyle" name="foto" id="uploadImage" onchange="PreviewImage()">
+                    <input type="file" class="filestyle" name="image" id="uploadImage" onchange="PreviewImage()">
+                    <input type="hidden" name="remove_image">
                   </div>
                   <?= $this->tag->image(['img/users/users.png', 'width' => '150', 'height' => '150', 'id' => 'uploadPreview', 'class' => 'img-rounded']) ?>
                 </div>
@@ -156,7 +157,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>
           <button type="submit" class="btn btn-success">Save</button>
         </div>
       </form>
@@ -211,7 +212,7 @@
           type: response.type
         });
         update_page('Users', 'page_users');
-        clear_form();
+        clear_form(response.close);
         list();
       }
     });
@@ -255,6 +256,39 @@ function deleted(id, user) {
   $('#user').text(user);
 }
 
+function update(id) {
+  $('#label_users').text('Update Users');
+  $('form[name="form"]').attr('action', '<?= $this->url->get('Users/update/') ?>'+id);
+  var btn_submit = $('form[name="form"]').find('button[type="submit"]');
+  btn_submit.removeClass('btn-success');
+  btn_submit.addClass('btn-primary');
+  btn_submit.text('Save Update');
+
+  $.ajax({
+    type: 'GET',
+    url: '<?= $this->url->get('Users/detail/') ?>'+id,
+    dataType:'json',
+    success: function(response){
+      $.each(response, function(key, value) {
+        $('form[name="form"]').find('[name="'+key+'"]')
+          .not('input[name^="usergroup"]')
+          .not('input[name="image"]')
+          .not('input[name="password"]')
+          .val(value);
+        if (key == 'image') {
+          $('input[name="remove_image"]').val(value);
+          $('#uploadPreview').attr('src', 'img/users/'+value);
+        }
+        var str = response.usergroup;
+        var res = str.split(",");
+        for (var i = 0; i < res.length; i++) {
+          $('input[type="checkbox"].flat-blue#data'+res[i]).iCheck('check');
+        }
+      });
+    }
+  });
+}
+
 function list() {
   $.ajax({
     type: 'GET',
@@ -266,10 +300,11 @@ function list() {
   });
 }
 
-function clear_form(){
+function clear_form(id){
   $('form[name="form"]').find('[name]').not('input[name^="usergroup"]').val('');
   $('input[type="checkbox"].flat-blue').iCheck('uncheck');
   $('#uploadPreview').attr('src', 'img/users/users.png');
+  if (id == '1') { $('#Tambah').modal('hide'); }
 }
 
 function status_action(id, status, clas) {
@@ -313,6 +348,7 @@ $(":file").filestyle({
 });
 
 function PreviewImage() {
+  $('input[name="remove_image"]').val('');
   var oFReader = new FileReader();
   oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
 

@@ -61,7 +61,7 @@
                 <tr id="del{{ x.id }}">
                   <td align="center"><?php echo $no++; ?></td>
                   <td style="vertical-align:middle;">
-                    <i class="fa fa-edit cursor" style="font-size:18px;"></i> |
+                    <i class="fa fa-edit cursor" style="font-size:18px;" data-toggle="modal" data-target="#Tambah" onclick="update({{ x.id }})"></i> |
                     <i class="fa fa-trash cursor" style="font-size:18px;" data-toggle="modal" data-target="#Delete" onclick="deleted({{ x.id }}, '{{ x.username }}')"></i> |
                     {% if x.active == 'Y' %}
                     <i class="fa fa-power-off cursor text-green" style="font-size:18px;" id="button_status{{ x.id }}" onclick="status_action({{ x.id }}, 'N', 'red')"></i> |

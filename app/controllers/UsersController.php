@@ -82,6 +82,67 @@ class UsersController extends \Phalcon\Mvc\Controller
         
     }
 
+    public function updateAction($id)
+    {
+        $this->view->disable();
+        
+        if ($this->request->hasFiles() == true) {
+            $baseLocation = MOVE_PHOTO;
+            foreach ($this->request->getUploadedFiles() as $file) {
+                if ($file->getSize() > 0) {
+                    $file_name = md5(uniqid(rand(), true)).'.'.$file->getExtension();
+                    $file->moveTo($baseLocation . $file_name);
+                } else {
+                    $file_name = $this->request->getPost('remove_image');
+                }
+                
+            }
+        }
+
+        if (is_array($this->request->getPost('usergroup'))) {
+            $usergroup = ','.implode(',', $this->request->getPost('usergroup')).',';
+        } else {
+            $usergroup = ','.$this->request->getPost('usergroup').',';
+        }
+
+        $array = [  
+            'username'  => $this->request->getPost('username'),
+            'password'  => $this->security->hash($this->request->getPost('password')),
+            'usergroup' => $usergroup,
+            'name'      => $this->request->getPost('name'),
+            'address'   => $this->request->getPost('address'),
+            'email'     => $this->request->getPost('email'),
+            'facebook'  => $this->request->getPost('facebook'),
+            'handphone' => $this->request->getPost('handphone'),
+            'image'     => $file_name
+        ];
+
+        $user = Users::findFirst($id);
+        $user->assign($array);
+        if ($user->save()) {
+            $notify = [
+                'title' => 'Success',
+                'text'  => 'Data berhasil di simpan ke database',
+                'type'  => 'success',
+                'close'  => '1',
+            ];
+        } else {
+            $messages = $user->getMessages();
+            $m = '';
+            foreach ($messages as $message) {
+                $m .= "$message <br/>";
+            }
+            $notify = [
+                'title' => 'Errors',
+                'text'  => $m,
+                'type'  => 'error'
+            ];
+        }
+
+        echo json_encode($notify);
+        
+    }
+
     public function deleteAction()
     {
         $this->view->disable();
@@ -160,6 +221,13 @@ class UsersController extends \Phalcon\Mvc\Controller
             ];
         }
         return json_encode($notify);
+    }
+
+    public function detailAction($id)
+    {
+        $this->view->disable();
+        $users = Users::findFirst($id);
+        return json_encode($users);
     }
 
 }
