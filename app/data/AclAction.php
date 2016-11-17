@@ -7,7 +7,7 @@ class AclAction
 	{
 		$group = Usergroup::find();
     	foreach ($group as $key => $value) {
-    		$group_name[$value->id] = $value->group;
+    		$group_name[$value->id] = $value->usergroup;
     	}
     	return $group_name;
 	}

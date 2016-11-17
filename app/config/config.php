@@ -15,7 +15,7 @@ return new \Phalcon\Config([
         'host'        => 'localhost',
         'username'    => 'root',
         'password'    => 'theger092290',
-        'dbname'      => 'bus',
+        'dbname'      => 'galatama',
         'charset'     => 'utf8',
     ],
     'application' => [
@@ -24,7 +24,7 @@ return new \Phalcon\Config([
         'modelsDir'      => APP_PATH . '/models/',
         'migrationsDir'  => APP_PATH . '/migrations/',
         'viewsDir'       => APP_PATH . '/views/',
-        'dataDir'       => APP_PATH . '/data/',
+        'dataDir'        => APP_PATH . '/data/',
         'pluginsDir'     => APP_PATH . '/plugins/',
         'libraryDir'     => APP_PATH . '/library/',
         'cacheDir'       => BASE_PATH . '/cache/',

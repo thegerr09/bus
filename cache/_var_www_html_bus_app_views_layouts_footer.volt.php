@@ -1,3 +1,4 @@
 <footer class="main-footer">
-  <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>. | Editor <a>SAIPUL HIDAYAT</a></strong>
+  <strong>Copyright &copy; 2016 <a href="http://qodr.or.id">Qodr.or.id</a></strong>
+  <span class="pull-right"><b>Version</b> : 1.0.1</span>
 </footer>

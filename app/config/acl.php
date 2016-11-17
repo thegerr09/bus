@@ -42,6 +42,8 @@ else
 				{
 					// access controller > action granted
 
+				} else {
+					die('not allowed A');
 				}
 			}
 		} else {

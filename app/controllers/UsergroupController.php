@@ -7,14 +7,15 @@ class UsergroupController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-        $this->view->pick("usergroup/index");
+        $this->view->group = Usergroup::find(["conditions" => "deleted = 'N'"]);
+        $this->view->pick("Usergroup/index");
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
     public function listAction()
     {
-        $this->view->group = Usergroup::find("deleted = 'N'");
-        $this->view->pick("usergroup/list");
+        $this->view->group = Usergroup::find(["conditions" => "deleted = 'N'"]);
+        $this->view->pick("Usergroup/list");
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
@@ -22,7 +23,7 @@ class UsergroupController extends \Phalcon\Mvc\Controller
     {
         $this->view->disable();
         $data = [
-            'usergroup' => $this->request->getPost('usergroup'),
+            'usergroup'   => $this->request->getPost('usergroup'),
             'description' => $this->request->getPost('description')
         ];
 
@@ -30,10 +31,10 @@ class UsergroupController extends \Phalcon\Mvc\Controller
         $group->assign($data);
         if ($group->save()) {
             $notify = [
-                'title' => 'Success',
-                'text' => 'Data berhasil di simpan ke database',
-                'type' => 'success',
-                'link' => 'Usergroup',
+                'title'   => 'Success',
+                'text'    => 'Data berhasil di simpan ke database',
+                'type'    => 'success',
+                'link'    => 'Usergroup',
                 'storage' => 'page_usergroup'
             ];
         } else {
@@ -44,8 +45,8 @@ class UsergroupController extends \Phalcon\Mvc\Controller
             }
             $notify = [
                 'title' => 'Errors',
-                'text' => $m,
-                'type' => 'error'
+                'text'  => $m,
+                'type'  => 'error'
             ];
         }
         return json_encode($notify);
@@ -60,12 +61,12 @@ class UsergroupController extends \Phalcon\Mvc\Controller
         $group->assign($data);
         if ($group->save()) {
             $notify = [
-                'title' => 'Success',
-                'text' => 'Data berhasil di simpan ke database',
-                'type' => 'success',
-                'link' => 'Usergroup',
+                'title'   => 'Success',
+                'text'    => 'Data berhasil di simpan ke database',
+                'type'    => 'success',
+                'link'    => 'Usergroup',
                 'storage' => 'page_usergroup',
-                'close' => '1'
+                'close'   => '1'
             ];
         } else {
             $messages = $group->getMessages();
@@ -75,8 +76,8 @@ class UsergroupController extends \Phalcon\Mvc\Controller
             }
             $notify = [
                 'title' => 'Errors',
-                'text' => $m,
-                'type' => 'error'
+                'text'  => $m,
+                'type'  => 'error'
             ];
         }
         return json_encode($notify);
@@ -87,26 +88,33 @@ class UsergroupController extends \Phalcon\Mvc\Controller
         $this->view->disable();
         $id = $this->request->getPost('id');
         if ($this->request->getPost('active') == 'Y') {
-            $label = 'Active';
+            $title  = 'Usergroup Active';
+            $type   = 'success';
+            $icon   = 'fa fa-check';
+            $label  = 'Active';
             $status = 'N';
-            $class = 'green';
+            $class  = 'green';
         } else {
-            $label = 'Not Active';
+            $title  = 'Usergroup Not Active';
+            $type   = 'error';
+            $icon   = 'fa fa-remove';
+            $label  = 'Not Active';
             $status = 'Y';
-            $class = 'red';
+            $class  = 'red';
         }
         
         $group = Usergroup::findFirst($id);
         $group->active = $this->request->getPost('active');
         if ($group->save()) {
             $notify = [
-                'title' => 'Success',
-                'text' => 'Usergroup berhasil di'.$label,
-                'type' => 'success',
-                'class' => $class,
-                'status' => $status,
-                'label' => $label,
-                'link' => 'Usergroup',
+                'title'   => $title,
+                'text'    => 'Usergroup berhasil di '.$label.' kan',
+                'type'    => $type,
+                'icon'    => $icon,
+                'class'   => $class,
+                'status'  => $status,
+                'label'   => $label,
+                'link'    => 'Usergroup',
                 'storage' => 'page_usergroup'
             ];
         } else {
@@ -117,8 +125,8 @@ class UsergroupController extends \Phalcon\Mvc\Controller
             }
             $notify = [
                 'title' => 'Errors',
-                'text' => $m,
-                'type' => 'error'
+                'text'  => $m,
+                'type'  => 'error'
             ];
         }
         return json_encode($notify);
@@ -133,11 +141,12 @@ class UsergroupController extends \Phalcon\Mvc\Controller
         $group->deleted = 'Y';
         if ($group->save()) {
             $notify = [
-                'title' => 'Success',
-                'text' => 'Data berhasil di hapus',
-                'type' => 'success',
-                'id' => $id,
-                'link' => 'Usergroup',
+                'title'   => 'Data Terhapus',
+                'text'    => 'Data berhasil di hapus',
+                'type'    => 'success',
+                'icon'    => 'fa fa-trash',
+                'id'      => $id,
+                'link'    => 'Usergroup',
                 'storage' => 'page_usergroup'
             ];
         } else {
@@ -148,8 +157,8 @@ class UsergroupController extends \Phalcon\Mvc\Controller
             }
             $notify = [
                 'title' => 'Errors',
-                'text' => $m,
-                'type' => 'error'
+                'text'  => $m,
+                'type'  => 'error'
             ];
         }
         return json_encode($notify);

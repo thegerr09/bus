@@ -7,8 +7,8 @@
 <section class="content-header animated fadeIn">
   <h1>Usergroup</h1>
   <ol class="breadcrumb">
-    <li><a href="<?= $this->url->get() ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="<?= $this->url->get('Data/users') ?>">Data</a></li>
+    <li><i class="fa fa-home"></i> Home</li>
+    <li>Data</li>
     <li class="active">usergroup</li>
   </ol>
 </section>
@@ -45,7 +45,27 @@
                   </td>
                 </tr>
               </thead>
-              <tbody id="list_view"></tbody>
+              <tbody id="list_view">
+                <?php $no = 1; ?>
+                <?php foreach ($group as $x) { ?>
+                <tr id="del<?= $x->id ?>">
+                  <td align="center"><?php echo $no++; ?></td>
+                  <td style="vertical-align:middle;">
+                    <i class="fa fa-edit cursor" style="font-size:18px;" data-toggle="modal" data-target="#Tambah" onclick="update(<?= $x->id ?>)"></i> |
+                    <i class="fa fa-trash cursor" style="font-size:18px;" data-toggle="modal" data-target="#Delete" onclick="deleted(<?= $x->id ?>,'<?= $x->usergroup ?>')"></i> |
+                    <?php if ($x->active == 'Y') { ?>
+                    <i class="fa fa-power-off cursor text-green" style="font-size:18px;" id="button_status<?= $x->id ?>" onclick="status_action(<?= $x->id ?>, 'N', 'red')"></i> |
+                    <span class="label bg-green" id="label_status<?= $x->id ?>">active</span>
+                    <?php } else { ?>
+                    <i class="fa fa-power-off cursor text-red" style="font-size:18px;" id="button_status<?= $x->id ?>" onclick="status_action(<?= $x->id ?>, 'Y', 'green')"></i> |
+                    <span class="label bg-red" id="label_status<?= $x->id ?>">not active</span>
+                    <?php } ?>
+                  </td>
+                  <td><?= $x->usergroup ?></td>
+                  <td><?= $x->description ?></td>
+                </tr>
+                <?php } ?>
+              </tbody>
             </table>
           </div>
         </div>
@@ -132,6 +152,7 @@
           type: response.type
         });
         update_page(response.link, response.storage);
+        update_page('Users', 'page_users');
         clear_form(response.close);
         list();
       }
@@ -157,11 +178,13 @@
         new PNotify({
           title: response.title,
           text: response.text,
-          type: response.type
+          type: response.type,
+          icon: response.icon
         });
         $('#Delete').modal('hide');
         $('#del'+response.id).fadeOut(1000);
         update_page(response.link, response.storage);
+        update_page('Users', 'page_users');
       }
     });
 
@@ -217,6 +240,12 @@ function status_action(id, status, clas) {
     dataType:'json',
     data: 'id='+id+'&active='+status+'&class='+clas,
     success: function(response){
+      new PNotify({
+        title: response.title,
+        text: response.text,
+        type: response.type,
+        icon: response.icon
+      });
       $("#button_status"+id).removeClass()
         .addClass('fa fa-power-off cursor text-'+response.class)
         .attr("onclick", "status_action("+id+", '"+response.status+"', '"+response.class+"')");
@@ -224,11 +253,10 @@ function status_action(id, status, clas) {
       $("#label_status"+id).removeClass()
         .addClass('label bg-'+response.class)
         .text(response.label);
+
+      update_page('Usergroup', 'page_usergroup');
+      update_page('Users', 'page_users');
     }
   });
 }
-
-$(document).ready(function(){
-  list();
-});
 </script>

@@ -1,3 +1,7 @@
+<?= $this->tag->javascriptInclude('plugins/jQuery/jquery-2.2.3.min.js') ?>
+<?= $this->tag->javascriptInclude('js/bootstrap.min.js') ?>
+<?= $this->tag->javascriptInclude('plugins/file-style/bootstrap-filestyle.min.js') ?>
+
 <!-- Pnotify -->
 <?= $this->tag->javascriptInclude('plugins/pnotify/pnotify.core.js') ?>
 <?= $this->tag->javascriptInclude('plugins/pnotify/pnotify.buttons.js') ?>

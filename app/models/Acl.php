@@ -52,7 +52,7 @@ class Acl extends \Phalcon\Mvc\Model
      * @var string
      * @Column(type="string", nullable=false)
      */
-    public $delete;
+    public $deleted;
 
     /**
      * Returns table name mapped in the model.

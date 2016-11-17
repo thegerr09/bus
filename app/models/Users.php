@@ -92,29 +92,6 @@ class Users extends \Phalcon\Mvc\Model
     public $deleted;
 
     /**
-     * Validations and business logic
-     *
-     * @return boolean
-     */
-    public function validation()
-    {
-        $this->validate(
-            new Email(
-                [
-                    'field'    => 'email',
-                    'required' => true,
-                ]
-            )
-        );
-
-        if ($this->validationHasFailed() == true) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Returns table name mapped in the model.
      *
      * @return string

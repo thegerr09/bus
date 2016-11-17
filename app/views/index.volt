@@ -17,7 +17,7 @@
 
   <!-- include Content Wrapper -->
   <div class="content-wrapper">
-	  {{ content() }}
+    {{ content() }}
   </div>
 
   <!-- include footer -->
@@ -25,8 +25,6 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- Include Js -->
-{% include 'layouts/js.volt' %}
 
 </body>
 </html>

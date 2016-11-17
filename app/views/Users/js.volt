@@ -67,7 +67,7 @@ function deleted(id, user) {
 function list() {
   $.ajax({
     type: 'GET',
-    url: '<?= $this->url->get('Users/list') ?>',
+    url: '{{ url('Users/list') }}',
     dataType:'html',
     success: function(response){
       $('#list_view').html(response);
@@ -84,7 +84,7 @@ function clear_form(){
 function status_action(id, status, clas) {
   $.ajax({
     type: 'POST',
-    url: '<?= $this->url->get('Users/status') ?>',
+    url: '{{ url('Users/status') }}',
     dataType:'json',
     data: 'id='+id+'&active='+status+'&class='+clas,
     success: function(response){

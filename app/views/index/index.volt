@@ -1,7 +1,7 @@
 <section class="content-header animated fadeIn">
   <h1>Dashboard</h1>
   <ol class="breadcrumb">
-    <li><a href="{{ url() }}"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a><i class="fa fa-home"></i> Home</a></li>
     <li class="active">Dashboard</li>
   </ol>
 </section>
@@ -15,7 +15,8 @@
         <span class="info-box-icon bg-aqua"><i class="fa fa-bus"></i></span>
         <div class="info-box-content">
           <span class="info-box-text">BUS</span>
-          <span class="info-box-number">90<small>%</small></span>
+          <span class="info-box-number">AB 2654 BG</span>
+          <span>OMSET : 15 JT</span>
         </div>
       </div>
     </div>
@@ -25,7 +26,7 @@
         <span class="info-box-icon bg-red"><i class="fa fa-users"></i></span>
         <div class="info-box-content">
           <span class="info-box-text">PELANGGAN</span>
-          <span class="info-box-number">41,410</span>
+          <span class="info-box-number">410</span>
         </div>
       </div>
     </div>
@@ -38,7 +39,7 @@
 
         <div class="info-box-content">
           <span class="info-box-text">PEMASUKAN</span>
-          <span class="info-box-number">760</span>
+          <span class="info-box-number">Rp. 20 Jt</span>
         </div>
       </div>
     </div>
@@ -49,7 +50,7 @@
 
         <div class="info-box-content">
           <span class="info-box-text">PENGELUARAN</span>
-          <span class="info-box-number">2,000</span>
+          <span class="info-box-number">Rp. 10 Jt</span>
         </div>
       </div>
     </div>
@@ -61,22 +62,10 @@
     <div class="col-md-12">
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Monthly Recap Report</h3>
+          <h3 class="box-title">Grafik Keuangan</h3>
 
           <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-            <div class="btn-group">
-              <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-wrench"></i></button>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-              </ul>
-            </div>
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
           </div>
         </div>
@@ -85,7 +74,7 @@
           <div class="row">
             <div class="col-md-12">
               <p class="text-center">
-                <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
+                <strong>January, 2016 - December, 2016</strong>
               </p>
 
               <div class="chart">
@@ -353,5 +342,4 @@
 
   </div>
 </section>
-{{ javascript_include('plugins/chartjs/Chart.min.js') }}
 {% include "index/js.volt" %}

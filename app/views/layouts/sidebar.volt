@@ -4,11 +4,11 @@
     <div class="user-panel">
       
       <div class="pull-left image">
-        <img src="{{ url('img/bus.png') }}" class="img-circle" alt="User Image">
+        <img src="{{ url('img/users/') }}{{ session.get('image') }}" class="img-circle" alt="User Image">
       </div>
       
       <div class="pull-left info">
-        <p><?php echo strtoupper($_SESSION['username']); ?></p>
+        <p>{{ session.get('username')|upper }}</p>
         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
       </div>
     
@@ -125,6 +125,17 @@
             </a>
           </li>
         </ul>
+      </li>
+      <li class="header">CREDITS</li>
+      <li>
+        <a href="#Dashboard" onclick="return load_page('#','#','#')">
+          <i class="fa fa-users"></i> <span>Credits</span>
+        </a>
+      </li>
+      <li>
+        <a href="#Dashboard" onclick="return load_page('#','#','#')">
+          <i class="fa fa-file"></i> <span>Licensi</span>
+        </a>
       </li>
     </ul>
   </section>

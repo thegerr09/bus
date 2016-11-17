@@ -8,7 +8,7 @@
         <h4 class="modal-title" id="label_usergroup">Input Usergroup</h4>
       </div>
 
-      <form name="group" action="<?= $this->url->get('Usergroup/input') ?>" method="POST" data-remote="data-remote">
+      <form name="group" action="{{ url('Usergroup/input') }}" method="POST" data-remote="data-remote">
         <div class="modal-body">
           <div class="form-group">
             <label>Usergroup</label>

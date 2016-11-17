@@ -2,7 +2,7 @@
   
   <a href="<?= $this->url->get() ?>" class="logo">
     <span class="logo-mini"><b>BUS</b></span>
-    <span class="logo-lg"><b>BUSWAY</b></span>
+    <span class="logo-lg"><b>PO. </b>GALATAMA</span>
   </a>
 
   <nav class="navbar navbar-static-top">
@@ -17,46 +17,19 @@
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
 
-        <li class="dropdown notifications-menu">
-          
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-bell-o"></i>
-            <span class="label label-warning">10</span>
-          </a>
-
-          <ul class="dropdown-menu animated fadeInDown">
-            <li class="header">You have 10 notifications</li>
-            
-            <li>
-              <ul class="menu">
-                <li>
-                  <a href="#">
-                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                  </a>
-                </li>
-              </ul>
-            </li>
-
-            <li class="footer"><a href="#">View all</a></li>
-          </ul>
-
-        </li>
-
         <li class="dropdown user user-menu">
           
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="<?= $this->url->get('img/bus.png') ?>" class="user-image" alt="User Image">
-            <span class="hidden-xs"><?php echo strtoupper($_SESSION['username']); ?></span>
+            <img src="<?= $this->url->get('img/users/') ?><?= $this->session->get('image') ?>" class="user-image" alt="User Image">
+            <span class="hidden-xs"><?= Phalcon\Text::upper($this->session->get('username')) ?></span>
           </a>
 
           <ul class="dropdown-menu animated fadeInDown">
             <li class="user-header">
 
-              <img src="<?= $this->url->get('img/bus.png') ?>" class="img-circle" alt="User Image">
+              <img src="<?= $this->url->get('img/users/') ?><?= $this->session->get('image') ?>" class="img-circle" alt="User Image">
 
-              <p>
-                <?php echo strtoupper($_SESSION['username']); ?>
-              </p>
+              <p><?= Phalcon\Text::upper($this->session->get('username')) ?></p>
 
             </li>
 

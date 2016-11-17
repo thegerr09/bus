@@ -7,7 +7,6 @@ use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
-use Phalcon\Mvc\Model\Manager as ModelsManager;
 
 /**
  * Shared configuration service
@@ -105,25 +104,4 @@ $di->setShared('session', function () {
     $session->start();
 
     return $session;
-});
-
-/**
- * Model Maneger
- */
-$di->set('modelsManager', function() {
-  return new ModelsManager();
-});
-
-/**
- * Model AclAction
- */
-$di->set('AclAction', function () {
-    return new AclAction();
-});
-
-/**
- * Model Helpers
- */
-$di->set('Helpers', function () {
-    return new Helpers();
 });

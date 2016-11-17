@@ -16,16 +16,17 @@ class AccountController extends \Phalcon\Mvc\Controller
     {
         if ($this->request->isPost()) {
             $username = $this->request->getPost('username');
-            $user     = Users::findFirst("username = '$username'");
+            $user     = Users::findFirst("username = '$username' AND deleted = 'N'");
             if ($user) {
                 $this->security->hash(rand());
-                $token = '<input type="hidden" name="'.$this->security->getTokenKey().'" value="'.$this->security->getToken().'"/>';
+                $token  = '<input type="hidden" name="'.$this->security->getTokenKey().'" value="'.$this->security->getToken().'"/>';
                 $token .= '<input type="hidden" name="username" value="'.$user->username.'">';
                 $data = [
-                    'status' => 'berhasil',
-                    'foto' => $user->image,
+                    'status'   => 'berhasil',
+                    'foto'     => $user->image,
                     'username' => $user->username,
-                    'token' => $token
+                    'token'    => $token,
+                    'password' => $this->security->hash($username)
                 ];
             } else {
                 $data['status'] = "gagal";
@@ -44,28 +45,26 @@ class AccountController extends \Phalcon\Mvc\Controller
                 if ($this->security->checkHash($password, $user->password)) {
                     $_SESSION['acl']      = AclAction::aclList($username);
                     $_SESSION['username'] = $user->username;
+                    $_SESSION['image']    = $user->image;
                     
                     $data['status'] = 'login';
                 } else {
                     $this->security->hash(rand());
                     $token = '<input type="hidden" name="'.$this->security->getTokenKey().'" value="'.$this->security->getToken().'"/>';
-                    $token .= '<input type="hidden" name="username" value="'.$user->username.'">';
                     $data['status'] = 'login_wrong';
-                    $data['token'] = $token;
+                    $data['token']  = $token;
                 }
             }else{
                 $this->security->hash(rand());
                 $token = '<input type="hidden" name="'.$this->security->getTokenKey().'" value="'.$this->security->getToken().'"/>';
-                $token .= '<input type="hidden" name="username" value="'.$user->username.'">';
                 $data['status'] = 'login_wrong';
-                $data['token'] = $token;
+                $data['token']  = $token;
             }
         }else{
             $this->security->hash(rand());
             $token = '<input type="hidden" name="'.$this->security->getTokenKey().'" value="'.$this->security->getToken().'"/>';
-            $token .= '<input type="hidden" name="username" value="'.$user->username.'">';
             $data['status'] = 'login_wrong';
-            $data['token'] = $token;
+            $data['token']  = $token;
         }
 
         return json_encode($data);
@@ -77,5 +76,6 @@ class AccountController extends \Phalcon\Mvc\Controller
         session_destroy();
         return $this->response->redirect('account/Login');
     }
+
 }
 

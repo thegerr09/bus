@@ -5,7 +5,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Input User</h4>
       </div>
-      <form name="form" action="<?= $this->url->get('Users/input') ?>" method="POST" enctype="multipart/form-data" data-remote="data-remote">
+      <form name="form" action="{{ url('Users/input') }}" method="POST" enctype="multipart/form-data" data-remote="data-remote">
         <div class="modal-body">
           <div class="row">
             <div class="col-md-6">
@@ -43,11 +43,11 @@
                 <div class="col-md-6">
                   <label>Usergroup</label>
                   <div class="form-group">
-                    <?php foreach ($group as $ug) { ?>
+                    {% for ug in group %}
                     <label class="usergroup">
-                      <input type="checkbox" class="flat-blue" name="usergroup[]" value="<?= $ug->id ?>"> <?= $ug->usergroup ?>
+                      <input type="checkbox" class="flat-blue" name="usergroup[]" value="{{ ug.id }}"> {{ ug.usergroup }}
                     </label><br>
-                    <?php } ?>
+                    {% endfor %}
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -55,7 +55,7 @@
                     <label>Upload Foto</label>
                     <input type="file" class="filestyle" name="foto" id="uploadImage" onchange="PreviewImage()">
                   </div>
-                  <?= $this->tag->image(['img/users/users.png', 'width' => '150', 'height' => '150', 'id' => 'uploadPreview', 'class' => 'img-rounded']) ?>
+                  {{ image("img/users/users.png", "width":"150", "height":"150", "id":"uploadPreview", "class":"img-rounded") }}
                 </div>
               </div>
             </div>

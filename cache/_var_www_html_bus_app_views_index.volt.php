@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Blank Page</title>
+  <title>PO. GALATAMA</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
   <?= $this->tag->stylesheetLink('css/bootstrap.min.css') ?>
@@ -12,19 +12,57 @@
   <?= $this->tag->stylesheetLink('css/AdminLTE.min.css') ?>
   <?= $this->tag->stylesheetLink('css/skins/_all-skins.min.css') ?>
   <?= $this->tag->stylesheetLink('css/animate.css') ?>
-  <?= $this->tag->stylesheetLink('plugins/pnotify/pnotify.min.css') ?>
 
-  <!-- Jquery -->
+  <!-- favicon -->
+  <?= $this->tag->stylesheetLink(['rel' => 'icon', 'href' => 'img/bus.png', 'type' => 'image/x-icon']) ?>
+
+  <!-- JS -->
   <?= $this->tag->javascriptInclude('plugins/jQuery/jquery-2.2.3.min.js') ?>
   <?= $this->tag->javascriptInclude('js/bootstrap.min.js') ?>
   <?= $this->tag->javascriptInclude('plugins/file-style/bootstrap-filestyle.min.js') ?>
 
-  <!-- nprogress -->
-  <?= $this->tag->javascriptInclude('plugins/nprogress/nprogress.js') ?>
-  <?= $this->tag->stylesheetLink('plugins/nprogress/nprogress.css') ?>
+  <!-- ChartJs -->
+  <?= $this->tag->javascriptInclude('plugins/chartjs/Chart.min.js') ?>
+  
+  <!-- iCheck -->
+  <?= $this->tag->stylesheetLink('plugins/iCheck/flat/blue.css') ?>
+  <?= $this->tag->javascriptInclude('plugins/iCheck/icheck.min.js') ?>
 
-  <!-- favicon -->
-  <?= $this->tag->stylesheetLink(['rel' => 'icon', 'href' => 'img/bus.png', 'type' => 'image/x-icon']) ?>
+  <!-- Pnotify -->
+  <?= $this->tag->stylesheetLink('plugins/pnotify/pnotify.min.css') ?>
+  <?= $this->tag->javascriptInclude('plugins/pnotify/pnotify.core.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/pnotify/pnotify.buttons.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/pnotify/pnotify.nonblock.js') ?>
+
+  <!-- dataTables css -->
+  <?= $this->tag->stylesheetLink('plugins/datatables/jquery.dataTables.min.css') ?>
+  <?= $this->tag->stylesheetLink('plugins/datatables/buttons.bootstrap.min.css') ?>
+  <?= $this->tag->stylesheetLink('plugins/datatables/fixedHeader.bootstrap.min.css') ?>
+  <?= $this->tag->stylesheetLink('plugins/datatables/responsive.bootstrap.min.css') ?>
+  <?= $this->tag->stylesheetLink('plugins/datatables/scroller.bootstrap.min.css') ?>
+
+  <!-- dataTables js -->
+  <?= $this->tag->javascriptInclude('plugins/datatables/jquery.dataTables.min.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/datatables/dataTables.bootstrap.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/datatables/dataTables.buttons.min.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/datatables/buttons.bootstrap.min.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/datatables/jszip.min.js') ?>
+  
+  <?= $this->tag->javascriptInclude('plugins/datatables/vfs_fonts.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/datatables/buttons.html5.min.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/datatables/buttons.print.min.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/datatables/dataTables.fixedHeader.min.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/datatables/dataTables.keyTable.min.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/datatables/dataTables.responsive.min.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/datatables/responsive.bootstrap.min.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/datatables/dataTables.scroller.min.js') ?>
+
+  <!-- all -->
+  <?= $this->tag->javascriptInclude('plugins/slimScroll/jquery.slimscroll.min.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/fastclick/fastclick.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/input-mask/jquery.inputmask.js') ?>
+  <?= $this->tag->javascriptInclude('js/app.min.js') ?>
+  <?= $this->tag->javascriptInclude('js/router.js') ?>
 </head>
 
 <body class="hold-transition skin-blue fixed sidebar-mini">
@@ -36,7 +74,7 @@
   
   <a href="<?= $this->url->get() ?>" class="logo">
     <span class="logo-mini"><b>BUS</b></span>
-    <span class="logo-lg"><b>BUSWAY</b></span>
+    <span class="logo-lg"><b>PO. </b>GALATAMA</span>
   </a>
 
   <nav class="navbar navbar-static-top">
@@ -51,46 +89,19 @@
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
 
-        <li class="dropdown notifications-menu">
-          
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-bell-o"></i>
-            <span class="label label-warning">10</span>
-          </a>
-
-          <ul class="dropdown-menu animated fadeInDown">
-            <li class="header">You have 10 notifications</li>
-            
-            <li>
-              <ul class="menu">
-                <li>
-                  <a href="#">
-                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                  </a>
-                </li>
-              </ul>
-            </li>
-
-            <li class="footer"><a href="#">View all</a></li>
-          </ul>
-
-        </li>
-
         <li class="dropdown user user-menu">
           
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="<?= $this->url->get('img/bus.png') ?>" class="user-image" alt="User Image">
-            <span class="hidden-xs"><?php echo strtoupper($_SESSION['username']); ?></span>
+            <img src="<?= $this->url->get('img/users/') ?><?= $this->session->get('image') ?>" class="user-image" alt="User Image">
+            <span class="hidden-xs"><?= Phalcon\Text::upper($this->session->get('username')) ?></span>
           </a>
 
           <ul class="dropdown-menu animated fadeInDown">
             <li class="user-header">
 
-              <img src="<?= $this->url->get('img/bus.png') ?>" class="img-circle" alt="User Image">
+              <img src="<?= $this->url->get('img/users/') ?><?= $this->session->get('image') ?>" class="img-circle" alt="User Image">
 
-              <p>
-                <?php echo strtoupper($_SESSION['username']); ?>
-              </p>
+              <p><?= Phalcon\Text::upper($this->session->get('username')) ?></p>
 
             </li>
 
@@ -119,11 +130,11 @@
     <div class="user-panel">
       
       <div class="pull-left image">
-        <img src="<?= $this->url->get('img/bus.png') ?>" class="img-circle" alt="User Image">
+        <img src="<?= $this->url->get('img/users/') ?><?= $this->session->get('image') ?>" class="img-circle" alt="User Image">
       </div>
       
       <div class="pull-left info">
-        <p><?php echo strtoupper($_SESSION['username']); ?></p>
+        <p><?= Phalcon\Text::upper($this->session->get('username')) ?></p>
         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
       </div>
     
@@ -241,6 +252,17 @@
           </li>
         </ul>
       </li>
+      <li class="header">CREDITS</li>
+      <li>
+        <a href="#Dashboard" onclick="return load_page('#','#','#')">
+          <i class="fa fa-users"></i> <span>Credits</span>
+        </a>
+      </li>
+      <li>
+        <a href="#Dashboard" onclick="return load_page('#','#','#')">
+          <i class="fa fa-file"></i> <span>Licensi</span>
+        </a>
+      </li>
     </ul>
   </section>
   <!-- /.sidebar -->
@@ -250,28 +272,17 @@
 
   <!-- include Content Wrapper -->
   <div class="content-wrapper">
-	  <?= $this->getContent() ?>
+    <?= $this->getContent() ?>
   </div>
 
   <!-- include footer -->
   <footer class="main-footer">
-  <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>. | Editor <a>SAIPUL HIDAYAT</a></strong>
+  <strong>Copyright &copy; 2016 <a href="http://qodr.or.id">Qodr.or.id</a></strong>
+  <span class="pull-right"><b>Version</b> : 1.0.1</span>
 </footer>
 </div>
 <!-- ./wrapper -->
 
-<!-- Include Js -->
-<!-- Pnotify -->
-<?= $this->tag->javascriptInclude('plugins/pnotify/pnotify.core.js') ?>
-<?= $this->tag->javascriptInclude('plugins/pnotify/pnotify.buttons.js') ?>
-<?= $this->tag->javascriptInclude('plugins/pnotify/pnotify.nonblock.js') ?>
-
-<?= $this->tag->javascriptInclude('plugins/slimScroll/jquery.slimscroll.min.js') ?>
-<?= $this->tag->javascriptInclude('plugins/fastclick/fastclick.js') ?>
-<?= $this->tag->javascriptInclude('plugins/input-mask/jquery.inputmask.js') ?>
-<?= $this->tag->javascriptInclude('js/app.min.js') ?>
-<?= $this->tag->javascriptInclude('js/demo.js') ?>
-<?= $this->tag->javascriptInclude('js/router.js') ?>
 
 </body>
 </html>

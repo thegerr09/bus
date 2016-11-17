@@ -5,13 +5,13 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title">Delete Usergroup </h4>
+        <h4 class="modal-title">Delete User </h4>
       </div>
 
-      <form name="delete" action="<?= $this->url->get('Usergroup/delete') ?>" method="POST" data-delete="data-delete">
+      <form name="delete" action="<?= $this->url->get('Users/delete') ?>" method="POST" data-delete="data-delete">
         <div class="modal-body">
           <input type="hidden" name="id" id="id_delete" value="">
-          <p>Apakah anda yakin akan menghapus usergroup "<span id="group" class="text-success"></span>"</p>
+          <p>Apakah anda yakin akan menghapus user "<span id="user" class="text-success"></span>"</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default close_btn" data-dismiss="modal">Close</button>

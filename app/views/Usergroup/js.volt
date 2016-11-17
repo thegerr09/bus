@@ -1,4 +1,5 @@
 <script>
+
 (function() {
 
   $('form[data-remote]').on('submit', function(e) {
@@ -9,18 +10,16 @@
       type: 'POST',
       url: url,
       dataType:'json',
-      data: new FormData(this),
-      contentType: false,
-      cache: false,
-      processData: false,
+      data: form.serialize(),
       success: function(response){
         new PNotify({
           title: response.title,
           text: response.text,
           type: response.type
         });
+        update_page(response.link, response.storage);
         update_page('Users', 'page_users');
-        clear_form();
+        clear_form(response.close);
         list();
       }
     });
@@ -29,7 +28,6 @@
   });
 
 })();
-
 
 (function() {
 
@@ -46,11 +44,13 @@
         new PNotify({
           title: response.title,
           text: response.text,
-          type: response.type
+          type: response.type,
+          icon: response.icon
         });
         $('#Delete').modal('hide');
         $('#del'+response.id).fadeOut(1000);
         update_page(response.link, response.storage);
+        update_page('Users', 'page_users');
       }
     });
 
@@ -59,15 +59,30 @@
 
 })();
 
-function deleted(id, user) {
+function deleted(id, group) {
   $('input#id_delete').val(id);
-  $('#user').text(user);
+  $('#group').text(group);
+}
+
+function update(id) {
+  $.ajax({
+    type: 'GET',
+    url: '{{ url('Usergroup/detail/') }}'+id,
+    dataType:'json',
+    success: function(response){
+      $.each(response, function(key, value) {
+        $('form[name="group"]').find('[name="'+key+'"]').val(value);
+      });
+      $('#label_usergroup').text('Update Usergroup');
+      $('form[name="group"]').attr('action', '{{ url('Usergroup/update/') }}'+id);
+    }
+  });
 }
 
 function list() {
   $.ajax({
     type: 'GET',
-    url: '<?= $this->url->get('Users/list') ?>',
+    url: '{{ url('Usergroup/list') }}',
     dataType:'html',
     success: function(response){
       $('#list_view').html(response);
@@ -75,16 +90,19 @@ function list() {
   });
 }
 
-function clear_form(){
-  $('form[name="form"]').find('[name]').not('input[name^="usergroup"]').val('');
-  $('input[type="checkbox"].flat-blue').iCheck('uncheck');
-  $('#uploadPreview').attr('src', 'img/users/users.png');
+function clear_form(id) {
+  $('form[name="delete"]').find('[name]').val('');
+  $('form[name="group"]').find('[name]').val('');
+  $('#label_usergroup').text('Input Usergroup');
+  $('form[name="group"]').attr('action', '{{ url('Usergroup/input') }}');
+
+  if (id == '1') { $('#Tambah').modal('hide'); }
 }
 
 function status_action(id, status, clas) {
   $.ajax({
     type: 'POST',
-    url: '<?= $this->url->get('Users/status') ?>',
+    url: '{{ url('Usergroup/status') }}',
     dataType:'json',
     data: 'id='+id+'&active='+status+'&class='+clas,
     success: function(response){
@@ -102,31 +120,9 @@ function status_action(id, status, clas) {
         .addClass('label bg-'+response.class)
         .text(response.label);
 
+      update_page('Usergroup', 'page_usergroup');
       update_page('Users', 'page_users');
     }
   });
 }
-
-$('input[type="checkbox"].flat-blue').iCheck({
-  checkboxClass: 'icheckbox_flat-blue'
-});
-
-$("[data-mask]").inputmask({mask: "99999999999999", placeholder: "",});
-
-$(":file").filestyle({
-  buttonName: "btn-default",
-  iconName: "fa fa-image",
-  buttonText: "Upload Photo",
-  input: false,
-  badge: false
-});
-
-function PreviewImage() {
-  var oFReader = new FileReader();
-  oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
-
-  oFReader.onload = function (oFREvent) {
-    document.getElementById("uploadPreview").src = oFREvent.target.result;
-  };
-};
 </script>

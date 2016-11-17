@@ -17,7 +17,7 @@ class Usergroup extends \Phalcon\Mvc\Model
      * @var string
      * @Column(type="string", length=20, nullable=false)
      */
-    public $group;
+    public $usergroup;
 
     /**
      *

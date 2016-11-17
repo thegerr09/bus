@@ -1,6 +1,6 @@
 <?php
 
-class IndexController extends ControllerBase
+class BusController extends \Phalcon\Mvc\Controller
 {
 
     public function indexAction()

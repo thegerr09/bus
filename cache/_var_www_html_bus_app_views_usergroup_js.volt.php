@@ -18,6 +18,7 @@
           type: response.type
         });
         update_page(response.link, response.storage);
+        update_page('Users', 'page_users');
         clear_form(response.close);
         list();
       }
@@ -43,11 +44,13 @@
         new PNotify({
           title: response.title,
           text: response.text,
-          type: response.type
+          type: response.type,
+          icon: response.icon
         });
         $('#Delete').modal('hide');
         $('#del'+response.id).fadeOut(1000);
         update_page(response.link, response.storage);
+        update_page('Users', 'page_users');
       }
     });
 
@@ -103,6 +106,12 @@ function status_action(id, status, clas) {
     dataType:'json',
     data: 'id='+id+'&active='+status+'&class='+clas,
     success: function(response){
+      new PNotify({
+        title: response.title,
+        text: response.text,
+        type: response.type,
+        icon: response.icon
+      });
       $("#button_status"+id).removeClass()
         .addClass('fa fa-power-off cursor text-'+response.class)
         .attr("onclick", "status_action("+id+", '"+response.status+"', '"+response.class+"')");
@@ -110,11 +119,10 @@ function status_action(id, status, clas) {
       $("#label_status"+id).removeClass()
         .addClass('label bg-'+response.class)
         .text(response.label);
+
+      update_page('Usergroup', 'page_usergroup');
+      update_page('Users', 'page_users');
     }
   });
 }
-
-$(document).ready(function(){
-  list();
-});
 </script>
