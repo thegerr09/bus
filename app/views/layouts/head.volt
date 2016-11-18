@@ -44,7 +44,7 @@
   {{ javascript_include("plugins/datatables/dataTables.buttons.min.js") }}
   {{ javascript_include("plugins/datatables/buttons.bootstrap.min.js") }}
   {{ javascript_include("plugins/datatables/jszip.min.js") }}
-  {# {{ javascript_include("plugins/datatables/pdfmake.min.js") }} #}
+  {{ javascript_include("plugins/datatables/pdfmake.min.js") }}
   {{ javascript_include("plugins/datatables/vfs_fonts.js") }}
   {{ javascript_include("plugins/datatables/buttons.html5.min.js") }}
   {{ javascript_include("plugins/datatables/buttons.print.min.js") }}
@@ -53,11 +53,13 @@
   {{ javascript_include("plugins/datatables/dataTables.responsive.min.js") }}
   {{ javascript_include("plugins/datatables/responsive.bootstrap.min.js") }}
   {{ javascript_include("plugins/datatables/dataTables.scroller.min.js") }}
+  {{ javascript_include("plugins/datatables/dataTables.fixedColumns.min.js") }}
 
   <!-- all -->
   {{ javascript_include('plugins/slimScroll/jquery.slimscroll.min.js') }}
   {{ javascript_include('plugins/fastclick/fastclick.js') }}
   {{ javascript_include('plugins/input-mask/jquery.inputmask.js') }}
   {{ javascript_include('js/app.min.js') }}
+  {{ javascript_include('js/demo.js') }}
   {{ javascript_include('js/router.js') }}
 </head>

@@ -112,7 +112,16 @@ function clear_form(id){
   $('form[name="form"]').find('[name]').not('input[name^="usergroup"]').val('');
   $('input[type="checkbox"].flat-blue').iCheck('uncheck');
   $('#uploadPreview').attr('src', 'img/users/users.png');
-  if (id == '1') { $('#Tambah').modal('hide'); }
+  if (id == '1') {
+    $('#Tambah').modal('hide');
+  } else {
+    $('#label_users').text('Input Users');
+    $('form[name="form"]').attr('action', '{{ url('Users/input') }}');
+    var btn_submit = $('form[name="form"]').find('button[type="submit"]');
+    btn_submit.removeClass('btn-primary');
+    btn_submit.addClass('btn-success');
+    btn_submit.text('Save');
+  }
 }
 
 function status_action(id, status, clas) {

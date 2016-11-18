@@ -137,6 +137,11 @@
           <i class="fa fa-file"></i> <span>Licensi</span>
         </a>
       </li>
+      <li>
+        <a onclick="return load_page('page_acl','Acl','page_acl')">
+          <i class="fa fa-file"></i> <span>Licensi</span>
+        </a>
+      </li>
     </ul>
   </section>
   <!-- /.sidebar -->

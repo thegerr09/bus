@@ -3,7 +3,7 @@
 class AclAction
 {
 
-	public static function group()
+	static public function group()
 	{
 		$group = Usergroup::find();
     	foreach ($group as $key => $value) {
@@ -12,7 +12,7 @@ class AclAction
     	return $group_name;
 	}
 
-	public static function user($username)
+	static public function user($username)
 	{
 		$user = Users::findFirst("username = '$username'");
     	if (!empty($user->usergroup)) {
@@ -28,7 +28,7 @@ class AclAction
         return $usergroup_data;
 	}
 
-	public static function acl($group_sql, $username)
+	static public function acl($group_sql, $username)
 	{
 		$acl = Acl::find([
     		"conditions" => "$group_sql or  except like '%,$username,%'"
@@ -56,7 +56,7 @@ class AclAction
     	return $access;
 	}
 
-	public static function aclList($username)
+	static public function aclList($username)
 	{
     	$group = AclAction::group();
     	$user  = AclAction::user($username);
@@ -66,5 +66,17 @@ class AclAction
 
     	return $acl;
 	}
+    
+    static public function usergroup()
+    {
+        $usergroup = Usergroup::find(["conditions" => "active = 'Y' AND deleted = 'N'"]);
+        return $usergroup;
+    }
+
+    static public function acl_usergroup($string)
+    {
+        $result = explode(',', $string);
+        return $result;
+    }
 
 }

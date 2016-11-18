@@ -105,3 +105,10 @@ $di->setShared('session', function () {
 
     return $session;
 });
+
+/**
+ * Acl View
+ */
+$di->set('AclAction', function(){
+    return new AclAction();
+});

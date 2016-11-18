@@ -1,17 +1,22 @@
-<div class="modal fade" id="Delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="except" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title">Delete Usergroup </h4>
+        <h4 class="modal-title">Except Usergroup </h4>
       </div>
 
-      <form name="delete" action="{{ url('Usergroup/delete') }}" method="POST" data-delete="data-delete">
+      <form name="delete" action="<?= $this->url->get('Usergroup/delete') ?>" method="POST" data-remote="data-remote">
         <div class="modal-body">
-          <input type="hidden" name="id" id="id_delete" value="">
-          <p>Apakah anda yakin akan menghapus usergroup "<span id="group" class="text-success"></span>"</p>
+          <div class="form-group">
+            <?php foreach ($this->AclAction->usergroup() as $exc) { ?>
+            <label>
+              <input type="checkbox" class="flat-blue" value="<?= $exc->id ?>"> <?= $exc->usergroup ?>
+            </label>
+            <?php } ?>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default close_btn" data-dismiss="modal">Close</button>
