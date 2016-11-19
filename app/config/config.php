@@ -6,6 +6,7 @@
 defined('PUBLIC_URL') || define('PUBLIC_URL', 'account');
 defined('BASE_PATH')  || define('BASE_PATH', getenv('BASE_PATH') ?: realpath(dirname(__FILE__) . '/../..'));
 defined('APP_PATH')   || define('APP_PATH', BASE_PATH . '/app');
+// defined('URL')        || define('URL', 'http://pogalatama.com/');
 defined('URL')        || define('URL', 'http://localhost/bus/');
 defined('MOVE_PHOTO') || define('MOVE_PHOTO', BASE_PATH . '/public/img/users/');
 
@@ -28,6 +29,7 @@ return new \Phalcon\Config([
         'pluginsDir'     => APP_PATH . '/plugins/',
         'libraryDir'     => APP_PATH . '/library/',
         'cacheDir'       => BASE_PATH . '/cache/',
+        // 'baseUri'        => 'http://pogalatama.com/',
         'baseUri'        => '/bus/',
     ]
 ]);

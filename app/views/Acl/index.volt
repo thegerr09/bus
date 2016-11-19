@@ -3,6 +3,10 @@
   cursor: pointer;
   background-color: rgba(209,197,197,0.25);
 }
+.cursor:hover{
+  cursor: pointer;
+  color: #ccc;
+}
 .usergroup{
   cursor: pointer;
   color: #807c7c;
@@ -29,7 +33,7 @@
             </button>
           </div>
         </div>
-        <div class="box-body">
+        <div class="box-body" id="list_view">
           <table id="example" class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -46,16 +50,16 @@
             <tbody>
               {% set no = 1 %}
               {% for x in acl %}
-              <tr>
+              <tr id="del{{ x.id }}">
                 <td>{{ no }}</td>
                 <td>
-                  <i class="fa fa-edit cursor" style="font-size:18px;"></i> |
-                  <i class="fa fa-trash cursor" style="font-size:18px;"></i> |
+                  <i class="fa fa-edit cursor" style="font-size:18px;" data-toggle="modal" data-target="#Update" onclick="update_acl('{{ x.id }}', '{{ x.controller }}', '{{ x.action }}')"></i> |
+                  <i class="fa fa-trash cursor" style="font-size:18px;" data-toggle="modal" data-target="#Delete" onclick="deleted('{{ x.id }}', '{{ x.controller }}')"></i> |
                   <i class="fa fa-power-off cursor text-green" style="font-size:18px;"></i> |
                   <span class="label bg-green">Active</span>
                 </td>
                 <td>{{ x.controller }}</td>
-                <td>{% if x.action is defined %}{{ x.action }}{% else %}{default index}{% endif %}</td>
+                <td>{% if x.action != null %}{{ x.action }}{% else %}{default index}{% endif %}</td>
                 {% for ug in AclAction.usergroup() %}
                 <td align="center">
                   <label class="usergroup">
@@ -79,6 +83,8 @@
 
 <!-- include JS -->
 {% include "Acl/tambah.volt" %}
+{% include "Acl/update.volt" %}
+{% include "Acl/delete.volt" %}
 
 <!-- include JS -->
 {% include "Acl/js.volt" %}

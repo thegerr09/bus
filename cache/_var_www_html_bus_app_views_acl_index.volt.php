@@ -3,6 +3,10 @@
   cursor: pointer;
   background-color: rgba(209,197,197,0.25);
 }
+.cursor:hover{
+  cursor: pointer;
+  color: #ccc;
+}
 .usergroup{
   cursor: pointer;
   color: #807c7c;
@@ -29,7 +33,7 @@
             </button>
           </div>
         </div>
-        <div class="box-body">
+        <div class="box-body" id="list_view">
           <table id="example" class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -46,16 +50,16 @@
             <tbody>
               <?php $no = 1; ?>
               <?php foreach ($acl as $x) { ?>
-              <tr>
+              <tr id="del<?= $x->id ?>">
                 <td><?= $no ?></td>
                 <td>
-                  <i class="fa fa-edit cursor" style="font-size:18px;"></i> |
-                  <i class="fa fa-trash cursor" style="font-size:18px;"></i> |
+                  <i class="fa fa-edit cursor" style="font-size:18px;" data-toggle="modal" data-target="#Update" onclick="update_acl('<?= $x->id ?>', '<?= $x->controller ?>', '<?= $x->action ?>')"></i> |
+                  <i class="fa fa-trash cursor" style="font-size:18px;" data-toggle="modal" data-target="#Delete" onclick="deleted('<?= $x->id ?>', '<?= $x->controller ?>')"></i> |
                   <i class="fa fa-power-off cursor text-green" style="font-size:18px;"></i> |
                   <span class="label bg-green">Active</span>
                 </td>
                 <td><?= $x->controller ?></td>
-                <td><?php if (isset($x->action)) { ?><?= $x->action ?><?php } else { ?>{default index}<?php } ?></td>
+                <td><?php if ($x->action != null) { ?><?= $x->action ?><?php } else { ?>{default index}<?php } ?></td>
                 <?php foreach ($this->AclAction->usergroup() as $ug) { ?>
                 <td align="center">
                   <label class="usergroup">
@@ -82,7 +86,7 @@
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form()">
           <span aria-hidden="true">&times;</span>
         </button>
         <h4 class="modal-title" id="label_usergroup">Input Acl</h4>
@@ -92,18 +96,18 @@
         <div class="modal-body">
           <div class="form-group">
             <label>Controller</label>
-            <input type="text" name="usergroup" class="form-control" placeholder="Usergroup">
+            <input type="text" name="controller" class="form-control" placeholder="Controller">
           </div>
           <div class="form-group">
             <label>Action</label>
-            <input type="text" name="action" class="form-control" placeholder="Action"> 
+            <input type="text" name="actions" class="form-control" placeholder="Action"> 
           </div>
           <div class="form-group">
             <label>Usergroup</label><br>
             <?php foreach ($this->AclAction->usergroup() as $ug) { ?>
             <td align="center">
               <label class="usergroup">
-                <input type="checkbox" name="usergroup[]" class="flat-blue" value="<?= $ug->id ?>"> <?= $ug->usergroup ?>
+                <input type="checkbox" name="usergroup[]" class="flat-blue tambah" value="<?= $ug->id ?>"> <?= $ug->usergroup ?>
               </label><br>
             </td>
             <?php } ?>
@@ -114,8 +118,63 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal"">Close</button>
-          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>
+          <button type="submit" class="btn btn-success">Save</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="Update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Update Acl</h4>
+      </div>
+
+      <form name="update" action="<?= $this->url->get('Acl/update') ?>" method="POST" data-remote="data-remote">
+        <input type="hidden" name="id" id="u_id">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Controller</label>
+            <input type="text" name="controller" id="u_controller" class="form-control" placeholder="Controller">
+          </div>
+          <div class="form-group">
+            <label>Action</label>
+            <input type="text" name="actions" id="u_actions" class="form-control" placeholder="Action"> 
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="Delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Delete Acl </h4>
+      </div>
+
+      <form name="delete" action="<?= $this->url->get('Acl/delete') ?>" method="POST" data-delete="data-delete">
+        <div class="modal-body">
+          <input type="hidden" name="id" id="id_delete" value="">
+          <p>Apakah anda yakin akan menghapus Controller "<span id="acl" class="text-danger"></span>"</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default close_btn" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
         </div>
       </form>
 
@@ -133,7 +192,7 @@ $(document).ready(function() {
 		scrollCollapse: true,
 		paging:         false,
       	lengthChange: 	false,
-        ordering: 		false,
+        ordering: 		  false,
 		columnDefs: [
 	        { "width": "25px",  "targets": [0] },
 	        { "width": "128px", "targets": [1] },
@@ -225,5 +284,116 @@ function except_back(that){
         }
     });
     return false;
+}
+
+(function() {
+
+  $('form[data-remote]').on('submit', function(e) {
+    var form = $(this);
+    var url = form.prop('action');
+
+    $.ajax({
+      type: 'POST',
+      url: url,
+      dataType:'json',
+      data: form.serialize(),
+      success: function(response){
+        list();
+        new PNotify({
+          title: response.title,
+          text: response.text,
+          type: response.type
+        });
+        update_page('Acl', 'page_acl');
+        clear_form(response.close);
+      }
+    });
+ 
+    e.preventDefault();
+  });
+
+})();
+
+(function() {
+
+  $('form[data-delete]').on('submit', function(e) {
+    var form = $(this);
+    var url = form.prop('action');
+
+    $.ajax({
+      type: 'POST',
+      url: url,
+      dataType:'json',
+      data: form.serialize(),
+      success: function(response){
+        list();
+        new PNotify({
+          title: response.title,
+          text: response.text,
+          type: response.type
+        });
+        $('#Delete').modal('hide');
+        update_page('Acl', 'page_acl');
+      }
+    });
+
+    e.preventDefault();
+  });
+
+})();
+
+function deleted(id, acl) {
+  $('input#id_delete').val(id);
+  $('#acl').text(acl);
+}
+
+function list() {
+  $.ajax({
+    type: 'GET',
+    url: '<?= $this->url->get('Acl/list') ?>',
+    dataType:'html',
+    success: function(response){
+      $('#list_view').html(response).iCheck({
+        checkboxClass: 'icheckbox_flat-blue'
+      });
+      var table = $('#example').DataTable( {
+        scrollY:        "310px",
+        dom:      '<"pull-left"f><"pull-right"i>tip',
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
+            lengthChange:   false,
+            ordering:     false,
+        columnDefs: [
+              { "width": "25px",  "targets": [0] },
+              { "width": "128px", "targets": [1] },
+              { "width": "100px", "targets": [2] },
+              { "width": "100px", "targets": [3] },
+              { "width": "80px",  "targets": [4] },
+              { "width": "80px",  "targets": [5] },
+              { "width": "80px",  "targets": [6] },
+              { "width": "80px",  "targets": [7] },
+              { "width": "150px", "targets": [8] }
+          ]
+      });
+      new $.fn.dataTable.FixedColumns( table, {
+        leftColumns: 4,
+      });
+    }
+  });
+}
+
+function update_acl(id, controller, action) {
+  $('form[name="update"] #u_id').val(id);
+  $('form[name="update"] #u_controller').val(controller);
+  $('form[name="update"] #u_actions').val(action);
+}
+
+function clear_form(id){
+  $('form[name="group"]').find('[name]').not('input[name^="usergroup"]').val('');
+  $('input[type="checkbox"].flat-blue.tambah').iCheck('uncheck');
+  if (id == '1') {
+    $('#Update').modal('hide');
+  }
 }
 </script>

@@ -52,6 +52,6 @@ else
 	}
 	else
 	{
-		header('location:'. URL . 'account/Login');
+		echo "<script>window.location.href = '".URL."account/login';</script>";
 	}
 }

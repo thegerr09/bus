@@ -7,7 +7,7 @@ $(document).ready(function() {
 		scrollCollapse: true,
 		paging:         false,
       	lengthChange: 	false,
-        ordering: 		false,
+        ordering: 		  false,
 		columnDefs: [
 	        { "width": "25px",  "targets": [0] },
 	        { "width": "128px", "targets": [1] },
@@ -99,5 +99,116 @@ function except_back(that){
         }
     });
     return false;
+}
+
+(function() {
+
+  $('form[data-remote]').on('submit', function(e) {
+    var form = $(this);
+    var url = form.prop('action');
+
+    $.ajax({
+      type: 'POST',
+      url: url,
+      dataType:'json',
+      data: form.serialize(),
+      success: function(response){
+        list();
+        new PNotify({
+          title: response.title,
+          text: response.text,
+          type: response.type
+        });
+        update_page('Acl', 'page_acl');
+        clear_form(response.close);
+      }
+    });
+ 
+    e.preventDefault();
+  });
+
+})();
+
+(function() {
+
+  $('form[data-delete]').on('submit', function(e) {
+    var form = $(this);
+    var url = form.prop('action');
+
+    $.ajax({
+      type: 'POST',
+      url: url,
+      dataType:'json',
+      data: form.serialize(),
+      success: function(response){
+        list();
+        new PNotify({
+          title: response.title,
+          text: response.text,
+          type: response.type
+        });
+        $('#Delete').modal('hide');
+        update_page('Acl', 'page_acl');
+      }
+    });
+
+    e.preventDefault();
+  });
+
+})();
+
+function deleted(id, acl) {
+  $('input#id_delete').val(id);
+  $('#acl').text(acl);
+}
+
+function list() {
+  $.ajax({
+    type: 'GET',
+    url: '<?= $this->url->get('Acl/list') ?>',
+    dataType:'html',
+    success: function(response){
+      $('#list_view').html(response).iCheck({
+        checkboxClass: 'icheckbox_flat-blue'
+      });
+      var table = $('#example').DataTable( {
+        scrollY:        "310px",
+        dom:      '<"pull-left"f><"pull-right"i>tip',
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
+            lengthChange:   false,
+            ordering:     false,
+        columnDefs: [
+              { "width": "25px",  "targets": [0] },
+              { "width": "128px", "targets": [1] },
+              { "width": "100px", "targets": [2] },
+              { "width": "100px", "targets": [3] },
+              { "width": "80px",  "targets": [4] },
+              { "width": "80px",  "targets": [5] },
+              { "width": "80px",  "targets": [6] },
+              { "width": "80px",  "targets": [7] },
+              { "width": "150px", "targets": [8] }
+          ]
+      });
+      new $.fn.dataTable.FixedColumns( table, {
+        leftColumns: 4,
+      });
+    }
+  });
+}
+
+function update_acl(id, controller, action) {
+  $('form[name="update"] #u_id').val(id);
+  $('form[name="update"] #u_controller').val(controller);
+  $('form[name="update"] #u_actions').val(action);
+}
+
+function clear_form(id){
+  $('form[name="group"]').find('[name]').not('input[name^="usergroup"]').val('');
+  $('input[type="checkbox"].flat-blue.tambah').iCheck('uncheck');
+  if (id == '1') {
+    $('#Update').modal('hide');
+  }
 }
 </script>
