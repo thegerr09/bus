@@ -177,6 +177,11 @@
             </a>
           </li>
           <li style="cursor: pointer;">
+            <a onclick="return load_page('page_acl','Acl','page_acl')">
+              <i class="fa fa-circle-o"></i> Acl
+            </a>
+          </li>
+          <li style="cursor: pointer;">
             <a onclick="return load_page('#','#','#')">
               <i class="fa fa-circle-o"></i> BUS
             </a>
@@ -261,11 +266,6 @@
       </li>
       <li>
         <a href="#Dashboard" onclick="return load_page('#','#','#')">
-          <i class="fa fa-file"></i> <span>Licensi</span>
-        </a>
-      </li>
-      <li>
-        <a onclick="return load_page('page_acl','Acl','page_acl')">
           <i class="fa fa-file"></i> <span>Licensi</span>
         </a>
       </li>
