@@ -44,7 +44,6 @@
   {{ javascript_include("plugins/datatables/dataTables.buttons.min.js") }}
   {{ javascript_include("plugins/datatables/buttons.bootstrap.min.js") }}
   {{ javascript_include("plugins/datatables/jszip.min.js") }}
-  {{ javascript_include("plugins/datatables/pdfmake.min.js") }}
   {{ javascript_include("plugins/datatables/vfs_fonts.js") }}
   {{ javascript_include("plugins/datatables/buttons.html5.min.js") }}
   {{ javascript_include("plugins/datatables/buttons.print.min.js") }}

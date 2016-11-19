@@ -56,5 +56,47 @@ class AclController extends \Phalcon\Mvc\Controller
     	return json_encode($notify);
     }
 
+    public function exceptAction()
+    {
+    	$this->view->disable();
+    	if ($this->request->isPost()) {
+    		$post = $this->request->getPost();
+    		$acl  = Acl::findFirst($post['id']);
+
+    		$acl->except = $post['except'];
+    		if ($acl->save()) {
+	            $notify = [
+	                'title' => 'Success',
+	                'text'  => 'Data berhasil di simpan ke database',
+	                'type'  => 'success',
+	            ];
+	        } else {
+	            $messages = $acl->getMessages();
+	            $m = '';
+	            foreach ($messages as $message) {
+	                $m .= "$message <br/>";
+	            }
+	            $notify = [
+	                'title' => 'Errors',
+	                'text'  => $m,
+	                'type'  => 'error'
+	            ];
+	        }
+    	} else {
+            $notify = [
+                'title' => 'Errors',
+                'text'  => 'data tidak terkirim',
+                'type'  => 'error'
+            ];
+    	}
+    	return json_encode($notify);
+    }
+
+    public function inputAction()
+    {
+        $this->view->disable();
+        echo '<pre>'.print_r($this->request->getPost(),1).'</pre>';
+    }
+
 }
 

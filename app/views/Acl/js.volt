@@ -29,7 +29,7 @@ $('input[type="checkbox"].flat-blue').iCheck({
 	checkboxClass: 'icheckbox_flat-blue'
 });
 
-$('.usergroup').on('ifChecked', 'input[type="checkbox"].flat-blue', function(event) {
+$('.usergroup').on('ifChecked', 'input[type="checkbox"].flat-blue.check', function(event) {
 	var val = $(this).val();
 	var res = val.split(",");
 	
@@ -47,7 +47,7 @@ $('.usergroup').on('ifChecked', 'input[type="checkbox"].flat-blue', function(eve
         update_page('Acl', 'page_acl');
       }
     });
-}).on('ifUnchecked', 'input[type="checkbox"].flat-blue', function(event) {
+}).on('ifUnchecked', 'input[type="checkbox"].flat-blue.check', function(event) {
 	var val = $(this).val();
 	var res = val.split(",");
 	
@@ -67,9 +67,37 @@ $('.usergroup').on('ifChecked', 'input[type="checkbox"].flat-blue', function(eve
     });
 });
 
-$('#example tr').on('click', '#except', function(event) {
-	var val = $(this).attr('value');
-	console.log(val+'1');
-	$('#except').modal('show');
+$('.except').keyup(function(event) {
+    newText = event.target.value;
+    $('textarea.except').attr('textval', newText);
+    console.log(newText);
 });
+
+function except(that) {
+	var isi = $(that).html().trim();
+	var id  = $(that).attr('acl');
+	$(that).parent().html('<textarea class="form-control" onblur="return except_back(this)" style="width:100%; height:100%;" acl="'+id+'">'+isi+'</textarea>').click(); 
+    $(that).parent().find('textarea').focus();
+	return false;
+}
+function except_back(that){
+	var isi = $(that).val();
+	var id  = $(that).attr('acl');
+	$(that).parent().html('<div ondblclick="return except(this)" style="padding: 10px;" acl="'+id+'">'+isi+'</div>');
+	$.ajax({
+        method: "POST",
+        dataType: "json",
+        url: 'Acl/except',
+        data: 'id='+id+'&except='+isi,
+        success: function(response){
+	        new PNotify({
+	          title: response.title,
+	          text: response.text,
+	          type: response.type
+	        });
+	        update_page('Acl', 'page_acl');
+        }
+    });
+    return false;
+}
 </script>

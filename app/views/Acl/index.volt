@@ -3,6 +3,10 @@
   cursor: pointer;
   background-color: rgba(209,197,197,0.25);
 }
+.usergroup{
+  cursor: pointer;
+  color: #807c7c;
+}
 </style>
 <section class="content-header animated fadeIn">
   <h1>Access Control List</h1>
@@ -55,12 +59,12 @@
                 {% for ug in AclAction.usergroup() %}
                 <td align="center">
                   <label class="usergroup">
-                    <input type="checkbox" class="flat-blue" value="{{ x.id }},{{ ug.id }}"
+                    <input type="checkbox" class="flat-blue check" value="{{ x.id }},{{ ug.id }}"
                     {% if ug.id in AclAction.acl_usergroup(x.usergroup) %}checked{% endif %}>
                   </label>
                 </td>
                 {% endfor %}
-                <td id="except" value="{{ x.except }}">{{ x.except }}</td>
+                <td style="padding: 0px;"><div ondblclick="return except(this)" style="padding: 10px;" acl="{{ x.id }}">{{ x.except }}</div></td>
               </tr>
               {% set no = no + 1 %}
               {% endfor %}
@@ -73,8 +77,8 @@
   </div>
 </section>
 
-<!-- include Popup -->
-{% include "Acl/popup_except.volt" %}
+<!-- include JS -->
+{% include "Acl/tambah.volt" %}
 
 <!-- include JS -->
 {% include "Acl/js.volt" %}

@@ -47,7 +47,6 @@
   <?= $this->tag->javascriptInclude('plugins/datatables/dataTables.buttons.min.js') ?>
   <?= $this->tag->javascriptInclude('plugins/datatables/buttons.bootstrap.min.js') ?>
   <?= $this->tag->javascriptInclude('plugins/datatables/jszip.min.js') ?>
-  <?= $this->tag->javascriptInclude('plugins/datatables/pdfmake.min.js') ?>
   <?= $this->tag->javascriptInclude('plugins/datatables/vfs_fonts.js') ?>
   <?= $this->tag->javascriptInclude('plugins/datatables/buttons.html5.min.js') ?>
   <?= $this->tag->javascriptInclude('plugins/datatables/buttons.print.min.js') ?>
