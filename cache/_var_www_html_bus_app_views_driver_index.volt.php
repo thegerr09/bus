@@ -42,28 +42,31 @@
                 </tr>
               </thead>
               <tbody>
+                <?php $no = 1; ?>
+                <?php foreach ($driver as $x) { ?>
                 <tr>
                   <td>
                     <div class="col-md-1">
-                      <?= $this->tag->image(['img/driver/users.png', 'class' => 'img-rounded', 'width' => '80']) ?>
+                      <?= $this->tag->image(['img/driver/' . $x->image, 'class' => 'img-rounded', 'width' => '80']) ?>
                     </div>
                     <div class="col-md-7">
-                      <span><b>SAIPUL HIDAYAT</b></span>
+                      <span><b><?= Phalcon\Text::upper($x->nama) ?></b></span>
                       <table>
                         <tr>
                           <td valign="top" width="45px"><small>Alamat</small></td>
                           <td valign="top" ><small>&nbsp; : &nbsp;</small></td>
-                          <td valign="top" ><small>Ds. Ngunut Kec. Babadan Jl. Poncosiwalan 33 Rt.02 Rw.01 Ponorogo 63491</small></td>
+                          <td valign="top" ><small><?= $x->alamat ?></small></td>
                         </tr>
                         <tr>
                           <td valign="top" ><small>No. Telp</small></td>
                           <td valign="top" ><small>&nbsp; : &nbsp;</small></td>
-                          <td valign="top" ><small>+62 857 68249362</small></td>
+                          <td valign="top" ><small><?= $x->telpon ?></small></td>
                         </tr>
                         <tr>
                           <td colspan="3" height="25">
                             <i class="fa fa-edit cursor"></i> | 
                             <i class="fa fa-trash cursor"></i> | 
+                            <i class="fa fa-list cursor"></i> | 
                             <i class="fa fa-power-off text-green cursor"></i> | 
                             <span class="label bg-green">active</span>
                           </td>
@@ -72,81 +75,13 @@
                     </div>
                     <div class="col-md-4">
                       <div class="chart">
-                        <canvas id="salesChart" style="height: 80px;"></canvas>
+                        <canvas id="salesChart<?= $no ?>" style="height: 80px;"></canvas>
                       </div>
                     </div>
                   </td>
                 </tr>
-                <tr>
-                  <td>
-                    <div class="col-md-1">
-                      <?= $this->tag->image(['img/driver/users.png', 'class' => 'img-rounded', 'width' => '80']) ?>
-                    </div>
-                    <div class="col-md-7">
-                      <span><b>SAIPUL HIDAYAT</b></span>
-                      <table>
-                        <tr>
-                          <td valign="top" width="45px"><small>Alamat</small></td>
-                          <td valign="top" ><small>&nbsp; : &nbsp;</small></td>
-                          <td valign="top" ><small>Ds. Ngunut Kec. Babadan Jl. Poncosiwalan 33 Rt.02 Rw.01 Ponorogo 63491</small></td>
-                        </tr>
-                        <tr>
-                          <td valign="top" ><small>No. Telp</small></td>
-                          <td valign="top" ><small>&nbsp; : &nbsp;</small></td>
-                          <td valign="top" ><small>+62 857 68249362</small></td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" height="25">
-                            <i class="fa fa-edit cursor"></i> | 
-                            <i class="fa fa-trash cursor"></i> | 
-                            <i class="fa fa-power-off text-green cursor"></i> | 
-                            <span class="label bg-green">active</span>
-                          </td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="chart">
-                        <canvas id="salesChart1" style="height: 80px;"></canvas>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="col-md-1">
-                      <?= $this->tag->image(['img/driver/users.png', 'class' => 'img-rounded', 'width' => '80']) ?>
-                    </div>
-                    <div class="col-md-7">
-                      <span><b>SAIPUL HIDAYAT</b></span>
-                      <table>
-                        <tr>
-                          <td valign="top" width="45px"><small>Alamat</small></td>
-                          <td valign="top" ><small>&nbsp; : &nbsp;</small></td>
-                          <td valign="top" ><small>Ds. Ngunut Kec. Babadan Jl. Poncosiwalan 33 Rt.02 Rw.01 Ponorogo 63491</small></td>
-                        </tr>
-                        <tr>
-                          <td valign="top" ><small>No. Telp</small></td>
-                          <td valign="top" ><small>&nbsp; : &nbsp;</small></td>
-                          <td valign="top" ><small>+62 857 68249362</small></td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" height="25">
-                            <i class="fa fa-edit cursor"></i> | 
-                            <i class="fa fa-trash cursor"></i> | 
-                            <i class="fa fa-power-off text-green cursor"></i> | 
-                            <span class="label bg-green">active</span>
-                          </td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="chart">
-                        <canvas id="salesChart2" style="height: 80px;"></canvas>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
+                <?php $no = $no + 1; ?>
+                <?php } ?>
               </tbody>
             </table>
           </div>
@@ -163,16 +98,12 @@ $(function () {
 
   $('#example').DataTable();
 
-  var salesChartCanvas = $("#salesChart").get(0).getContext("2d");
-  var salesChart = new Chart(salesChartCanvas);
+  <?php $no = 1; ?>
+  <?php foreach ($driver as $x) { ?>
+  var salesChartCanvas<?= $no ?> = $("#salesChart<?= $no ?>").get(0).getContext("2d");
+  var salesChart<?= $no ?> = new Chart(salesChartCanvas<?= $no ?>);
 
-  var salesChartCanvas1 = $("#salesChart1").get(0).getContext("2d");
-  var salesChart1 = new Chart(salesChartCanvas1);
-
-  var salesChartCanvas2 = $("#salesChart2").get(0).getContext("2d");
-  var salesChart2 = new Chart(salesChartCanvas2);
-
-  var salesChartData = {
+  var salesChartData<?= $no ?> = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
       {
@@ -182,7 +113,7 @@ $(function () {
     ]
   };
 
-  var salesChartOptions = {
+  var salesChartOptions<?= $no ?> = {
     showScale: true,
     scaleShowGridLines: false,
     scaleGridLineColor: "rgba(0,0,0,.05)",
@@ -201,8 +132,8 @@ $(function () {
     maintainAspectRatio: true,
     responsive: true
   };
-  salesChart.Line(salesChartData, salesChartOptions);
-  salesChart1.Line(salesChartData, salesChartOptions);
-  salesChart2.Line(salesChartData, salesChartOptions);
+  salesChart<?= $no ?>.Line(salesChartData<?= $no ?>, salesChartOptions<?= $no ?>);
+  <?php $no = $no + 1; ?>
+  <?php } ?>
 });
 </script>

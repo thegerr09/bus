@@ -4,16 +4,12 @@ $(function () {
 
   $('#example').DataTable();
 
-  var salesChartCanvas = $("#salesChart").get(0).getContext("2d");
-  var salesChart = new Chart(salesChartCanvas);
+  <?php $no = 1; ?>
+  <?php foreach ($driver as $x) { ?>
+  var salesChartCanvas<?= $no ?> = $("#salesChart<?= $no ?>").get(0).getContext("2d");
+  var salesChart<?= $no ?> = new Chart(salesChartCanvas<?= $no ?>);
 
-  var salesChartCanvas1 = $("#salesChart1").get(0).getContext("2d");
-  var salesChart1 = new Chart(salesChartCanvas1);
-
-  var salesChartCanvas2 = $("#salesChart2").get(0).getContext("2d");
-  var salesChart2 = new Chart(salesChartCanvas2);
-
-  var salesChartData = {
+  var salesChartData<?= $no ?> = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
       {
@@ -23,7 +19,7 @@ $(function () {
     ]
   };
 
-  var salesChartOptions = {
+  var salesChartOptions<?= $no ?> = {
     showScale: true,
     scaleShowGridLines: false,
     scaleGridLineColor: "rgba(0,0,0,.05)",
@@ -42,8 +38,8 @@ $(function () {
     maintainAspectRatio: true,
     responsive: true
   };
-  salesChart.Line(salesChartData, salesChartOptions);
-  salesChart1.Line(salesChartData, salesChartOptions);
-  salesChart2.Line(salesChartData, salesChartOptions);
+  salesChart<?= $no ?>.Line(salesChartData<?= $no ?>, salesChartOptions<?= $no ?>);
+  <?php $no = $no + 1; ?>
+  <?php } ?>
 });
 </script>
