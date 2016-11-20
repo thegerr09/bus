@@ -31,7 +31,7 @@ class AclAction
 	static public function acl($group_sql, $username)
 	{
 		$acl = Acl::find([
-    		"conditions" => "$group_sql or  except like '%,$username,%'"
+    		"conditions" => "active = 'Y' AND ($group_sql or except like '%,$username,%')"
     	]);
 
         foreach ($acl as $key => $value) {

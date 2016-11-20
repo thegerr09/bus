@@ -106,6 +106,13 @@ class AclController extends \Phalcon\Mvc\Controller
             $post = $this->request->getPost();
             $usergroup = implode(',', $post['usergroup']);
             $post['usergroup'] = ','.$usergroup.',';
+            $post['action'] = $post['actions'];
+            if (empty($post['except'])) {
+                unset($post['actions']);
+                unset($post['except']);
+            } else {
+                unset($post['actions']);
+            }
 
             $acl = new Acl();
             $acl->assign($post);
@@ -211,5 +218,51 @@ class AclController extends \Phalcon\Mvc\Controller
         return json_encode($notify);
     }
 
-}
+    public function statusAction()
+    {
+        $this->view->disable();
+        $id = $this->request->getPost('id');
+        if ($this->request->getPost('active') == 'Y') {
+            $title  = 'Users Active';
+            $type   = 'success';
+            $icon   = 'fa fa-check';
+            $label  = 'Active';
+            $status = 'N';
+            $class  = 'green';
+        } else {
+            $title  = 'Users Not Active';
+            $type   = 'error';
+            $icon   = 'fa fa-remove';
+            $label  = 'Not Active';
+            $status = 'Y';
+            $class  = 'red';
+        }
+        
+        $acl = Acl::findFirst($id);
+        $acl->active = $this->request->getPost('active');
+        if ($acl->save()) {
+            $notify = [
+                'title'   => $title,
+                'text'    => 'Acl berhasil di '.$label,
+                'type'    => $type,
+                'icon'    => $icon,
+                'class'   => $class,
+                'status'  => $status,
+                'label'   => $label
+            ];
+        } else {
+            $messages = $acl->getMessages();
+            $m = '';
+            foreach ($messages as $message) {
+                $m .= "$message <br/>";
+            }
+            $notify = [
+                'title' => 'Errors',
+                'text'  => $m,
+                'type'  => 'error'
+            ];
+        }
+        return json_encode($notify);
+    }
 
+}

@@ -55,18 +55,13 @@
             </a>
           </li>
           <li style="cursor: pointer;">
-            <a onclick="return load_page('#','#','#')">
-              <i class="fa fa-circle-o"></i> BUS
-            </a>
-          </li>
-          <li style="cursor: pointer;">
-            <a onclick="return load_page('#','#','#')">
+            <a onclick="return load_page('page_driver','Driver','page_driver')">
               <i class="fa fa-circle-o"></i> Driver
             </a>
           </li>
           <li style="cursor: pointer;">
             <a onclick="return load_page('#','#','#')">
-              <i class="fa fa-circle-o"></i> Setting
+              <i class="fa fa-circle-o"></i> BUS
             </a>
           </li>
           <li style="cursor: pointer;">

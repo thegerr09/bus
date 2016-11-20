@@ -211,4 +211,30 @@ function clear_form(id){
     $('#Update').modal('hide');
   }
 }
+
+function status_action(id, status, clas) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Acl/status') ?>',
+    dataType:'json',
+    data: 'id='+id+'&active='+status+'&class='+clas,
+    success: function(response){
+      new PNotify({
+        title: response.title,
+        text: response.text,
+        type: response.type,
+        icon: response.icon
+      });
+      $("td i#button_status"+id).removeClass()
+        .addClass('fa fa-power-off cursor text-'+response.class)
+        .attr("onclick", "status_action("+id+", '"+response.status+"', '"+response.class+"')");
+
+      $("td span#label_status"+id).removeClass()
+        .addClass('label bg-'+response.class)
+        .text(response.label);
+
+      update_page('Acl', 'page_acl');
+    }
+  });
+}
 </script>

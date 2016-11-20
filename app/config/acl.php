@@ -19,7 +19,6 @@ if (is_array($url))
 		$action = 'index';
 	}
 }
-// echo $controller;
 
 $public_controller = explode(',', PUBLIC_URL);
 if (in_array($controller, $public_controller))
@@ -35,7 +34,7 @@ else
 		if (isset($_SESSION['acl']['controller'][$controller]))
 		{
 			// access controller granted
-
+			
 			if ($action != 'index')
 			{
 				if (isset($_SESSION['acl']['action'][$controller][$action]))

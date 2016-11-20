@@ -16,6 +16,7 @@
   <h1>Access Control List</h1>
   <ol class="breadcrumb">
     <li><i class="fa fa-home"></i> Home</li>
+    <li>Data Master</li>
     <li class="active">acl</li>
   </ol>
 </section>
@@ -55,8 +56,13 @@
                 <td>
                   <i class="fa fa-edit cursor" style="font-size:18px;" data-toggle="modal" data-target="#Update" onclick="update_acl('<?= $x->id ?>', '<?= $x->controller ?>', '<?= $x->action ?>')"></i> |
                   <i class="fa fa-trash cursor" style="font-size:18px;" data-toggle="modal" data-target="#Delete" onclick="deleted('<?= $x->id ?>', '<?= $x->controller ?>')"></i> |
-                  <i class="fa fa-power-off cursor text-green" style="font-size:18px;"></i> |
-                  <span class="label bg-green">Active</span>
+                  <?php if ($x->active == 'Y') { ?>
+                  <i class="fa fa-power-off cursor text-green" style="font-size:18px;" id="button_status<?= $x->id ?>" onclick="status_action(<?= $x->id ?>, 'N', 'red')"></i> |
+                  <span class="label bg-green" id="label_status<?= $x->id ?>">active</span>
+                  <?php } else { ?>
+                  <i class="fa fa-power-off cursor text-red" style="font-size:18px;" id="button_status<?= $x->id ?>" onclick="status_action(<?= $x->id ?>, 'Y', 'green')"></i> |
+                  <span class="label bg-red" id="label_status<?= $x->id ?>">not active</span>
+                  <?php } ?>
                 </td>
                 <td><?= $x->controller ?></td>
                 <td><?php if ($x->action != null) { ?><?= $x->action ?><?php } else { ?>{default index}<?php } ?></td>
@@ -395,5 +401,31 @@ function clear_form(id){
   if (id == '1') {
     $('#Update').modal('hide');
   }
+}
+
+function status_action(id, status, clas) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Acl/status') ?>',
+    dataType:'json',
+    data: 'id='+id+'&active='+status+'&class='+clas,
+    success: function(response){
+      new PNotify({
+        title: response.title,
+        text: response.text,
+        type: response.type,
+        icon: response.icon
+      });
+      $("td i#button_status"+id).removeClass()
+        .addClass('fa fa-power-off cursor text-'+response.class)
+        .attr("onclick", "status_action("+id+", '"+response.status+"', '"+response.class+"')");
+
+      $("td span#label_status"+id).removeClass()
+        .addClass('label bg-'+response.class)
+        .text(response.label);
+
+      update_page('Acl', 'page_acl');
+    }
+  });
 }
 </script>

@@ -8,7 +8,7 @@
   <h1>Usergroup</h1>
   <ol class="breadcrumb">
     <li><i class="fa fa-home"></i> Home</li>
-    <li>Data</li>
+    <li>Data Master</li>
     <li class="active">usergroup</li>
   </ol>
 </section>
