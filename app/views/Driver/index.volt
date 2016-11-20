@@ -6,10 +6,6 @@
   cursor: pointer;
   color: #ccc;
 }
-.usergroup{
-  cursor: pointer;
-  color: #807c7c;
-}
 </style>
 <section class="content-header animated fadeIn">
   <h1>Driver</h1>

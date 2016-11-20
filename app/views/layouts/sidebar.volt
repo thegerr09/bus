@@ -60,12 +60,12 @@
             </a>
           </li>
           <li style="cursor: pointer;">
-            <a onclick="return load_page('#','#','#')">
+            <a onclick="return load_page('page_bus','Bus','page_bus')">
               <i class="fa fa-circle-o"></i> BUS
             </a>
           </li>
           <li style="cursor: pointer;">
-            <a onclick="return load_page('#','#','#')">
+            <a onclick="return load_page('page_setting','Setting','page_setting')">
               <i class="fa fa-circle-o"></i> Setting
             </a>
           </li>
