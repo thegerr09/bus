@@ -31,51 +31,64 @@
         </div>
         <div class="box-body">
           <div class="table-responsive">
-            <table id="example" class="table table-bordered table-hover">
+            <table id="example" class="table table-bordered">
               <thead>
                 <tr>
                   <th>List Bus</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                {% for x in bus %}
+                <tr id="del{{ x.id }}">
                   <td>
                     <div class="col-md-2" align="center">
-                      {{ image('img/bus/bus1.jpg', 'class':'img-rounded', 'width':'150', 'style':'margin-bottom: 10px;') }}
+                      {{ image('img/bus/' ~ x.image , 'class':'img-rounded', 'width':'150', 'style':'margin-bottom: 10px;') }}
                       <i class="fa fa-edit cursor"></i> | 
                       <i class="fa fa-trash cursor"></i> |
+                      {% if x.active == 'Y' %}
                       <i class="fa fa-power-off text-green cursor"></i> | 
-                      <span class="label bg-green">active</span>
+                      <span class="label bg-green">Active</span>
+                      {% else %}
+                      <i class="fa fa-power-off text-red cursor"></i> | 
+                      <span class="label bg-red">Not Active</span>
+                      {% endif %}
                     </div>
                     <div class="col-md-10">
-                      <h3><b>GALATAMA 1</b></h3>
+                      <h3><b>{{ x.name_bus }}</b></h3>
                       <table class="table">
                         <tr>
                           <td width="90"><b>No Polisi</b></td>
                           <td> : </td>
-                          <td>AA 9085 RB</td>
+                          <td>{{ x.no_polisi }}</td>
                           <td width="120"><b>Tgl pajak STNK</b></td>
                           <td> : </td>
-                          <td>15 Dec 2016</td>
+                          <td>{{ x.tgl_stnk }}</td>
                           <td width="100"><b>KM Skrg</b></td>
                           <td> : </td>
-                          <td>1290 KM</td>
+                          <td>{{ x.km_skrng }} KM</td>
                         </tr>
                         <tr>
                           <td><b>No Rangka</b></td>
                           <td> : </td>
-                          <td>MHKM1BA3JBK000239</td>
+                          <td>{{ x.no_rangka }}</td>
                           <td><b>Tgl KIR</b></td>
                           <td> : </td>
-                          <td>15 Dec 2016</td>
-                          <td><b>Profit Share</b></td>
+                          <td>{{ x.tgl_kir }}</td>
+                          <td><b>Kondisi</b></td>
                           <td> : </td>
-                          <td>20%</td>
+                          <td>
+                            {% if x.kondisi == 'N' %}
+                            <label class="label bg-green">Bagus</label>
+                            {% else %}
+                            <label class="label bg-red">Rusak</label>
+                            {% endif %}
+                          </td>
                         </tr>
                       </table>
                     </div>
                   </td>
                 </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
@@ -85,3 +98,9 @@
 
   </div>
 </section>
+
+<!-- include popup -->
+{% include "Bus/input_edit.volt" %}
+
+<!-- include JS -->
+{% include "Bus/js.volt" %}
