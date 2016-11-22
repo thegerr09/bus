@@ -30,7 +30,7 @@
           </div>
         </div>
         <div class="box-body">
-          <div class="table-responsive">
+          <div class="table-responsive" id="list_view">
             <table id="example" class="table table-bordered table-striped table-hover">
               <thead>
                 <tr>
@@ -40,7 +40,7 @@
               <tbody>
                 {% set no = 1 %}
                 {% for x in driver %}
-                <tr>
+                <tr id="del{{ x.id }}">
                   <td>
                     <div class="col-md-1">
                       {{ image('img/driver/' ~ x.image, 'class':'img-rounded', 'width':'80') }}
@@ -60,8 +60,8 @@
                         </tr>
                         <tr>
                           <td colspan="3" height="25">
-                            <i class="fa fa-edit cursor"></i> | 
-                            <i class="fa fa-trash cursor"></i> | 
+                            <i class="fa fa-edit cursor" data-toggle="modal" data-target="#Tambah" onclick="update({{ x.id }})"></i> | 
+                            <i class="fa fa-trash cursor" data-toggle="modal" data-target="#Delete" onclick="deleted({{ x.id }}, '{{ x.driver }}')"></i> | 
                             <i class="fa fa-list cursor"></i> | 
                             <i class="fa fa-power-off text-green cursor"></i> | 
                             <span class="label bg-green">active</span>
@@ -88,4 +88,9 @@
   </div>
 </section>
 
+<!-- popup -->
+{% include "Driver/input_edit.volt" %}
+{% include "Driver/delete.volt" %}
+
+<!-- include Js -->
 {% include "Driver/js.volt" %}

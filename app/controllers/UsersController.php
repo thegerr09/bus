@@ -31,7 +31,7 @@ class UsersController extends \Phalcon\Mvc\Controller
             foreach ($this->request->getUploadedFiles() as $file) {
                 if ($file->getSize() > 0) {
                     $file_name = md5(uniqid(rand(), true)).'.'.$file->getExtension();
-                    $file->moveTo($baseLocation . $file_name);
+                    $file->moveTo($baseLocation . '/users/' . $file_name);
                 } else {
                     $file_name = 'users.png';
                 }
@@ -91,7 +91,7 @@ class UsersController extends \Phalcon\Mvc\Controller
             foreach ($this->request->getUploadedFiles() as $file) {
                 if ($file->getSize() > 0) {
                     $file_name = md5(uniqid(rand(), true)).'.'.$file->getExtension();
-                    $file->moveTo($baseLocation . $file_name);
+                    $file->moveTo($baseLocation . '/users/' . $file_name);
                 } else {
                     $file_name = $this->request->getPost('remove_image');
                 }
@@ -139,7 +139,7 @@ class UsersController extends \Phalcon\Mvc\Controller
             ];
         }
 
-        echo json_encode($notify);
+        return json_encode($notify);
         
     }
 

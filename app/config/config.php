@@ -8,7 +8,7 @@ defined('BASE_PATH')  || define('BASE_PATH', getenv('BASE_PATH') ?: realpath(dir
 defined('APP_PATH')   || define('APP_PATH', BASE_PATH . '/app');
 // defined('URL')        || define('URL', 'http://pogalatama.com/');
 defined('URL')        || define('URL', 'http://localhost/bus/');
-defined('MOVE_PHOTO') || define('MOVE_PHOTO', BASE_PATH . '/public/img/users/');
+defined('MOVE_PHOTO') || define('MOVE_PHOTO', BASE_PATH . '/public/img');
 
 return new \Phalcon\Config([
     'database' => [
