@@ -14,7 +14,6 @@ class DriverController extends \Phalcon\Mvc\Controller
         $this->view->pick("Driver/index");
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
-
     public function listAction()
     {
     	$this->view->driver = Driver::find([
@@ -73,7 +72,7 @@ class DriverController extends \Phalcon\Mvc\Controller
         return json_encode($notify);
     }
 
-    public function updateAction()
+    public function updateAction($id)
     {
         $this->view->disable();
 
@@ -97,7 +96,7 @@ class DriverController extends \Phalcon\Mvc\Controller
             'image'      => $file_name
         ];
 
-        $driver = new Driver();
+        $driver = Driver::findFirst($id);
         $driver->assign($array);
 
         if ($driver->save()) {
@@ -151,11 +150,60 @@ class DriverController extends \Phalcon\Mvc\Controller
         return json_encode($notify);
     }
 
+    public function statusAction()
+    {
+        $this->view->disable();
+        $id = $this->request->getPost('id');
+        if ($this->request->getPost('active') == 'Y') {
+            $title  = 'Driver Active';
+            $type   = 'success';
+            $icon   = 'fa fa-check';
+            $label  = 'Active';
+            $status = 'N';
+            $class  = 'green';
+        } else {
+            $title  = 'Driver Not Active';
+            $type   = 'error';
+            $icon   = 'fa fa-remove';
+            $label  = 'Not Active';
+            $status = 'Y';
+            $class  = 'red';
+        }
+        
+        $driver = Driver::findFirst($id);
+        $driver->active = $this->request->getPost('active');
+        if ($driver->save()) {
+            $notify = [
+                'title'   => $title,
+                'text'    => 'Usergroup berhasil di '.$label,
+                'type'    => $type,
+                'icon'    => $icon,
+                'class'   => $class,
+                'status'  => $status,
+                'label'   => $label,
+                'link'    => 'Usergroup',
+                'storage' => 'page_usergroup'
+            ];
+        } else {
+            $messages = $driver->getMessages();
+            $m = '';
+            foreach ($messages as $message) {
+                $m .= "$message <br/>";
+            }
+            $notify = [
+                'title' => 'Errors',
+                'text'  => $m,
+                'type'  => 'error'
+            ];
+        }
+        return json_encode($notify);
+    }
+
     public function detailAction($id)
     {
         $this->view->disable();
-        $users = Driver::findFirst($id);
-        return json_encode($users);
+        $driver = Driver::findFirst($id);
+        return json_encode($driver);
     }
 }
 

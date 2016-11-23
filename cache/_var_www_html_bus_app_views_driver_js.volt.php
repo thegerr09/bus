@@ -105,7 +105,7 @@ $(function () {
 
 function deleted(id, driver) {
   $('input#id_delete').val(id);
-  $('#driverr').text(driver);
+  $('span#driverr').text(driver);
 }
 
 function update(id) {
@@ -186,6 +186,32 @@ function list() {
         <?php $no = $no + 1; ?>
         <?php } ?>
       });
+    }
+  });
+}
+
+function status_action(id, status, clas) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Driver/status') ?>',
+    dataType:'json',
+    data: 'id='+id+'&active='+status+'&class='+clas,
+    success: function(response){
+      new PNotify({
+        title: response.title,
+        text: response.text,
+        type: response.type,
+        icon: response.icon
+      });
+      $("#button_status"+id).removeClass()
+        .addClass('fa fa-power-off cursor text-'+response.class)
+        .attr("onclick", "status_action("+id+", '"+response.status+"', '"+response.class+"')");
+
+      $("#label_status"+id).removeClass()
+        .addClass('label bg-'+response.class)
+        .text(response.label);
+
+      update_page('Driver', 'page_driver');
     }
   });
 }

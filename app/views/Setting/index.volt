@@ -30,9 +30,44 @@
           </div>
         </div>
         <div class="box-body">
+          <div class="table-responsive">
+            <table id="example" class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th width="30">No.</th>
+                  <th width="16%">Action</th>
+                  <th width="20%">Name</th>
+                  <th>Settings</th>
+                </tr>
+              </thead>
+              <tbody id="list_view">
+                {% set no = 1 %}
+                {% for x in setting %}
+                <tr>
+                  <td>{{ no }}</td>
+                  <td>
+                    <i class="fa fa-edit cursor" data-toggle="modal" data-target="#Tambah" onclick="update('{{ x.id }}', '{{ x.name }}', '{{ x.setting }}')"></i> | 
+                    <i class="fa fa-trash cursor" data-toggle="modal" data-target="#Delete"></i> | 
+                    <i class="fa fa-power-off cursor text-green"></i> |
+                    <span class="label bg-green">active</span>
+                  </td>
+                  <td>{{ x.name }}</td>
+                  <td>{{ x.setting }}</td>
+                </tr>
+                {% set no = no + 1 %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
 
   </div>
 </section>
+
+<!-- include popup -->
+{% include "Setting/input_edit.volt" %}
+
+<!-- include JS -->
+{% include "Setting/js.volt" %}

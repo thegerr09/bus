@@ -61,10 +61,15 @@
                         <tr>
                           <td colspan="3" height="25">
                             <i class="fa fa-edit cursor" data-toggle="modal" data-target="#Tambah" onclick="update(<?= $x->id ?>)"></i> | 
-                            <i class="fa fa-trash cursor" data-toggle="modal" data-target="#Delete" onclick="deleted(<?= $x->id ?>, '<?= $x->driver ?>')"></i> | 
-                            <i class="fa fa-list cursor"></i> | 
-                            <i class="fa fa-power-off text-green cursor"></i> | 
-                            <span class="label bg-green">active</span>
+                            <i class="fa fa-trash cursor" data-toggle="modal" data-target="#Delete" onclick="deleted(<?= $x->id ?>, '<?= $x->nama ?>')"></i> | 
+                            <!-- <i class="fa fa-list cursor"></i> |  -->
+                            <?php if ($x->active == 'Y') { ?>
+                            <i class="fa fa-power-off cursor text-green" style="font-size:18px;" id="button_status<?= $x->id ?>" onclick="status_action(<?= $x->id ?>, 'N', 'red')"></i> |
+                            <span class="label bg-green" id="label_status<?= $x->id ?>">active</span>
+                            <?php } else { ?>
+                            <i class="fa fa-power-off cursor text-red" style="font-size:18px;" id="button_status<?= $x->id ?>" onclick="status_action(<?= $x->id ?>, 'Y', 'green')"></i> |
+                            <span class="label bg-red" id="label_status<?= $x->id ?>">not active</span>
+                            <?php } ?>
                           </td>
                         </tr>
                       </table>
@@ -268,7 +273,7 @@ $(function () {
 
 function deleted(id, driver) {
   $('input#id_delete').val(id);
-  $('#driverr').text(driver);
+  $('span#driverr').text(driver);
 }
 
 function update(id) {
@@ -349,6 +354,32 @@ function list() {
         <?php $no = $no + 1; ?>
         <?php } ?>
       });
+    }
+  });
+}
+
+function status_action(id, status, clas) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Driver/status') ?>',
+    dataType:'json',
+    data: 'id='+id+'&active='+status+'&class='+clas,
+    success: function(response){
+      new PNotify({
+        title: response.title,
+        text: response.text,
+        type: response.type,
+        icon: response.icon
+      });
+      $("#button_status"+id).removeClass()
+        .addClass('fa fa-power-off cursor text-'+response.class)
+        .attr("onclick", "status_action("+id+", '"+response.status+"', '"+response.class+"')");
+
+      $("#label_status"+id).removeClass()
+        .addClass('label bg-'+response.class)
+        .text(response.label);
+
+      update_page('Driver', 'page_driver');
     }
   });
 }
