@@ -8,7 +8,7 @@
         <h4 class="modal-title">Delete Driver</h4>
       </div>
 
-      <form name="delete" action="{{ url('Setting/delete') }}" method="POST" data-delete="data-delete">
+      <form name="delete" action="<?= $this->url->get('Setting/delete') ?>" method="POST" data-delete="data-delete">
         <div class="modal-body">
           <input type="hidden" name="id" id="id_delete" value="">
           <p>Apakah anda yakin akan menghapus Setting "<span id="setting" class="text-success"></span>" ?</p>
