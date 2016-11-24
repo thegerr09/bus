@@ -8,10 +8,10 @@
         <h4 class="modal-title">Delete Driver</h4>
       </div>
 
-      <form name="delete" action="<?= $this->url->get('Setting/delete') ?>" method="POST" data-delete="data-delete">
+      <form name="delete" action="{{ url('CoDriver/delete') }}" method="POST" data-delete="data-delete">
         <div class="modal-body">
           <input type="hidden" name="id" id="id_delete" value="">
-          <p>Apakah anda yakin akan menghapus Setting "<span id="setting" class="text-success"></span>" ?</p>
+          <p>Apakah anda yakin akan menghapus Driver "<span id="driverr" class="text-success"></span>" ?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default close_btn" data-dismiss="modal">Close</button>

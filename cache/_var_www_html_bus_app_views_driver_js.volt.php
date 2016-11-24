@@ -211,6 +211,12 @@ function status_action(id, status, clas) {
         .addClass('label bg-'+response.class)
         .text(response.label);
 
+       if (response.type == 'error') {
+         $('#kondisi').hide();
+       } else {
+         $('#kondisi').show();
+       }
+
       update_page('Driver', 'page_driver');
     }
   });

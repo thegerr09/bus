@@ -2,25 +2,20 @@
 
 use Phalcon\Mvc\View;
 
-class DriverController extends \Phalcon\Mvc\Controller
+class CodriverController extends \Phalcon\Mvc\Controller
 {
 
     public function indexAction()
     {
-    	$this->view->driver = Driver::find([
-    		"conditions" => "deleted = 'N'",
-    		"order"		 => "id DESC"
-    	]);
-        $this->view->pick("Driver/index");
+    	$this->view->codriver = CoDriver::find(["conditions" => "deleted = 'N'"]);
+        $this->view->pick("CoDriver/index");
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
+
     public function listAction()
     {
-    	$this->view->driver = Driver::find([
-    		"conditions" => "deleted = 'N'",
-    		"order"		 => "id DESC"
-    	]);
-        $this->view->pick("Driver/list");
+    	$this->view->codriver = CoDriver::find(["conditions" => "deleted = 'N'"]);
+        $this->view->pick("CoDriver/list");
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
@@ -33,7 +28,7 @@ class DriverController extends \Phalcon\Mvc\Controller
             foreach ($this->request->getUploadedFiles() as $file) {
                 if ($file->getSize() > 0) {
                     $file_name = md5(uniqid(rand(), true)).'.'.$file->getExtension();
-                    $file->moveTo($baseLocation . '/driver/' . $file_name);
+                    $file->moveTo($baseLocation . '/codriver/' . $file_name);
                 } else {
                     $file_name = 'users.png';
                 }
@@ -48,7 +43,7 @@ class DriverController extends \Phalcon\Mvc\Controller
         	'image'		 => $file_name
         ];
 
-        $driver = new Driver();
+        $driver = new CoDriver();
         $driver->assign($array);
 
         if ($driver->save()) {
@@ -81,7 +76,7 @@ class DriverController extends \Phalcon\Mvc\Controller
             foreach ($this->request->getUploadedFiles() as $file) {
                 if ($file->getSize() > 0) {
                     $file_name = md5(uniqid(rand(), true)).'.'.$file->getExtension();
-                    $file->moveTo($baseLocation . '/driver/' . $file_name);
+                    $file->moveTo($baseLocation . '/codriver/' . $file_name);
                 } else {
                     $file_name = $this->request->getPost('remove_image');
                 }
@@ -96,7 +91,7 @@ class DriverController extends \Phalcon\Mvc\Controller
             'image'      => $file_name
         ];
 
-        $driver = Driver::findFirst($id);
+        $driver = CoDriver::findFirst($id);
         $driver->assign($array);
 
         if ($driver->save()) {
@@ -126,7 +121,7 @@ class DriverController extends \Phalcon\Mvc\Controller
         $this->view->disable();
         $id = $this->request->getPost('id');
 
-        $driver = Driver::findFirst($id);
+        $driver = CoDriver::findFirst($id);
         $driver->deleted = 'Y';
         if ($driver->save()) {
             $notify = [
@@ -155,14 +150,14 @@ class DriverController extends \Phalcon\Mvc\Controller
         $this->view->disable();
         $id = $this->request->getPost('id');
         if ($this->request->getPost('active') == 'Y') {
-            $title  = 'Driver Active';
+            $title  = 'Co Driver Active';
             $type   = 'success';
             $icon   = 'fa fa-check';
             $label  = 'Active';
             $status = 'N';
             $class  = 'green';
         } else {
-            $title  = 'Driver Not Active';
+            $title  = 'Co Driver Not Active';
             $type   = 'error';
             $icon   = 'fa fa-remove';
             $label  = 'Not Active';
@@ -170,7 +165,7 @@ class DriverController extends \Phalcon\Mvc\Controller
             $class  = 'red';
         }
         
-        $driver = Driver::findFirst($id);
+        $driver = CoDriver::findFirst($id);
         $driver->active = $this->request->getPost('active');
         if ($driver->save()) {
             $notify = [
@@ -202,9 +197,9 @@ class DriverController extends \Phalcon\Mvc\Controller
     public function detailAction($id)
     {
         $this->view->disable();
-        $driver = Driver::findFirst($id);
+        $driver = CoDriver::findFirst($id);
         return json_encode($driver);
     }
-    
+
 }
 

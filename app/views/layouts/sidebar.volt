@@ -60,6 +60,11 @@
             </a>
           </li>
           <li style="cursor: pointer;">
+            <a onclick="return load_page('page_co_driver','CoDriver','page_co_driver')">
+              <i class="fa fa-circle-o"></i> CO. Driver
+            </a>
+          </li>
+          <li style="cursor: pointer;">
             <a onclick="return load_page('page_bus','Bus','page_bus')">
               <i class="fa fa-circle-o"></i> BUS
             </a>

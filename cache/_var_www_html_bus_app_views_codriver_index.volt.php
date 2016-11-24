@@ -8,11 +8,11 @@
 }
 </style>
 <section class="content-header animated fadeIn">
-  <h1>Driver</h1>
+  <h1>Co. Driver</h1>
   <ol class="breadcrumb">
     <li><i class="fa fa-home"></i> Home</li>
     <li>Data Master</li>
-    <li class="active">driver</li>
+    <li class="active">co. driver</li>
   </ol>
 </section>
 
@@ -22,9 +22,9 @@
     <div class="col-md-12">
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">List Driver</h3>
+          <h3 class="box-title">List Co. Driver</h3>
           <div class="box-tools pull-right" style="margin-top:2px;">
-            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#Tambah" onclick="clear_form()">
+            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#Tambah" onclick="clear_form(0)">
               <i class="fa fa-plus-circle"></i> Tambah
             </button>
           </div>
@@ -34,16 +34,16 @@
             <table id="example" class="table table-bordered table-striped table-hover">
               <thead>
                 <tr>
-                  <th>List Driver</th>
+                  <th>List Co. Driver</th>
                 </tr>
               </thead>
               <tbody>
                 <?php $no = 1; ?>
-                <?php foreach ($driver as $x) { ?>
+                <?php foreach ($codriver as $x) { ?>
                 <tr id="del<?= $x->id ?>">
                   <td>
                     <div class="col-md-1">
-                      <?= $this->tag->image(['img/driver/' . $x->image, 'class' => 'img-rounded', 'width' => '80']) ?>
+                      <?= $this->tag->image(['img/codriver/' . $x->image, 'class' => 'img-rounded', 'width' => '80']) ?>
                     </div>
                     <div class="col-md-7">
                       <span><b><?= Phalcon\Text::upper($x->nama) ?></b></span>
@@ -98,7 +98,7 @@
   </div>
 </section>
 
-<!-- popup -->
+<!-- include popup -->
 <div class="modal fade" id="Tambah" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
@@ -106,10 +106,10 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form(0)">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="label_driver">Input Driver</h4>
+        <h4 class="modal-title" id="label_driver">Input Co. Driver</h4>
       </div>
 
-      <form name="form" action="<?= $this->url->get('Driver/input') ?>" method="POST" enctype="multipart/form-data" data-remote="data-remote">
+      <form name="form" action="<?= $this->url->get('CoDriver/input') ?>" method="POST" enctype="multipart/form-data" data-remote="data-remote">
         <div class="modal-body">
           <div class="form-group">
             <label>Nama</label>
@@ -129,10 +129,10 @@
           </div>
           <div class="form-group">
             <label>Foto Driver</label>
-            <input type="file" class="filestyle" name="image" id="uploadImage" value="img/driver/users.png" onchange="PreviewImage()">
+            <input type="file" class="filestyle" name="image" id="uploadImage" value="img/codriver/users.png" onchange="PreviewImage()">
             <input type="hidden" name="remove_image">
             <div align="center" style="margin-top:10px;">
-              <?= $this->tag->image(['img/driver/users.png', 'width' => '150', 'height' => '150', 'id' => 'uploadPreview', 'class' => 'img-rounded']) ?>
+              <?= $this->tag->image(['img/codriver/users.png', 'width' => '150', 'height' => '150', 'id' => 'uploadPreview', 'class' => 'img-rounded']) ?>
             </div>
           </div>
         </div>
@@ -155,7 +155,7 @@
         <h4 class="modal-title">Delete Driver</h4>
       </div>
 
-      <form name="delete" action="<?= $this->url->get('Driver/delete') ?>" method="POST" data-delete="data-delete">
+      <form name="delete" action="<?= $this->url->get('CoDriver/delete') ?>" method="POST" data-delete="data-delete">
         <div class="modal-body">
           <input type="hidden" name="id" id="id_delete" value="">
           <p>Apakah anda yakin akan menghapus Driver "<span id="driverr" class="text-success"></span>" ?</p>
@@ -170,7 +170,7 @@
   </div>
 </div>
 
-<!-- include Js -->
+<!-- include JS -->
 <script>
 $(function () {
   'use strict';
@@ -178,7 +178,7 @@ $(function () {
   $('#example').DataTable();
 
   <?php $no = 1; ?>
-  <?php foreach ($driver as $x) { ?>
+  <?php foreach ($codriver as $x) { ?>
   var salesChartCanvas<?= $no ?> = $("#salesChart<?= $no ?>").get(0).getContext("2d");
   var salesChart<?= $no ?> = new Chart(salesChartCanvas<?= $no ?>);
 
@@ -236,7 +236,7 @@ $(function () {
           text: response.text,
           type: response.type
         });
-        update_page('Driver', 'page_driver');
+        update_page('CoDriver', 'page_co_driver');
         clear_form(response.close);
         list();
       }
@@ -267,7 +267,7 @@ $(function () {
         });
         $('#Delete').modal('hide');
         $('#del'+response.id).fadeOut(1000);
-        update_page('Driver', 'page_driver');
+        update_page('CoDriver', 'page_co_driver');
       }
     });
 
@@ -282,8 +282,8 @@ function deleted(id, driver) {
 }
 
 function update(id) {
-  $('#label_driver').text('Update Driver');
-  $('form[name="form"]').attr('action', '<?= $this->url->get('Driver/update/') ?>'+id);
+  $('#label_driver').text('Update Co. Driver');
+  $('form[name="form"]').attr('action', '<?= $this->url->get('CoDriver/update/') ?>'+id);
   var btn_submit = $('form[name="form"]').find('button[type="submit"]');
   btn_submit.removeClass('btn-success');
   btn_submit.addClass('btn-primary');
@@ -291,7 +291,7 @@ function update(id) {
 
   $.ajax({
     type: 'GET',
-    url: '<?= $this->url->get('Driver/detail/') ?>'+id,
+    url: '<?= $this->url->get('CoDriver/detail/') ?>'+id,
     dataType:'json',
     success: function(response){
       $.each(response, function(key, value) {
@@ -300,7 +300,7 @@ function update(id) {
         .val(value);
         if (key == 'image') {
           $('input[name="remove_image"]').val(value);
-          $('#uploadPreview').attr('src', 'img/driver/'+value);
+          $('#uploadPreview').attr('src', 'img/codriver/'+value);
           $('input[name="image"]').attr('data-placeholder', value);
         }
       });
@@ -311,7 +311,7 @@ function update(id) {
 function list() {
   $.ajax({
     type: 'GET',
-    url: '<?= $this->url->get('Driver/list') ?>',
+    url: '<?= $this->url->get('CoDriver/list') ?>',
     dataType:'html',
     success: function(response){
       $('#list_view').html(response);
@@ -322,7 +322,7 @@ function list() {
         $('#example').DataTable();
 
         <?php $no = 1; ?>
-        <?php foreach ($driver as $x) { ?>
+        <?php foreach ($codriver as $x) { ?>
         var salesChartCanvas<?= $no ?> = $("#salesChart<?= $no ?>").get(0).getContext("2d");
         var salesChart<?= $no ?> = new Chart(salesChartCanvas<?= $no ?>);
 
@@ -366,7 +366,7 @@ function list() {
 function status_action(id, status, clas) {
   $.ajax({
     type: 'POST',
-    url: '<?= $this->url->get('Driver/status') ?>',
+    url: '<?= $this->url->get('CoDriver/status') ?>',
     dataType:'json',
     data: 'id='+id+'&active='+status+'&class='+clas,
     success: function(response){
@@ -390,19 +390,19 @@ function status_action(id, status, clas) {
          $('#kondisi').show();
        }
 
-      update_page('Driver', 'page_driver');
+      update_page('CoDriver', 'page_co_driver');
     }
   });
 }
 
 function clear_form(id){
   $('form[name="form"]').find('[name]').val('');
-  $('#uploadPreview').attr('src', 'img/driver/users.png');
+  $('#uploadPreview').attr('src', 'img/codriver/users.png');
   if (id == '1') {
     $('#Tambah').modal('hide');
   } else {
     $('#label_driver').text('Input Driver');
-    $('form[name="form"]').attr('action', '<?= $this->url->get('Driver/input') ?>');
+    $('form[name="form"]').attr('action', '<?= $this->url->get('CoDriver/input') ?>');
     var btn_submit = $('form[name="form"]').find('button[type="submit"]');
     btn_submit.removeClass('btn-primary');
     btn_submit.addClass('btn-success');

@@ -5,10 +5,10 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form(0)">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="label_driver">Input Driver</h4>
+        <h4 class="modal-title" id="label_driver">Input Co. Driver</h4>
       </div>
 
-      <form name="form" action="<?= $this->url->get('Driver/input') ?>" method="POST" enctype="multipart/form-data" data-remote="data-remote">
+      <form name="form" action="<?= $this->url->get('CoDriver/input') ?>" method="POST" enctype="multipart/form-data" data-remote="data-remote">
         <div class="modal-body">
           <div class="form-group">
             <label>Nama</label>
@@ -28,10 +28,10 @@
           </div>
           <div class="form-group">
             <label>Foto Driver</label>
-            <input type="file" class="filestyle" name="image" id="uploadImage" value="img/driver/users.png" onchange="PreviewImage()">
+            <input type="file" class="filestyle" name="image" id="uploadImage" value="img/codriver/users.png" onchange="PreviewImage()">
             <input type="hidden" name="remove_image">
             <div align="center" style="margin-top:10px;">
-              <?= $this->tag->image(['img/driver/users.png', 'width' => '150', 'height' => '150', 'id' => 'uploadPreview', 'class' => 'img-rounded']) ?>
+              <?= $this->tag->image(['img/codriver/users.png', 'width' => '150', 'height' => '150', 'id' => 'uploadPreview', 'class' => 'img-rounded']) ?>
             </div>
           </div>
         </div>

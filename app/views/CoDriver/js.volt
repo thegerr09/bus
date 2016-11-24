@@ -5,7 +5,7 @@ $(function () {
   $('#example').DataTable();
 
   {% set no = 1 %}
-  {% for x in driver %}
+  {% for x in codriver %}
   var salesChartCanvas{{ no }} = $("#salesChart{{ no }}").get(0).getContext("2d");
   var salesChart{{ no }} = new Chart(salesChartCanvas{{ no }});
 
@@ -63,7 +63,7 @@ $(function () {
           text: response.text,
           type: response.type
         });
-        update_page('Driver', 'page_driver');
+        update_page('CoDriver', 'page_co_driver');
         clear_form(response.close);
         list();
       }
@@ -94,7 +94,7 @@ $(function () {
         });
         $('#Delete').modal('hide');
         $('#del'+response.id).fadeOut(1000);
-        update_page('Driver', 'page_driver');
+        update_page('CoDriver', 'page_co_driver');
       }
     });
 
@@ -109,8 +109,8 @@ function deleted(id, driver) {
 }
 
 function update(id) {
-  $('#label_driver').text('Update Driver');
-  $('form[name="form"]').attr('action', '{{ url('Driver/update/') }}'+id);
+  $('#label_driver').text('Update Co. Driver');
+  $('form[name="form"]').attr('action', '{{ url('CoDriver/update/') }}'+id);
   var btn_submit = $('form[name="form"]').find('button[type="submit"]');
   btn_submit.removeClass('btn-success');
   btn_submit.addClass('btn-primary');
@@ -118,7 +118,7 @@ function update(id) {
 
   $.ajax({
     type: 'GET',
-    url: '{{ url('Driver/detail/') }}'+id,
+    url: '{{ url('CoDriver/detail/') }}'+id,
     dataType:'json',
     success: function(response){
       $.each(response, function(key, value) {
@@ -127,7 +127,7 @@ function update(id) {
         .val(value);
         if (key == 'image') {
           $('input[name="remove_image"]').val(value);
-          $('#uploadPreview').attr('src', 'img/driver/'+value);
+          $('#uploadPreview').attr('src', 'img/codriver/'+value);
           $('input[name="image"]').attr('data-placeholder', value);
         }
       });
@@ -138,7 +138,7 @@ function update(id) {
 function list() {
   $.ajax({
     type: 'GET',
-    url: '{{ url('Driver/list') }}',
+    url: '{{ url('CoDriver/list') }}',
     dataType:'html',
     success: function(response){
       $('#list_view').html(response);
@@ -149,7 +149,7 @@ function list() {
         $('#example').DataTable();
 
         {% set no = 1 %}
-        {% for x in driver %}
+        {% for x in codriver %}
         var salesChartCanvas{{ no }} = $("#salesChart{{ no }}").get(0).getContext("2d");
         var salesChart{{ no }} = new Chart(salesChartCanvas{{ no }});
 
@@ -193,7 +193,7 @@ function list() {
 function status_action(id, status, clas) {
   $.ajax({
     type: 'POST',
-    url: '{{ url('Driver/status') }}',
+    url: '{{ url('CoDriver/status') }}',
     dataType:'json',
     data: 'id='+id+'&active='+status+'&class='+clas,
     success: function(response){
@@ -217,19 +217,19 @@ function status_action(id, status, clas) {
          $('#kondisi').show();
        }
 
-      update_page('Driver', 'page_driver');
+      update_page('CoDriver', 'page_co_driver');
     }
   });
 }
 
 function clear_form(id){
   $('form[name="form"]').find('[name]').val('');
-  $('#uploadPreview').attr('src', 'img/driver/users.png');
+  $('#uploadPreview').attr('src', 'img/codriver/users.png');
   if (id == '1') {
     $('#Tambah').modal('hide');
   } else {
     $('#label_driver').text('Input Driver');
-    $('form[name="form"]').attr('action', '{{ url('Driver/input') }}');
+    $('form[name="form"]').attr('action', '{{ url('CoDriver/input') }}');
     var btn_submit = $('form[name="form"]').find('button[type="submit"]');
     btn_submit.removeClass('btn-primary');
     btn_submit.addClass('btn-success');

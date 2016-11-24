@@ -1,12 +1,12 @@
 <table id="example" class="table table-bordered table-striped table-hover">
   <thead>
     <tr>
-      <th>List Driver</th>
+      <th>List Co. Driver</th>
     </tr>
   </thead>
   <tbody>
     {% set no = 1 %}
-    {% for x in driver %}
+    {% for x in codriver %}
     <tr id="del{{ x.id }}">
       <td>
         <div class="col-md-1">
@@ -30,8 +30,13 @@
                 <i class="fa fa-edit cursor" data-toggle="modal" data-target="#Tambah" onclick="update({{ x.id }})"></i> | 
                 <i class="fa fa-trash cursor" data-toggle="modal" data-target="#Delete" onclick="deleted({{ x.id }}, '{{ x.nama }}')"></i> | 
                 <!-- <i class="fa fa-list cursor"></i> |  -->
-                <i class="fa fa-power-off text-green cursor"></i> | 
-                <span class="label bg-green">active</span>
+                {% if x.active == 'Y' %}
+                <i class="fa fa-power-off cursor text-green" style="font-size:18px;" id="button_status{{ x.id }}" onclick="status_action({{ x.id }}, 'N', 'red')"></i> |
+                <span class="label bg-green" id="label_status{{ x.id }}">active</span>
+                {% else %}
+                <i class="fa fa-power-off cursor text-red" style="font-size:18px;" id="button_status{{ x.id }}" onclick="status_action({{ x.id }}, 'Y', 'green')"></i> |
+                <span class="label bg-red" id="label_status{{ x.id }}">not active</span>
+                {% endif %}
               </td>
             </tr>
           </table>

@@ -8,11 +8,11 @@
 }
 </style>
 <section class="content-header animated fadeIn">
-  <h1>Driver</h1>
+  <h1>Co. Driver</h1>
   <ol class="breadcrumb">
     <li><i class="fa fa-home"></i> Home</li>
     <li>Data Master</li>
-    <li class="active">driver</li>
+    <li class="active">co. driver</li>
   </ol>
 </section>
 
@@ -22,9 +22,9 @@
     <div class="col-md-12">
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">List Driver</h3>
+          <h3 class="box-title">List Co. Driver</h3>
           <div class="box-tools pull-right" style="margin-top:2px;">
-            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#Tambah" onclick="clear_form()">
+            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#Tambah" onclick="clear_form(0)">
               <i class="fa fa-plus-circle"></i> Tambah
             </button>
           </div>
@@ -34,16 +34,16 @@
             <table id="example" class="table table-bordered table-striped table-hover">
               <thead>
                 <tr>
-                  <th>List Driver</th>
+                  <th>List Co. Driver</th>
                 </tr>
               </thead>
               <tbody>
                 {% set no = 1 %}
-                {% for x in driver %}
+                {% for x in codriver %}
                 <tr id="del{{ x.id }}">
                   <td>
                     <div class="col-md-1">
-                      {{ image('img/driver/' ~ x.image, 'class':'img-rounded', 'width':'80') }}
+                      {{ image('img/codriver/' ~ x.image, 'class':'img-rounded', 'width':'80') }}
                     </div>
                     <div class="col-md-7">
                       <span><b>{{ x.nama|upper }}</b></span>
@@ -98,9 +98,9 @@
   </div>
 </section>
 
-<!-- popup -->
-{% include "Driver/input_edit.volt" %}
-{% include "Driver/delete.volt" %}
+<!-- include popup -->
+{% include "CoDriver/input_edit.volt" %}
+{% include "CoDriver/deleted.volt" %}
 
-<!-- include Js -->
-{% include "Driver/js.volt" %}
+<!-- include JS -->
+{% include "CoDriver/js.volt" %}
