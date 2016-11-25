@@ -22,7 +22,7 @@
   {{ javascript_include('plugins/chartjs/Chart.min.js') }}
   
   <!-- iCheck -->
-  {{ stylesheet_link('plugins/iCheck/flat/blue.css') }}
+  {{ stylesheet_link('plugins/iCheck/all.css') }}
   {{ javascript_include('plugins/iCheck/icheck.min.js') }}
 
   <!-- Pnotify -->
@@ -53,6 +53,12 @@
   {{ javascript_include("plugins/datatables/responsive.bootstrap.min.js") }}
   {{ javascript_include("plugins/datatables/dataTables.scroller.min.js") }}
   {{ javascript_include("plugins/datatables/dataTables.fixedColumns.min.js") }}
+
+  <!-- datetimepiker -->
+  {{ stylesheet_link("plugins/datetimepicker/build/css/bootstrap-datetimepicker.min.css") }}
+  {{ javascript_include("plugins/moment/min/moment.min.js") }}
+  {{ javascript_include("plugins/moment/locale/id.js") }}
+  {{ javascript_include("plugins/datetimepicker/build/js/bootstrap-datetimepicker.min.js") }}
 
   <!-- all -->
   {{ javascript_include('plugins/slimScroll/jquery.slimscroll.min.js') }}

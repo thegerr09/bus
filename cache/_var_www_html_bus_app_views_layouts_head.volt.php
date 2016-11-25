@@ -22,7 +22,7 @@
   <?= $this->tag->javascriptInclude('plugins/chartjs/Chart.min.js') ?>
   
   <!-- iCheck -->
-  <?= $this->tag->stylesheetLink('plugins/iCheck/flat/blue.css') ?>
+  <?= $this->tag->stylesheetLink('plugins/iCheck/all.css') ?>
   <?= $this->tag->javascriptInclude('plugins/iCheck/icheck.min.js') ?>
 
   <!-- Pnotify -->
@@ -53,6 +53,12 @@
   <?= $this->tag->javascriptInclude('plugins/datatables/responsive.bootstrap.min.js') ?>
   <?= $this->tag->javascriptInclude('plugins/datatables/dataTables.scroller.min.js') ?>
   <?= $this->tag->javascriptInclude('plugins/datatables/dataTables.fixedColumns.min.js') ?>
+
+  <!-- datetimepiker -->
+  <?= $this->tag->stylesheetLink('plugins/datetimepicker/build/css/bootstrap-datetimepicker.min.css') ?>
+  <?= $this->tag->javascriptInclude('plugins/moment/min/moment.min.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/moment/locale/id.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/datetimepicker/build/js/bootstrap-datetimepicker.min.js') ?>
 
   <!-- all -->
   <?= $this->tag->javascriptInclude('plugins/slimScroll/jquery.slimscroll.min.js') ?>

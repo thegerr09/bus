@@ -15,44 +15,100 @@ class Bus extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
-     * @Column(type="string", length=255, nullable=false)
-     */
-    public $name_bus;
-
-    /**
-     *
-     * @var string
      * @Column(type="string", length=12, nullable=false)
      */
-    public $no_polisi;
+    public $nomor_polisi;
 
     /**
      *
      * @var string
-     * @Column(type="string", length=50, nullable=false)
+     * @Column(type="string", length=100, nullable=false)
      */
-    public $no_rangka;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", nullable=false)
-     */
-    public $tgl_pajak_stnk;
+    public $nama_pemilik;
 
     /**
      *
      * @var string
      * @Column(type="string", nullable=false)
      */
-    public $tgl_kir;
+    public $alamat;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=255, nullable=false)
+     */
+    public $merk;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=255, nullable=false)
+     */
+    public $type;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=4, nullable=false)
+     */
+    public $tahun_perakitan;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=4, nullable=false)
+     */
+    public $tahun_beli;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=5, nullable=false)
+     */
+    public $cc;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=false)
+     */
+    public $nomor_rangka;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=false)
+     */
+    public $nomor_mesin;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=false)
+     */
+    public $nomor_bpkb;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=32, nullable=false)
+     */
+    public $warna;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", nullable=false)
+     */
+    public $tanggal_pajak;
 
     /**
      *
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $km_skrng;
+    public $nominal_pajak;
 
     /**
      *

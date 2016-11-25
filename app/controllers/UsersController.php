@@ -78,7 +78,7 @@ class UsersController extends \Phalcon\Mvc\Controller
             ];
         }
 
-        echo json_encode($notify);
+        return json_encode($notify);
         
     }
 
