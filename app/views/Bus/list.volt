@@ -9,7 +9,7 @@
     <tr id="del{{ x.id }}">
       <td>
         <div class="col-md-2" align="center">
-          {{ image('img/bus/' ~ x.image , 'class':'img-rounded', 'width':'150', 'style':'margin-bottom: 10px;') }}
+          {{ image('img/bus/' ~ x.image , 'class':'img-rounded', 'width':'150', 'height':'150', 'style':'margin-bottom: 10px;') }}
         </div>
         <div class="col-md-10">
           <h3><b>{{ x.type }} | {{ x.merk }}</b></h3>
@@ -23,7 +23,7 @@
               <td>{{ x.tanggal_pajak }}</td>
               <td width="100"><b>Nomor Polisi</b></td>
               <td> : </td>
-              <td>{{ x.nomor_polisi }} KM</td>
+              <td>{{ x.nomor_polisi }}</td>
             </tr>
             <tr>
               <td><b>Tahun Perakitan</b></td>
@@ -37,14 +37,14 @@
               <td>
                 <div class="form-group">
                 {% if x.kondisi == 'N' %}
-                <label>
+                <label class="usergroup">
                   <input type="checkbox" class="flat-blue check" value="{{ x.id }}" checked>
-                  <span class="label bg-green">Kondisi Baik</span>
+                  <span class="label bg-green" id="status_kondisi{{ x.id }}">Kondisi Baik</span>
                 </label>
                 {% else %}
-                <label>
+                <label class="usergroup">
                   <input type="checkbox" class="flat-blue check" value="{{ x.id }}">
-                  <span class="label bg-red">Kondisi Rusak</span>
+                  <span class="label bg-red" id="status_kondisi{{ x.id }}">Kondisi Rusak</span>
                 </label>
                 {% endif %}
                 </div>
@@ -53,20 +53,25 @@
           </table>
         </div>
         <div class="col-md-12">
-          <i class="fa fa-edit cursor"></i> | 
-          <i class="fa fa-trash cursor"></i> |
+          <i class="fa fa-edit cursor" data-toggle="modal" data-target="#Tambah" onclick="update({{ x.id }})"></i> | 
+          <i class="fa fa-trash cursor" data-toggle="modal" data-target="#Delete" onclick="deleted({{ x.id }}, '{{ x.nomor_polisi }}')"></i> |
           <i class="fa fa-list cursor"></i> |
           {% if x.active == 'Y' %}
-          <i class="fa fa-power-off text-green cursor"></i> | 
-          <span class="label bg-green">Active</span>
+          <i class="fa fa-power-off cursor text-green" style="font-size:18px;" id="button_status{{ x.id }}" onclick="status_action({{ x.id }}, 'N', 'red')"></i> |
+          <span class="label bg-green" id="label_status{{ x.id }}">active</span>
             {% if x.status == 1 %}
-            <span id="kondisi">| <span class="label bg-yellow">Dalam Perjalanan ...</span></span>
+            <span id="kondisi{{ x.id }}">| <span class="label bg-yellow">Dalam Perjalanan ...</span></span>
             {% else %}
-            <span id="kondisi">| <span class="label bg-blue">Free</span></span>
+            <span id="kondisi{{ x.id }}">| <span class="label bg-blue">Free</span></span>
             {% endif %}
           {% else %}
-          <i class="fa fa-power-off text-red cursor"></i> | 
-          <span class="label bg-red">Not Active</span>
+          <i class="fa fa-power-off cursor text-red" style="font-size:18px;" id="button_status{{ x.id }}" onclick="status_action({{ x.id }}, 'Y', 'green')"></i> |
+          <span class="label bg-red" id="label_status{{ x.id }}">not active</span>
+            {% if x.status == 1 %}
+            <span id="kondisi" style="display:none;">| <span class="label bg-yellow">Dalam Perjalanan ...</span></span>
+            {% else %}
+            <span id="kondisi" style="display:none;">| <span class="label bg-blue">Free</span></span>
+            {% endif %}
           {% endif %}
         </div>
       </td>

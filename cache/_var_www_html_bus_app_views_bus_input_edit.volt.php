@@ -5,7 +5,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form(0)">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="label_driver">Input Bus</h4>
+        <h4 class="modal-title" id="label_bus">Input Bus</h4>
       </div>
 
       <form name="form" action="<?= $this->url->get('Bus/input') ?>" method="POST" enctype="multipart/form-data" data-remote="data-remote">

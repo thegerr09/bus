@@ -212,9 +212,9 @@ function status_action(id, status, clas) {
         .text(response.label);
 
        if (response.type == 'error') {
-         $('#kondisi').hide();
+         $('#kondisi'+id).hide();
        } else {
-         $('#kondisi').show();
+         $('#kondisi'+id).show();
        }
 
       update_page('Driver', 'page_driver');

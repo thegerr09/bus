@@ -67,9 +67,9 @@
                             <i class="fa fa-power-off cursor text-green" style="font-size:18px;" id="button_status<?= $x->id ?>" onclick="status_action(<?= $x->id ?>, 'N', 'red')"></i> |
                             <span class="label bg-green" id="label_status<?= $x->id ?>">active</span>
                               <?php if ($x->status == 1) { ?>
-                              <span id="kondisi">| <span class="label bg-yellow">Dalam Perjalanan ...</span></span>
+                              <span id="kondisi<?= $x->id ?>">| <span class="label bg-yellow">Dalam Perjalanan ...</span></span>
                               <?php } else { ?>
-                              <span id="kondisi">| <span class="label bg-blue">Free</span></span>
+                              <span id="kondisi<?= $x->id ?>">| <span class="label bg-blue">Free</span></span>
                               <?php } ?>
                             <?php } else { ?>
                             <i class="fa fa-power-off cursor text-red" style="font-size:18px;" id="button_status<?= $x->id ?>" onclick="status_action(<?= $x->id ?>, 'Y', 'green')"></i> |
@@ -385,9 +385,9 @@ function status_action(id, status, clas) {
         .text(response.label);
 
        if (response.type == 'error') {
-         $('#kondisi').hide();
+         $('#kondisi'+id).hide();
        } else {
-         $('#kondisi').show();
+         $('#kondisi'+id).show();
        }
 
       update_page('CoDriver', 'page_co_driver');

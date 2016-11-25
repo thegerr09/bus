@@ -1,10 +1,10 @@
 <?php $no = 1; ?>
-<?php foreach ($setting as $x) { ?>
+<?php foreach ($users as $x) { ?>
 <tr id="del<?= $x->id ?>">
-  <td><?= $no ?></td>
-  <td>
-    <i class="fa fa-edit cursor" data-toggle="modal" data-target="#Tambah" onclick="update('<?= $x->id ?>', '<?= $x->name ?>')"></i> | 
-    <i class="fa fa-trash cursor" data-toggle="modal" data-target="#Delete" onclick="deleted('<?= $x->id ?>', '<?= $x->name ?>')"></i> | 
+  <td align="center"><?php echo $no++; ?></td>
+  <td style="vertical-align:middle;">
+    <i class="fa fa-edit cursor" style="font-size:18px;" data-toggle="modal" data-target="#Tambah" onclick="update(<?= $x->id ?>)"></i> |
+    <i class="fa fa-trash cursor" style="font-size:18px;" data-toggle="modal" data-target="#Delete" onclick="deleted(<?= $x->id ?>, '<?= $x->username ?>')"></i> |
     <?php if ($x->active == 'Y') { ?>
     <i class="fa fa-power-off cursor text-green" style="font-size:18px;" id="button_status<?= $x->id ?>" onclick="status_action(<?= $x->id ?>, 'N', 'red')"></i> |
     <span class="label bg-green" id="label_status<?= $x->id ?>">active</span>
@@ -14,7 +14,12 @@
     <?php } ?>
   </td>
   <td><?= $x->name ?></td>
-  <td><?= $x->setting ?></td>
+  <td><?= $x->username ?></td>
+  <td>
+    <?= $x->email ?>
+  </td>
+  <td align="center">
+    <?= $x->handphone ?>
+  </td>
 </tr>
-<?php $no = $no + 1; ?>
 <?php } ?>

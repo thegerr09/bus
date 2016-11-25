@@ -35,7 +35,75 @@ $(function () {
 })();
 
 
+(function() {
 
+  $('form[data-delete]').on('submit', function(e) {
+    var form = $(this);
+    var url = form.prop('action');
+
+    $.ajax({
+      type: 'POST',
+      url: url,
+      dataType:'json',
+      data: form.serialize(),
+      success: function(response){
+        new PNotify({
+          title: response.title,
+          text: response.text,
+          type: response.type
+        });
+        $('#Delete').modal('hide');
+        $('#del'+response.id).fadeOut(1000);
+        update_page('Bus', 'page_bus');
+      }
+    });
+
+    e.preventDefault();
+  });
+
+})();
+
+function detail() {
+  $.ajax({
+    type: 'GET',
+    url: '<?= $this->url->get('Bus/detail') ?>',
+    dataType:'html',
+    success: function(response){
+      $('#detail_view').html(response);
+    }
+  });
+}
+
+function deleted(id, bus) {
+  $('input#id_delete').val(id);
+  $('span#bus').text(bus);
+}
+
+function update(id) {
+  $('#label_bus').text('Update Bus');
+  $('form[name="form"]').attr('action', '<?= $this->url->get('Bus/update/') ?>'+id);
+  var btn_submit = $('form[name="form"]').find('button[type="submit"]');
+  btn_submit.removeClass('btn-success');
+  btn_submit.addClass('btn-primary');
+  btn_submit.text('Save Update');
+
+  $.ajax({
+    type: 'GET',
+    url: '<?= $this->url->get('Bus/detail/') ?>'+id,
+    dataType:'json',
+    success: function(response){
+      $.each(response, function(key, value) {
+        $('form[name="form"]').find('[name="'+key+'"]')
+          .not('input[name="image"]')
+          .val(value);
+        if (key == 'image') {
+          $('input[name="remove_image"]').val(value);
+          $('#uploadPreview').attr('src', 'img/bus/'+value);
+        }
+      });
+    }
+  });
+}
 
 function list() {
   $.ajax({
@@ -45,8 +113,40 @@ function list() {
     success: function(response){
       $('#list_view').html(response);
       $('input[type="checkbox"].flat-blue').iCheck({
-        checkboxClass: 'icheckbox_flat-blue'
+        checkboxClass: 'icheckbox_flat-green'
       });
+    }
+  });
+}
+
+function status_action(id, status, clas) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Bus/status') ?>',
+    dataType:'json',
+    data: 'id='+id+'&active='+status+'&class='+clas,
+    success: function(response){
+      new PNotify({
+        title: response.title,
+        text: response.text,
+        type: response.type,
+        icon: response.icon
+      });
+      $("#button_status"+id).removeClass()
+        .addClass('fa fa-power-off cursor text-'+response.class)
+        .attr("onclick", "status_action("+id+", '"+response.status+"', '"+response.class+"')");
+
+      $("#label_status"+id).removeClass()
+        .addClass('label bg-'+response.class)
+        .text(response.label);
+
+       if (response.type == 'error') {
+         $('#kondisi'+id).hide();
+       } else {
+         $('#kondisi'+id).show();
+       }
+
+      update_page('Bus', 'page_bus');
     }
   });
 }
@@ -104,41 +204,49 @@ $('input[type="checkbox"].flat-blue').iCheck({
 });
 
 $('.usergroup').on('ifChecked', 'input[type="checkbox"].flat-blue.check', function(event) {
-	var val = $(this).val();
-	var res = val.split(",");
-	
-    $.ajax({
-      type: 'POST',
-      url: 'Acl/access',
-      dataType:'json',
-      data: 'acl_id='+res[0]+'&ug_id='+res[1],
-      success: function(response){
-        new PNotify({
-          title: response.title,
-          text: response.text,
-          type: response.type
-        });
-        update_page('Acl', 'page_acl');
-      }
-    });
+  var id = $(this).val();
+
+	$.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Bus/kondisi') ?>',
+    dataType:'json',
+    data: 'id='+id+'&kondisi=N',
+    success: function(response){
+      new PNotify({
+        title: response.title,
+        text: response.text,
+        type: response.type,
+        icon: response.icon
+      });
+      $("#status_kondisi"+id).removeClass()
+        .addClass('label bg-'+response.class)
+        .text(response.label);
+
+      update_page('Bus', 'page_bus');
+    }
+  });
 }).on('ifUnchecked', 'input[type="checkbox"].flat-blue.check', function(event) {
-	var val = $(this).val();
-	var res = val.split(",");
-	
-    $.ajax({
-      type: 'POST',
-      url: 'Acl/access',
-      dataType:'json',
-      data: 'acl_id='+res[0]+'&ug_id='+res[1],
-      success: function(response){
-        new PNotify({
-          title: response.title,
-          text: response.text,
-          type: response.type
-        });
-        update_page('Acl', 'page_acl');
-      }
-    });
+  var id = $(this).val();
+
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Bus/kondisi') ?>',
+    dataType:'json',
+    data: 'id='+id+'&kondisi=Y',
+    success: function(response){
+      new PNotify({
+        title: response.title,
+        text: response.text,
+        type: response.type,
+        icon: response.icon
+      });
+      $("#status_kondisi"+id).removeClass()
+        .addClass('label bg-'+response.class)
+        .text(response.label);
+
+      update_page('Bus', 'page_bus');
+    }
+  });
 });
 
 </script>

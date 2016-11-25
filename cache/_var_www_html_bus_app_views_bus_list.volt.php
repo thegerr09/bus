@@ -9,7 +9,7 @@
     <tr id="del<?= $x->id ?>">
       <td>
         <div class="col-md-2" align="center">
-          <?= $this->tag->image(['img/bus/' . $x->image, 'class' => 'img-rounded', 'width' => '150', 'style' => 'margin-bottom: 10px;']) ?>
+          <?= $this->tag->image(['img/bus/' . $x->image, 'class' => 'img-rounded', 'width' => '150', 'height' => '150', 'style' => 'margin-bottom: 10px;']) ?>
         </div>
         <div class="col-md-10">
           <h3><b><?= $x->type ?> | <?= $x->merk ?></b></h3>
@@ -23,7 +23,7 @@
               <td><?= $x->tanggal_pajak ?></td>
               <td width="100"><b>Nomor Polisi</b></td>
               <td> : </td>
-              <td><?= $x->nomor_polisi ?> KM</td>
+              <td><?= $x->nomor_polisi ?></td>
             </tr>
             <tr>
               <td><b>Tahun Perakitan</b></td>
@@ -53,20 +53,25 @@
           </table>
         </div>
         <div class="col-md-12">
-          <i class="fa fa-edit cursor"></i> | 
-          <i class="fa fa-trash cursor"></i> |
+          <i class="fa fa-edit cursor" data-toggle="modal" data-target="#Tambah" onclick="update(<?= $x->id ?>)"></i> | 
+          <i class="fa fa-trash cursor" data-toggle="modal" data-target="#Delete" onclick="deleted(<?= $x->id ?>, '<?= $x->nomor_polisi ?>')"></i> |
           <i class="fa fa-list cursor"></i> |
           <?php if ($x->active == 'Y') { ?>
-          <i class="fa fa-power-off text-green cursor"></i> | 
-          <span class="label bg-green">Active</span>
+          <i class="fa fa-power-off cursor text-green" style="font-size:18px;" id="button_status<?= $x->id ?>" onclick="status_action(<?= $x->id ?>, 'N', 'red')"></i> |
+          <span class="label bg-green" id="label_status<?= $x->id ?>">active</span>
             <?php if ($x->status == 1) { ?>
             <span id="kondisi">| <span class="label bg-yellow">Dalam Perjalanan ...</span></span>
             <?php } else { ?>
             <span id="kondisi">| <span class="label bg-blue">Free</span></span>
             <?php } ?>
           <?php } else { ?>
-          <i class="fa fa-power-off text-red cursor"></i> | 
-          <span class="label bg-red">Not Active</span>
+          <i class="fa fa-power-off cursor text-red" style="font-size:18px;" id="button_status<?= $x->id ?>" onclick="status_action(<?= $x->id ?>, 'Y', 'green')"></i> |
+          <span class="label bg-red" id="label_status<?= $x->id ?>">not active</span>
+            <?php if ($x->status == 1) { ?>
+            <span id="kondisi" style="display:none;">| <span class="label bg-yellow">Dalam Perjalanan ...</span></span>
+            <?php } else { ?>
+            <span id="kondisi" style="display:none;">| <span class="label bg-blue">Free</span></span>
+            <?php } ?>
           <?php } ?>
         </div>
       </td>

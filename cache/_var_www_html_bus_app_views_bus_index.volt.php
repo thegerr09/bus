@@ -56,7 +56,7 @@
                           <td><?= $x->tanggal_pajak ?></td>
                           <td width="100"><b>Nomor Polisi</b></td>
                           <td> : </td>
-                          <td><?= $x->nomor_polisi ?> KM</td>
+                          <td><?= $x->nomor_polisi ?></td>
                         </tr>
                         <tr>
                           <td><b>Tahun Perakitan</b></td>
@@ -70,14 +70,14 @@
                           <td>
                             <div class="form-group">
                             <?php if ($x->kondisi == 'N') { ?>
-                            <label>
+                            <label class="usergroup">
                               <input type="checkbox" class="flat-blue check" value="<?= $x->id ?>" checked>
-                              <span class="label bg-green">Kondisi Baik</span>
+                              <span class="label bg-green" id="status_kondisi<?= $x->id ?>">Kondisi Baik</span>
                             </label>
                             <?php } else { ?>
-                            <label>
+                            <label class="usergroup">
                               <input type="checkbox" class="flat-blue check" value="<?= $x->id ?>">
-                              <span class="label bg-red">Kondisi Rusak</span>
+                              <span class="label bg-red" id="status_kondisi<?= $x->id ?>">Kondisi Rusak</span>
                             </label>
                             <?php } ?>
                             </div>
@@ -86,20 +86,25 @@
                       </table>
                     </div>
                     <div class="col-md-12">
-                      <i class="fa fa-edit cursor"></i> | 
-                      <i class="fa fa-trash cursor"></i> |
+                      <i class="fa fa-edit cursor" data-toggle="modal" data-target="#Tambah" onclick="update(<?= $x->id ?>)"></i> | 
+                      <i class="fa fa-trash cursor" data-toggle="modal" data-target="#Delete" onclick="deleted(<?= $x->id ?>, '<?= $x->nomor_polisi ?>')"></i> |
                       <i class="fa fa-list cursor"></i> |
                       <?php if ($x->active == 'Y') { ?>
-                      <i class="fa fa-power-off text-green cursor"></i> | 
-                      <span class="label bg-green">Active</span>
+                      <i class="fa fa-power-off cursor text-green" style="font-size:18px;" id="button_status<?= $x->id ?>" onclick="status_action(<?= $x->id ?>, 'N', 'red')"></i> |
+                      <span class="label bg-green" id="label_status<?= $x->id ?>">active</span>
                         <?php if ($x->status == 1) { ?>
-                        <span id="kondisi">| <span class="label bg-yellow">Dalam Perjalanan ...</span></span>
+                        <span id="kondisi<?= $x->id ?>">| <span class="label bg-yellow">Dalam Perjalanan ...</span></span>
                         <?php } else { ?>
-                        <span id="kondisi">| <span class="label bg-blue">Free</span></span>
+                        <span id="kondisi<?= $x->id ?>">| <span class="label bg-blue">Free</span></span>
                         <?php } ?>
                       <?php } else { ?>
-                      <i class="fa fa-power-off text-red cursor"></i> | 
-                      <span class="label bg-red">Not Active</span>
+                      <i class="fa fa-power-off cursor text-red" style="font-size:18px;" id="button_status<?= $x->id ?>" onclick="status_action(<?= $x->id ?>, 'Y', 'green')"></i> |
+                      <span class="label bg-red" id="label_status<?= $x->id ?>">not active</span>
+                        <?php if ($x->status == 1) { ?>
+                        <span id="kondisi" style="display:none;">| <span class="label bg-yellow">Dalam Perjalanan ...</span></span>
+                        <?php } else { ?>
+                        <span id="kondisi" style="display:none;">| <span class="label bg-blue">Free</span></span>
+                        <?php } ?>
                       <?php } ?>
                     </div>
                   </td>
@@ -123,7 +128,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form(0)">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="label_driver">Input Bus</h4>
+        <h4 class="modal-title" id="label_bus">Input Bus</h4>
       </div>
 
       <form name="form" action="<?= $this->url->get('Bus/input') ?>" method="POST" enctype="multipart/form-data" data-remote="data-remote">
@@ -213,6 +218,30 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="Delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Delete Bus</h4>
+      </div>
+
+      <form name="delete" action="<?= $this->url->get('Bus/delete') ?>" method="POST" data-delete="data-delete">
+        <div class="modal-body">
+          <input type="hidden" name="id" id="id_delete" value="">
+          <p>Apakah anda yakin akan menghapus Bus "<span id="bus" class="text-red"></span>" ?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default close_btn" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
 
 <!-- include JS -->
 <script>
@@ -252,7 +281,75 @@ $(function () {
 })();
 
 
+(function() {
 
+  $('form[data-delete]').on('submit', function(e) {
+    var form = $(this);
+    var url = form.prop('action');
+
+    $.ajax({
+      type: 'POST',
+      url: url,
+      dataType:'json',
+      data: form.serialize(),
+      success: function(response){
+        new PNotify({
+          title: response.title,
+          text: response.text,
+          type: response.type
+        });
+        $('#Delete').modal('hide');
+        $('#del'+response.id).fadeOut(1000);
+        update_page('Bus', 'page_bus');
+      }
+    });
+
+    e.preventDefault();
+  });
+
+})();
+
+function detail() {
+  $.ajax({
+    type: 'GET',
+    url: '<?= $this->url->get('Bus/detail') ?>',
+    dataType:'html',
+    success: function(response){
+      $('#detail_view').html(response);
+    }
+  });
+}
+
+function deleted(id, bus) {
+  $('input#id_delete').val(id);
+  $('span#bus').text(bus);
+}
+
+function update(id) {
+  $('#label_bus').text('Update Bus');
+  $('form[name="form"]').attr('action', '<?= $this->url->get('Bus/update/') ?>'+id);
+  var btn_submit = $('form[name="form"]').find('button[type="submit"]');
+  btn_submit.removeClass('btn-success');
+  btn_submit.addClass('btn-primary');
+  btn_submit.text('Save Update');
+
+  $.ajax({
+    type: 'GET',
+    url: '<?= $this->url->get('Bus/detail/') ?>'+id,
+    dataType:'json',
+    success: function(response){
+      $.each(response, function(key, value) {
+        $('form[name="form"]').find('[name="'+key+'"]')
+          .not('input[name="image"]')
+          .val(value);
+        if (key == 'image') {
+          $('input[name="remove_image"]').val(value);
+          $('#uploadPreview').attr('src', 'img/bus/'+value);
+        }
+      });
+    }
+  });
+}
 
 function list() {
   $.ajax({
@@ -262,8 +359,40 @@ function list() {
     success: function(response){
       $('#list_view').html(response);
       $('input[type="checkbox"].flat-blue').iCheck({
-        checkboxClass: 'icheckbox_flat-blue'
+        checkboxClass: 'icheckbox_flat-green'
       });
+    }
+  });
+}
+
+function status_action(id, status, clas) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Bus/status') ?>',
+    dataType:'json',
+    data: 'id='+id+'&active='+status+'&class='+clas,
+    success: function(response){
+      new PNotify({
+        title: response.title,
+        text: response.text,
+        type: response.type,
+        icon: response.icon
+      });
+      $("#button_status"+id).removeClass()
+        .addClass('fa fa-power-off cursor text-'+response.class)
+        .attr("onclick", "status_action("+id+", '"+response.status+"', '"+response.class+"')");
+
+      $("#label_status"+id).removeClass()
+        .addClass('label bg-'+response.class)
+        .text(response.label);
+
+       if (response.type == 'error') {
+         $('#kondisi'+id).hide();
+       } else {
+         $('#kondisi'+id).show();
+       }
+
+      update_page('Bus', 'page_bus');
     }
   });
 }
@@ -321,41 +450,49 @@ $('input[type="checkbox"].flat-blue').iCheck({
 });
 
 $('.usergroup').on('ifChecked', 'input[type="checkbox"].flat-blue.check', function(event) {
-	var val = $(this).val();
-	var res = val.split(",");
-	
-    $.ajax({
-      type: 'POST',
-      url: 'Acl/access',
-      dataType:'json',
-      data: 'acl_id='+res[0]+'&ug_id='+res[1],
-      success: function(response){
-        new PNotify({
-          title: response.title,
-          text: response.text,
-          type: response.type
-        });
-        update_page('Acl', 'page_acl');
-      }
-    });
+  var id = $(this).val();
+
+	$.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Bus/kondisi') ?>',
+    dataType:'json',
+    data: 'id='+id+'&kondisi=N',
+    success: function(response){
+      new PNotify({
+        title: response.title,
+        text: response.text,
+        type: response.type,
+        icon: response.icon
+      });
+      $("#status_kondisi"+id).removeClass()
+        .addClass('label bg-'+response.class)
+        .text(response.label);
+
+      update_page('Bus', 'page_bus');
+    }
+  });
 }).on('ifUnchecked', 'input[type="checkbox"].flat-blue.check', function(event) {
-	var val = $(this).val();
-	var res = val.split(",");
-	
-    $.ajax({
-      type: 'POST',
-      url: 'Acl/access',
-      dataType:'json',
-      data: 'acl_id='+res[0]+'&ug_id='+res[1],
-      success: function(response){
-        new PNotify({
-          title: response.title,
-          text: response.text,
-          type: response.type
-        });
-        update_page('Acl', 'page_acl');
-      }
-    });
+  var id = $(this).val();
+
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Bus/kondisi') ?>',
+    dataType:'json',
+    data: 'id='+id+'&kondisi=Y',
+    success: function(response){
+      new PNotify({
+        title: response.title,
+        text: response.text,
+        type: response.type,
+        icon: response.icon
+      });
+      $("#status_kondisi"+id).removeClass()
+        .addClass('label bg-'+response.class)
+        .text(response.label);
+
+      update_page('Bus', 'page_bus');
+    }
+  });
 });
 
 </script>

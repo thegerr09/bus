@@ -67,9 +67,9 @@
                             <i class="fa fa-power-off cursor text-green" style="font-size:18px;" id="button_status{{ x.id }}" onclick="status_action({{ x.id }}, 'N', 'red')"></i> |
                             <span class="label bg-green" id="label_status{{ x.id }}">active</span>
                               {% if x.status == 1 %}
-                              <span id="kondisi">| <span class="label bg-yellow">Dalam Perjalanan ...</span></span>
+                              <span id="kondisi{{ x.id }}">| <span class="label bg-yellow">Dalam Perjalanan ...</span></span>
                               {% else %}
-                              <span id="kondisi">| <span class="label bg-blue">Free</span></span>
+                              <span id="kondisi{{ x.id }}">| <span class="label bg-blue">Free</span></span>
                               {% endif %}
                             {% else %}
                             <i class="fa fa-power-off cursor text-red" style="font-size:18px;" id="button_status{{ x.id }}" onclick="status_action({{ x.id }}, 'Y', 'green')"></i> |
