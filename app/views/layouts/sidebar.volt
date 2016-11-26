@@ -77,7 +77,7 @@
         </ul>
       </li>
       <li>
-        <a href="#Dashboard" onclick="return load_page('#','#','#')">
+        <a href="#Booking" onclick="return load_page('page_booking','Booking','page_booking')">
           <i class="fa fa-book"></i> <span>Booking</span>
         </a>
       </li>

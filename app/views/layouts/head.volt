@@ -32,6 +32,7 @@
   {{ javascript_include("plugins/pnotify/pnotify.nonblock.js") }}
 
   <!-- dataTables css -->
+  {{ stylesheet_link("css/datatable-css.min.css") }}
   {{ stylesheet_link("plugins/datatables/jquery.dataTables.min.css") }}
   {{ stylesheet_link("plugins/datatables/buttons.bootstrap.min.css") }}
   {{ stylesheet_link("plugins/datatables/fixedHeader.bootstrap.min.css") }}
@@ -44,6 +45,7 @@
   {{ javascript_include("plugins/datatables/dataTables.buttons.min.js") }}
   {{ javascript_include("plugins/datatables/buttons.bootstrap.min.js") }}
   {{ javascript_include("plugins/datatables/jszip.min.js") }}
+  {{ javascript_include("plugins/datatables/pdfmake.min.js") }}
   {{ javascript_include("plugins/datatables/vfs_fonts.js") }}
   {{ javascript_include("plugins/datatables/buttons.html5.min.js") }}
   {{ javascript_include("plugins/datatables/buttons.print.min.js") }}

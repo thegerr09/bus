@@ -32,6 +32,7 @@
   <?= $this->tag->javascriptInclude('plugins/pnotify/pnotify.nonblock.js') ?>
 
   <!-- dataTables css -->
+  <?= $this->tag->stylesheetLink('css/datatable-css.min.css') ?>
   <?= $this->tag->stylesheetLink('plugins/datatables/jquery.dataTables.min.css') ?>
   <?= $this->tag->stylesheetLink('plugins/datatables/buttons.bootstrap.min.css') ?>
   <?= $this->tag->stylesheetLink('plugins/datatables/fixedHeader.bootstrap.min.css') ?>
@@ -44,6 +45,7 @@
   <?= $this->tag->javascriptInclude('plugins/datatables/dataTables.buttons.min.js') ?>
   <?= $this->tag->javascriptInclude('plugins/datatables/buttons.bootstrap.min.js') ?>
   <?= $this->tag->javascriptInclude('plugins/datatables/jszip.min.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/datatables/pdfmake.min.js') ?>
   <?= $this->tag->javascriptInclude('plugins/datatables/vfs_fonts.js') ?>
   <?= $this->tag->javascriptInclude('plugins/datatables/buttons.html5.min.js') ?>
   <?= $this->tag->javascriptInclude('plugins/datatables/buttons.print.min.js') ?>
