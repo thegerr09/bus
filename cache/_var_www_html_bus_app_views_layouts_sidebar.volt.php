@@ -70,6 +70,11 @@
             </a>
           </li>
           <li style="cursor: pointer;">
+            <a onclick="return load_page('page_tarif','Tarif','page_tarif')">
+              <i class="fa fa-circle-o"></i> Tarif
+            </a>
+          </li>
+          <li style="cursor: pointer;">
             <a onclick="return load_page('page_setting','Setting','page_setting')">
               <i class="fa fa-circle-o"></i> Setting
             </a>

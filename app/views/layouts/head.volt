@@ -32,7 +32,6 @@
   {{ javascript_include("plugins/pnotify/pnotify.nonblock.js") }}
 
   <!-- dataTables css -->
-  {{ stylesheet_link("css/datatable-css.min.css") }}
   {{ stylesheet_link("plugins/datatables/jquery.dataTables.min.css") }}
   {{ stylesheet_link("plugins/datatables/buttons.bootstrap.min.css") }}
   {{ stylesheet_link("plugins/datatables/fixedHeader.bootstrap.min.css") }}

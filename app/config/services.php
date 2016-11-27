@@ -112,3 +112,10 @@ $di->setShared('session', function () {
 $di->set('AclAction', function(){
     return new AclAction();
 });
+
+/**
+ * Acl View
+ */
+$di->set('Helpers', function(){
+    return new Helpers();
+});

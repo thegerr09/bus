@@ -35,7 +35,6 @@
   <?= $this->tag->javascriptInclude('plugins/pnotify/pnotify.nonblock.js') ?>
 
   <!-- dataTables css -->
-  <?= $this->tag->stylesheetLink('css/datatable-css.min.css') ?>
   <?= $this->tag->stylesheetLink('plugins/datatables/jquery.dataTables.min.css') ?>
   <?= $this->tag->stylesheetLink('plugins/datatables/buttons.bootstrap.min.css') ?>
   <?= $this->tag->stylesheetLink('plugins/datatables/fixedHeader.bootstrap.min.css') ?>
@@ -202,6 +201,11 @@
           <li style="cursor: pointer;">
             <a onclick="return load_page('page_bus','Bus','page_bus')">
               <i class="fa fa-circle-o"></i> BUS
+            </a>
+          </li>
+          <li style="cursor: pointer;">
+            <a onclick="return load_page('page_tarif','Tarif','page_tarif')">
+              <i class="fa fa-circle-o"></i> Tarif
             </a>
           </li>
           <li style="cursor: pointer;">

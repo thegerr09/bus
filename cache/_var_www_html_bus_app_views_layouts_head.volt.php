@@ -32,7 +32,6 @@
   <?= $this->tag->javascriptInclude('plugins/pnotify/pnotify.nonblock.js') ?>
 
   <!-- dataTables css -->
-  <?= $this->tag->stylesheetLink('css/datatable-css.min.css') ?>
   <?= $this->tag->stylesheetLink('plugins/datatables/jquery.dataTables.min.css') ?>
   <?= $this->tag->stylesheetLink('plugins/datatables/buttons.bootstrap.min.css') ?>
   <?= $this->tag->stylesheetLink('plugins/datatables/fixedHeader.bootstrap.min.css') ?>

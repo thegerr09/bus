@@ -280,7 +280,6 @@ $(function () {
 
 })();
 
-
 (function() {
 
   $('form[data-delete]').on('submit', function(e) {
