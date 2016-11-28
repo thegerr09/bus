@@ -13,6 +13,14 @@
           <div class="row">
             <div class="col-md-4">
               <div class="form-group">
+                <label>Ukuran</label>
+                <select name="ukuran" class="form-control">
+                  <option value="">Ukuran BUS</option>
+                  <option value="medium">BUS MEDIUM</option>
+                  <option value="big">BUS BIG</option>
+                </select>
+              </div>
+              <div class="form-group">
                 <label>Nomor Polisi</label>
                 <input type="text" name="nomor_polisi" class="form-control" placeholder="Nomor Polisi">
               </div>
@@ -22,7 +30,7 @@
               </div>
               <div class="form-group">
                 <label>Alamat</label>
-                <textarea class="form-control" style="height: 110px;" name="alamat" placeholder="Alamat ..."></textarea>
+                <textarea class="form-control" name="alamat" placeholder="Alamat ..."></textarea>
               </div>
               <div class="form-group">
                 <label>Merk</label>

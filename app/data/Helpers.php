@@ -36,14 +36,27 @@ class Helpers
 		return $tag;
 	}
 
-	public static function tagRoute($label)
+	public static function area()
 	{
-		$route = Route::find(["conditions" => "deleted = 'N'"]);
-		$tag   = '<option value="">' . $label . '</option>';
-		foreach ($route as $key => $value) {
-			$tag .= '<option value="' . $value->id . '">' . $value->asal . ' | ' . $value->tujuan . '</option>';
-		}
-		return $tag;
+		$setting = Setting::findFirst("name = 'area'");
+		return (array) json_decode($setting->setting);
+	}
+
+	public static function areaJson()
+	{
+		$setting = Setting::findFirst("name = 'area'");
+		return $setting->setting;
+	}
+
+	public static function kodeBooking()
+	{
+        $char       = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $lengthChar = strlen($char);
+        $kode 		= '';
+        for ($i = 0; $i < 5; $i++) {
+            $kode .= $char[rand(0, $lengthChar - 1)];
+        }
+        return $kode;
 	}
 
 }

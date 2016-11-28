@@ -11,6 +11,12 @@
       <form name="route" action="{{ url('Tarif/inputRoute') }}" method="POST" data-remote="data-remote">
         <div class="modal-body">
           <div class="form-group">
+            <label>Area</label>
+            <select name="area" class="form-control">
+              {{ Helpers.tagSetting('area', 'Pilih Area', '') }}
+            </select>
+          </div>
+          <div class="form-group">
             <label>Kota Asal</label>
             <input type="text" name="asal" class="form-control" placeholder="Kota Asal">
           </div>

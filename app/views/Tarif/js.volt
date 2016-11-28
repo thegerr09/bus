@@ -76,11 +76,22 @@
 })();
 
 
-function updateRoute(id, asal, tujuan) {
-    $('#label_route').text('Update Route');
+function updateRoute(id) {
+  $('#label_route').text('Update Route');
 	$('form[name="route"]').attr('action', '{{ url('Tarif/updateRoute/') }}'+id);
-	$('form[name="route"] input[name="asal"]').val(asal);
-	$('form[name="route"] input[name="tujuan"]').val(tujuan);
+	$.ajax({
+    type: 'POST',
+    url: '{{ url('Tarif/detail') }}',
+    dataType:'json',
+    data: 'id=' + id + '&type=route',
+    success: function(response){
+      $.each(response, function(key, value) {
+        $('form[name="route"]').find('[name="'+key+'"]')
+          .not('input[name="area"]')
+          .val(value);
+      });
+    }
+  });
 }
 
 function deleteRoute(id, deleted) {
@@ -129,6 +140,19 @@ function listTarif() {
     dataType:'html',
     success: function(response){
       $('#list_tarif').html(response);
+    }
+  });
+}
+
+function searchRoute(that) {
+  var val = $(that).val();
+  $('.route_id').collapse();
+  $.ajax({
+    type: 'GET',
+    url: '{{ url('Tarif/routeList/') }}' + val,
+    dataType:'html',
+    success: function(response){
+      $('#route_list').html(response);
     }
   });
 }

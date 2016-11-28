@@ -7,8 +7,8 @@ class TarifController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-    	$this->view->tarif = Tarif::find(["conditions" => "deleted = 'N'"]);
-    	$this->view->route = Route::find(["conditions" => "deleted = 'N'"]);
+        $this->view->tarif = Tarif::find(["conditions" => "deleted = 'N'"]);
+        $this->view->route = Route::find(["conditions" => "deleted = 'N'"]);
         $this->view->pick("Tarif/index");
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
@@ -201,9 +201,28 @@ class TarifController extends \Phalcon\Mvc\Controller
     public function detailAction()
     {
         $this->view->disable();
-        $id    = $this->request->getPost('id');
-        $route = LocationAndTarif::findFirst($id);
-        return json_encode($route);
+        $type = $this->request->getPost('type');
+        
+        if ($type == 'route') {
+            $id     = $this->request->getPost('id');
+            $result = Route::findFirst($id);
+        } else {
+            $id     = $this->request->getPost('id');
+            $result = LocationAndTarif::findFirst($id);
+        }
+        
+        return json_encode($result);
+    }
+
+    public function routeListAction($area)
+    {
+        $this->view->disable();
+        $route = Route::find(["conditions" => "area LIKE '%$area%' AND deleted = 'N'"]);
+        $tag   = '<option value="">Pilih Route</option>';
+        foreach ($route as $value) {
+            $tag .= '<option value="' . $value->id . '">' . $value->asal . ' | ' . $value->tujuan . '</option>';
+        }
+        return $tag;
     }
 
 }
