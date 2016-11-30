@@ -6,8 +6,8 @@ $(document).ready(function() {
 		scrollX:        true,
 		scrollCollapse: true,
 		paging:         false,
-      	lengthChange: 	false,
-        ordering: 		  false,
+  	lengthChange: 	false,
+    ordering: 		  false,
 		columnDefs: [
 	        { "width": "25px",  "targets": [0] },
 	        { "width": "128px", "targets": [1] },

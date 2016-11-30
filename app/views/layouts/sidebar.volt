@@ -92,7 +92,7 @@
         </a>
       </li>
       <li>
-        <a href="#Dashboard" onclick="return load_page('#','#','#')">
+        <a href="#Dashboard" onclick="return load_page('page_grafik_order','GrafikOrder','page_grafik_order')">
           <i class="fa fa-area-chart"></i> <span>Grafik Order</span>
         </a>
       </li>

@@ -1,5 +1,5 @@
 <style>
-.clear,.dataTables_scroll{clear:both}.dataTables_wrapper{position:relative;clear:both;zoom:1}.dataTables_processing{position:absolute;top:50%;left:50%;width:250px;height:30px;margin-left:-125px;margin-top:-15px;padding:14px 0 2px;border:1px solid #ddd;text-align:center;color:#999;font-size:14px;background-color:#fff}.dataTables_length{width:40%;float:left}.dataTables_filter{width:50%;float:right;text-align:right}.dataTables_info{width:60%;float:left}.dataTables_paginate{float:right;text-align:right}table.dataTable td.focus,table.dataTable th.focus{outline:#1ABB9C solid 2px!important;outline-offset:-1px}.dataTables_scrollBody{-webkit-overflow-scrolling:touch}.top .dataTables_info{float:none}.dataTables_empty{text-align:center}.example_alt_pagination div.dataTables_info{width:40%}td {color:#555;}.fontawe{size:16px;}hr{margin-top:4px;margin-bottom:3px;}
+.clear,.dataTables_scroll{clear:both}.dataTables_wrapper{position:relative;clear:both;zoom:1}.dataTables_processing{position:absolute;top:50%;left:50%;width:250px;height:30px;margin-left:-125px;margin-top:-15px;padding:14px 0 2px;border:1px solid #ddd;text-align:center;color:#999;font-size:14px;background-color:#fff}.dataTables_length{width:40%;float:left}.dataTables_filter{width:50%;float:right;text-align:right}.dataTables_info{width:60%;float:left}.dataTables_paginate{float:right;text-align:right}table.dataTable td.focus,table.dataTable th.focus{outline:#1ABB9C solid 2px!important;outline-offset:-1px}.dataTables_scrollBody{-webkit-overflow-scrolling:touch}.top .dataTables_info{float:none}.dataTables_empty{text-align:center}.example_alt_pagination div.dataTables_info{width:40%}td {color:#555;}hr{margin-top:4px;margin-bottom:3px;}.cursor{cursor:pointer;}
 </style>
 <section class="content-header animated fadeIn">
   <h1>Booking</h1>
@@ -17,7 +17,7 @@
         <div class="box-header with-border">
           <h3 class="box-title">List Booking</h3>
           <div class="box-tools pull-right" style="margin-top:2px;">
-            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#Tambah" onclick="new_booking()">
+            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#Tambah" onclick="clear_form()">
               <i class="fa fa-plus-circle"></i> Tambah
             </button>
           </div>
@@ -30,194 +30,64 @@
                   <th width="160">Action</th>
                   <th width="160">Booking</th>
                   <th width="160">Waktu Sewa</th>
-                  <th width="230">Penyewa</th>
-                  <th width="180">Kendaraan</th>
+                  <th width="210">Penyewa</th>
+                  <th width="200">Kendaraan</th>
                   <th width="190">Biaya</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
+              <tbody id="list_view">
+                {% for x in booking %}
+                <tr id="del{{ x.id }}" {% if x.success == 'Y' %} class="bg-success" {% elseif x.batal == 'Y' %} class="bg-info" {% elseif x.dp > 0 %} class="bg-info" {% endif %}>
                   <td align="center">
-                    <button type="button" class="btn btn-warning btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Detail">
-                      <i class="fa fa-list"></i>
+                    <button type="button" class="btn btn-warning btn-xs" onclick="detail()">
+                      <i class="fa fa-list" data-toggle="tooltip" data-placement="top" title="Detail"></i>
                     </button>&nbsp;
-                    <button type="button" class="btn btn-primary btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Edit">
-                      <i class="fa fa-edit"></i>
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick="edit({{ x.id }})">
+                      <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
                     </button>&nbsp;
-                    <button type="button" class="btn btn-danger btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Delete">
-                      <i class="fa fa-trash"></i>
+                    <button type="button" class="btn btn-danger btn-xs" onclick="deleted()">
+                      <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i>
                     </button>&nbsp;
-                    <button type="button" class="btn btn-default btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Print">
-                      <i class="fa fa-print"></i>
+                    <button type="button" class="btn btn-default btn-xs" onclick="print()">
+                      <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print"></i>
                     </button>&nbsp;
                     <hr>
-                    <span class="label bg-green"><i class="fa fa-check"></i> SEWA</span>
-                    <span class="label bg-red"><i class="fa fa-remove"></i> BATAL</span>
+                    <span class="label bg-green cursor">
+                      <span data-toggle="tooltip" data-placement="top" title="Lanjut Sewa"><i class="fa fa-check"></i> SEWA</span>
+                    </span>&nbsp;
+                    <span class="label bg-red cursor">
+                      <span data-toggle="tooltip" data-placement="top" title="Batal Sewa"><i class="fa fa-remove"></i> BATAL</span>
+                    </span>
                   </td>
                   <td>
-                    <span class="label bg-blue">kode</span> : <b>{{ Helpers.kodeBooking() }}</b>
+                    <span class="label bg-blue">kode</span> : <b>{{ x.kode }}</b>
                     <hr>
-                    <span class="label bg-blue" style="padding-right: 18px;">tgl</span> : 23 Nov 2016
+                    <span class="label bg-blue" style="padding-right: 18px;">tgl</span> : {{ x.tanggal_booking }}
                   </td>
                   <td>
-                    <span class="label bg-blue">start</span> : 23 Nov 2016
+                    <span class="label bg-blue">start</span> : {{ x.tanggal_mulai }}
                     <hr>
-                    <span class="label bg-blue">back</span> : 26 Nov 2016
+                    <span class="label bg-blue">back</span> : {{ x.tanggal_kembali }}
                   </td>
                   <td>
-                    <span class="label bg-blue">nama</span> : Saipul HIdayat Theger
+                    <span class="label bg-blue">nama</span> : {{ x.nama }}
                     <hr>
-                    <span class="label bg-blue" style="padding-right: 15px;">telp</span> : 085768249362
+                    <span class="label bg-blue" style="padding-right: 15px;">telp</span> : {{ x.telpon }}
                   </td>
                   <td>
-                    <span class="label bg-blue" style="padding-right: 10px;">type bus</span> : Medium
+                    <span class="label bg-blue" style="padding-right: 27px;">type bus</span> : {{ x.type_bus }}
                     <hr>
-                    <span class="label bg-blue">kapasitas</span> : 30 Orang
+                    <span class="label bg-blue">nomor polisi</span> : {{ Helpers.nomorPolisi(x.bus) }}
                   </td>
                   <td>
                     <span class="label bg-blue">tarif</span> : 
-                    Rp. <span class="pull-right">1.000.000,-</span>
+                    Rp. <span class="pull-right">{{ Helpers.number(x.tarif) }},-</span>
                     <hr>
                     <span class="label bg-blue" style="padding-right: 14px;">dp</span> : 
-                    Rp. <span class="pull-right">200.000,-</span>
+                    Rp. <span class="pull-right">{{ Helpers.number(x.dp) }},-</span>
                   </td>
                 </tr>
-                <tr class="bg-info">
-                  <td align="center">
-                    <button type="button" class="btn btn-warning btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Detail">
-                      <i class="fa fa-list"></i>
-                    </button>&nbsp;
-                    <button type="button" class="btn btn-primary btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Edit">
-                      <i class="fa fa-edit"></i>
-                    </button>&nbsp;
-                    <button type="button" class="btn btn-danger btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Delete">
-                      <i class="fa fa-trash"></i>
-                    </button>&nbsp;
-                    <button type="button" class="btn btn-default btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Print">
-                      <i class="fa fa-print"></i>
-                    </button>&nbsp;
-                    <hr>
-                    <span class="label bg-green"><i class="fa fa-check"></i> SEWA</span>
-                    <span class="label bg-red"><i class="fa fa-remove"></i> BATAL</span>
-                  </td>
-                  <td>
-                    <span class="label bg-blue">kode</span> : <b>{{ Helpers.kodeBooking() }}</b>
-                    <hr>
-                    <span class="label bg-blue" style="padding-right: 18px;">tgl</span> : 23 Nov 2016
-                  </td>
-                  <td>
-                    <span class="label bg-blue">start</span> : 23 Nov 2016
-                    <hr>
-                    <span class="label bg-blue">back</span> : 26 Nov 2016
-                  </td>
-                  <td>
-                    <span class="label bg-blue">nama</span> : Saipul HIdayat Theger
-                    <hr>
-                    <span class="label bg-blue" style="padding-right: 15px;">telp</span> : 085768249362
-                  </td>
-                  <td>
-                    <span class="label bg-blue" style="padding-right: 10px;">type bus</span> : Medium
-                    <hr>
-                    <span class="label bg-blue">kapasitas</span> : 30 Orang
-                  </td>
-                  <td>
-                    <span class="label bg-blue">tarif</span> : 
-                    Rp. <span class="pull-right">1.000.000,-</span>
-                    <hr>
-                    <span class="label bg-blue" style="padding-right: 14px;">dp</span> : 
-                    Rp. <span class="pull-right">200.000,-</span>
-                  </td>
-                </tr>
-                <tr class="bg-success">
-                  <td align="center">
-                    <button type="button" class="btn btn-warning btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Detail">
-                      <i class="fa fa-list"></i>
-                    </button>&nbsp;
-                    <button type="button" class="btn btn-primary btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Edit" disabled>
-                      <i class="fa fa-edit"></i>
-                    </button>&nbsp;
-                    <button type="button" class="btn btn-danger btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Delete">
-                      <i class="fa fa-trash"></i>
-                    </button>&nbsp;
-                    <button type="button" class="btn btn-default btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Print">
-                      <i class="fa fa-print"></i>
-                    </button>&nbsp;
-                    <hr>
-                    <span class="label bg-green"><i class="fa fa-check"></i>LANJUT SEWA</span>
-                  </td>
-                  <td>
-                    <span class="label bg-blue">kode</span> : <b>{{ Helpers.kodeBooking() }}</b>
-                    <hr>
-                    <span class="label bg-blue" style="padding-right: 18px;">tgl</span> : 23 Nov 2016
-                  </td>
-                  <td>
-                    <span class="label bg-blue">start</span> : 23 Nov 2016
-                    <hr>
-                    <span class="label bg-blue">back</span> : 26 Nov 2016
-                  </td>
-                  <td>
-                    <span class="label bg-blue">nama</span> : Saipul HIdayat Theger
-                    <hr>
-                    <span class="label bg-blue" style="padding-right: 15px;">telp</span> : 085768249362
-                  </td>
-                  <td>
-                    <span class="label bg-blue" style="padding-right: 10px;">type bus</span> : Medium
-                    <hr>
-                    <span class="label bg-blue">kapasitas</span> : 30 Orang
-                  </td>
-                  <td>
-                    <span class="label bg-blue">tarif</span> : 
-                    Rp. <span class="pull-right">1.000.000,-</span>
-                    <hr>
-                    <span class="label bg-blue" style="padding-right: 14px;">dp</span> : 
-                    Rp. <span class="pull-right">200.000,-</span>
-                  </td>
-                </tr>
-                <tr class="bg-danger">
-                  <td align="center">
-                    <button type="button" class="btn btn-warning btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Detail">
-                      <i class="fa fa-list"></i>
-                    </button>&nbsp;
-                    <button type="button" class="btn btn-primary btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Edit" disabled>
-                      <i class="fa fa-edit"></i>
-                    </button>&nbsp;
-                    <button type="button" class="btn btn-danger btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Delete">
-                      <i class="fa fa-trash"></i>
-                    </button>&nbsp;
-                    <button type="button" class="btn btn-default btn-xs fontawe" data-toggle="tooltip" data-placement="top" title="Print">
-                      <i class="fa fa-print"></i>
-                    </button>&nbsp;
-                    <hr>
-                    <span class="label bg-red"><i class="fa fa-remove"></i> BATAL BOOKING</span>
-                  </td>
-                  <td>
-                    <span class="label bg-blue">kode</span> : <b>{{ Helpers.kodeBooking() }}</b>
-                    <hr>
-                    <span class="label bg-blue" style="padding-right: 18px;">tgl</span> : 23 Nov 2016
-                  </td>
-                  <td>
-                    <span class="label bg-blue">start</span> : 23 Nov 2016
-                    <hr>
-                    <span class="label bg-blue">back</span> : 26 Nov 2016
-                  </td>
-                  <td>
-                    <span class="label bg-blue">nama</span> : Saipul HIdayat Theger
-                    <hr>
-                    <span class="label bg-blue" style="padding-right: 15px;">telp</span> : 085768249362
-                  </td>
-                  <td>
-                    <span class="label bg-blue" style="padding-right: 10px;">type bus</span> : Medium
-                    <hr>
-                    <span class="label bg-blue">kapasitas</span> : 30 Orang
-                  </td>
-                  <td>
-                    <span class="label bg-blue">tarif</span> : 
-                    Rp. <span class="pull-right">1.000.000,-</span>
-                    <hr>
-                    <span class="label bg-blue" style="padding-right: 14px;">dp</span> : 
-                    Rp. <span class="pull-right">200.000,-</span>
-                  </td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>

@@ -93,6 +93,8 @@
                       <i class="fa fa-power-off cursor text-green" style="font-size:18px;" id="button_status{{ x.id }}" onclick="status_action({{ x.id }}, 'N', 'red')"></i> |
                       <span class="label bg-green" id="label_status{{ x.id }}">active</span>
                         {% if x.status == 1 %}
+                        <span id="kondisi{{ x.id }}">| <span class="label bg-purple">Sudah Dibooking</span></span>
+                        {% elseif x.status == 2 %}
                         <span id="kondisi{{ x.id }}">| <span class="label bg-yellow">Dalam Perjalanan ...</span></span>
                         {% else %}
                         <span id="kondisi{{ x.id }}">| <span class="label bg-blue">Free</span></span>
@@ -101,6 +103,8 @@
                       <i class="fa fa-power-off cursor text-red" style="font-size:18px;" id="button_status{{ x.id }}" onclick="status_action({{ x.id }}, 'Y', 'green')"></i> |
                       <span class="label bg-red" id="label_status{{ x.id }}">not active</span>
                         {% if x.status == 1 %}
+                        <span id="kondisi" style="display:none;">| <span class="label bg-purple">Sudah Dibooking</span></span>
+                        {% elseif x.status == 2 %}
                         <span id="kondisi" style="display:none;">| <span class="label bg-yellow">Dalam Perjalanan ...</span></span>
                         {% else %}
                         <span id="kondisi" style="display:none;">| <span class="label bg-blue">Free</span></span>
