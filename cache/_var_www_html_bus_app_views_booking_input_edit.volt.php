@@ -1,4 +1,4 @@
-<div class="modal fade" id="Tambah" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="Tambah" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -204,6 +204,7 @@
                   </span>
                   <select name="type_booking" class="form-control" onchange="get_harga(this)">
                     <option value="">Booking Dari</option>
+                    <?= $this->Helpers->tagSetting('Booking', 'Booking Dari', '') ?>
                   </select>
                 </div>
               </div>

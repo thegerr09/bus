@@ -1,10 +1,11 @@
 <?php foreach ($booking as $x) { ?>
-<tr id="del<?= $x->id ?>" <?php if ($x->success == 'Y') { ?> class="bg-success" <?php } elseif ($x->batal == 'Y') { ?> class="bg-info" <?php } elseif ($x->dp > 0) { ?> class="bg-info" <?php } ?>>
+<tr id="del<?= $x->id ?>" <?php if ($x->success == 'Y') { ?> class="bg-success" <?php } elseif ($x->batal == 'Y') { ?> class="bg-danger" <?php } elseif ($x->dp > 0) { ?> class="bg-info" <?php } ?>>
   <td align="center">
     <button type="button" class="btn btn-warning btn-xs" onclick="detail()">
       <i class="fa fa-list" data-toggle="tooltip" data-placement="top" title="Detail"></i>
     </button>&nbsp;
-    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick="edit(<?= $x->id ?>)">
+    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick="edit(<?= $x->id ?>)"
+    <?php if ($x->success == 'Y' || $x->batal == 'Y') { ?> disabled <?php } ?>>
       <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
     </button>&nbsp;
     <button type="button" class="btn btn-danger btn-xs" onclick="deleted()">
@@ -14,12 +15,18 @@
       <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print"></i>
     </button>&nbsp;
     <hr>
-    <span class="label bg-green cursor">
-      <span data-toggle="tooltip" data-placement="top" title="Lanjut Sewa"><i class="fa fa-check"></i> SEWA</span>
-    </span>&nbsp;
-    <span class="label bg-red cursor">
-      <span data-toggle="tooltip" data-placement="top" title="Batal Sewa"><i class="fa fa-remove"></i> BATAL</span>
-    </span>
+    <?php if ($x->success == 'Y') { ?> 
+      <span class="label bg-green"><i class="fa fa-check"></i> LANJUT SEWA</span>
+    <?php } elseif ($x->batal == 'Y') { ?>
+      <span class="label bg-red"><i class="fa fa-remove"></i> BATAL SEWA</span>
+    <?php } else { ?>
+      <span class="label bg-green cursor" data-toggle="modal" data-target="#Tambah" onclick="next(<?= $x->id ?>)">
+        <span data-toggle="tooltip" data-placement="top" title="Lanjut Sewa"><i class="fa fa-check"></i> SEWA</span>
+      </span>&nbsp;
+      <span class="label bg-red cursor" data-toggle="modal" data-target="#Cencle" onclick="cencled(<?= $x->id ?>, '<?= $x->kode ?>')">
+        <span data-toggle="tooltip" data-placement="top" title="Batal Sewa"><i class="fa fa-remove"></i> BATAL</span>
+      </span>
+    <?php } ?>
   </td>
   <td>
     <span class="label bg-blue">kode</span> : <b><?= $x->kode ?></b>

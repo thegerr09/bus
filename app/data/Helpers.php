@@ -71,31 +71,22 @@ class Helpers
 
     public static function viewGrafik($tgl, $id)
     {
-        $booking = Booking::findFirst([
-            "columns" => "batal, success, dp, tanggal_mulai, tanggal_kembali",
-            "conditions" => "bus = '$id'"
-        ]);
-        
-		$start    = new DateTime($booking['tanggal_mulai']);
-		$end      = new DateTime($booking['tanggal_kembali']);
-		$interval = new DateInterval('P1D');
-		$period   = new DatePeriod($start, $interval, $end);
-		$result = '';
-		
-		foreach ($period as $day) {
-			if ($tgl == $day->format('Y-m-d')) {
-		        if ($booking['batal'] === 'N' and $booking['success'] === 'N' and $booking['dp'] > 0) {
-		        	$result = 'class="bg-blue"';
-		        } else if ($booking['batal'] === 'N' and $booking['success'] === 'N') {
-		        	$result = 'class="bg-teal"';
-		        } else if ($booking['batal'] === 'N' and $booking['success'] === 'Y') {
-		        	$result = 'class="bg-green"';
-		        } else {
-		        	$result = '';
-		        }
+    	$data = BookingHelp::grafikOrder();
+    	$result = 'class="cursor" data-toggle="modal" data-target="#New"';
+		for ($i = 0; $i < count($data); $i++) { 
+			for ($a = 0; $a < count($data[$i]); $a++) { 
+				if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id) {
+					if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'N' and $data[$i][$a]['dp'] > 0) {
+						$result = 'class="bg-blue cursor" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
+					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'N') {
+						$result = 'class="bg-teal cursor" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
+					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'Y') {
+						$result = 'class="bg-green cursor"';
+					}
+					break;
+				}
 			}
 		}
-
         return $result;
     }
 

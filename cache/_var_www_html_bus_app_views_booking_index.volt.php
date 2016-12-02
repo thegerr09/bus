@@ -37,27 +37,34 @@
               </thead>
               <tbody id="list_view">
                 <?php foreach ($booking as $x) { ?>
-                <tr id="del<?= $x->id ?>" <?php if ($x->success == 'Y') { ?> class="bg-success" <?php } elseif ($x->batal == 'Y') { ?> class="bg-info" <?php } elseif ($x->dp > 0) { ?> class="bg-info" <?php } ?>>
+                <tr id="del<?= $x->id ?>" <?php if ($x->success == 'Y') { ?> class="bg-success" <?php } elseif ($x->batal == 'Y') { ?> class="bg-danger" <?php } elseif ($x->dp > 0) { ?> class="bg-info" <?php } ?>>
                   <td align="center">
                     <button type="button" class="btn btn-warning btn-xs" onclick="detail()">
                       <i class="fa fa-list" data-toggle="tooltip" data-placement="top" title="Detail"></i>
                     </button>&nbsp;
-                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick="edit(<?= $x->id ?>)">
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick="edit(<?= $x->id ?>)"
+                    <?php if ($x->success == 'Y' || $x->batal == 'Y') { ?> disabled <?php } ?>>
                       <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
                     </button>&nbsp;
-                    <button type="button" class="btn btn-danger btn-xs" onclick="deleted()">
+                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#Delete" onclick="deleted(<?= $x->id ?>, '<?= $x->kode ?>')">
                       <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i>
                     </button>&nbsp;
                     <button type="button" class="btn btn-default btn-xs" onclick="print()">
                       <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print"></i>
                     </button>&nbsp;
                     <hr>
-                    <span class="label bg-green cursor">
-                      <span data-toggle="tooltip" data-placement="top" title="Lanjut Sewa"><i class="fa fa-check"></i> SEWA</span>
-                    </span>&nbsp;
-                    <span class="label bg-red cursor">
-                      <span data-toggle="tooltip" data-placement="top" title="Batal Sewa"><i class="fa fa-remove"></i> BATAL</span>
-                    </span>
+                    <?php if ($x->success == 'Y') { ?> 
+                      <span class="label bg-green"><i class="fa fa-check"></i> LANJUT SEWA</span>
+                    <?php } elseif ($x->batal == 'Y') { ?>
+                      <span class="label bg-red"><i class="fa fa-remove"></i> BATAL SEWA</span>
+                    <?php } else { ?>
+                      <span class="label bg-green cursor" data-toggle="modal" data-target="#Tambah" onclick="next(<?= $x->id ?>)">
+                        <span data-toggle="tooltip" data-placement="top" title="Lanjut Sewa"><i class="fa fa-check"></i> SEWA</span>
+                      </span>&nbsp;
+                      <span class="label bg-red cursor" data-toggle="modal" data-target="#Cencle" onclick="cencled(<?= $x->id ?>, '<?= $x->kode ?>')">
+                        <span data-toggle="tooltip" data-placement="top" title="Batal Sewa"><i class="fa fa-remove"></i> BATAL</span>
+                      </span>
+                    <?php } ?>
                   </td>
                   <td>
                     <span class="label bg-blue">kode</span> : <b><?= $x->kode ?></b>
@@ -99,7 +106,7 @@
 </section>
 
 <!-- include popup -->
-<div class="modal fade" id="Tambah" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="Tambah" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -305,6 +312,7 @@
                   </span>
                   <select name="type_booking" class="form-control" onchange="get_harga(this)">
                     <option value="">Booking Dari</option>
+                    <?= $this->Helpers->tagSetting('Booking', 'Booking Dari', '') ?>
                   </select>
                 </div>
               </div>
@@ -341,7 +349,59 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="Delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Delete Booking</h4>
+      </div>
 
+      <form name="delete" action="<?= $this->url->get('Booking/delete') ?>" method="POST" data-delete="data-delete">
+        <input type="hidden" name="id" value="">
+        <div class="modal-body">
+          <p>Apakan anda yakin kode <span id="cencle_booking" class="text-danger"></span>
+          akan di hapus ???</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>
+          <button type="submit" class="btn btn-danger">Delete Booking</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="Cencle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Batal Booking</h4>
+      </div>
+
+      <form name="cencle" action="<?= $this->url->get('Booking/cencle') ?>" method="POST" data-remote="data-remote">
+        <input type="hidden" name="id" value="">
+        <div class="modal-body">
+          <p>Apakan anda yakin kode <span id="cencle_booking" class="text-danger"></span>
+          membatalkan booking ?? jika iya msukan alasannya ???</p>
+          <div class="form-group">
+            <textarea class="form-control" name="note" placeholder="Text alasan gagal booking ..." rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>
+          <button type="submit" class="btn btn-danger">Cencle Booking</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
 
 <!-- include JS -->
 <script>
@@ -350,6 +410,7 @@ var handleDataTableButtons = function() {
   if ($("#example").length) {
     $("#example").DataTable({
       dom: "Bfrtip",
+      ordering: false,
       buttons: [
         {
           extend: "copy",
@@ -393,6 +454,9 @@ TableManageButtons.init();
   $('form[data-remote]').on('submit', function(e) {
     var form = $(this);
     var url = form.prop('action');
+    var array_url = url.split("/");
+    var last      = array_url.length - 1;
+    var action    = array_url[last];
 
     $.ajax({
       type: 'POST',
@@ -405,11 +469,15 @@ TableManageButtons.init();
           text: response.text,
           type: response.type
         });
-        update_page('Booking', 'page_booking');
-        update_page('Driver', 'page_driver');
+        update_page('Booking',  'page_booking');
+        update_page('Driver',   'page_driver');
         update_page('CoDriver', 'page_co_driver');
-        update_page('Bus', 'page_bus');
+        update_page('Bus',      'page_bus');
+        update_page('GrafikOrder', 'page_grafik_order');
         clear_form(response.close);
+        if (action == 'cencle'){
+          $('#Cencle').modal('hide');
+        }
         list();
       }
     });
@@ -419,8 +487,39 @@ TableManageButtons.init();
 
 })();
 
+(function() {
 
+  $('form[data-delete]').on('submit', function(e) {
+    var form = $(this);
+    var url = form.prop('action');
 
+    // console.log(action);
+    $.ajax({
+      type: 'POST',
+      url: url,
+      dataType:'json',
+      data: form.serialize(),
+      success: function(response){
+        new PNotify({
+          title: response.title,
+          text: response.text,
+          type: response.type
+        });
+
+        $('#del'+response.id).fadeOut(700);
+        $('#Delete').modal('hide');
+        update_page('Booking',  'page_booking');
+        update_page('Driver',   'page_driver');
+        update_page('CoDriver', 'page_co_driver');
+        update_page('Bus',      'page_bus');
+        update_page('GrafikOrder', 'page_grafik_order');
+      }
+    });
+
+    e.preventDefault();
+  });
+
+})();
 
 function list() {
   $.ajax({
@@ -453,10 +552,49 @@ function edit(id) {
       areaa_selected(response.area, response.route);
       driver(1, response.driver);
       driver(2, response.co_driver);
+      lokasii(response.type_bus);
       bus(response.type_bus, response.bus);
       routee_selected(response.route, response.lokasi);
     }
   });
+}
+
+function next(id) {
+  var form = $('form[name="booking"]')
+  form.attr('action', '<?= $this->url->get('Booking/next/') ?>'+id);
+  form.find('button[type="submit"]')
+      .removeClass('btn-success')
+      .removeClass('btn-primary')
+      .addClass('btn-danger')
+      .text('Lanjut Sewa');
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Booking/detail/') ?>'+id,
+    dataType:'json',
+    success: function(response){
+      $.each(response, function(key, value) {
+        form.find('[name="'+key+'"]').val(value);
+      });
+      $('#label_booking').text('Lanjut Sewa kode booking "'+response.kode+'" ?');
+      $('#'+response.paket).collapse('show');
+      areaa_selected(response.area, response.route);
+      driver(1, response.driver);
+      driver(2, response.co_driver);
+      lokasii(response.type_bus);
+      bus(response.type_bus, response.bus);
+      routee_selected(response.route, response.lokasi);
+    }
+  });
+}
+
+function cencled(id, kode) {
+  $('form[name="cencle"]').find('#cencle_booking').text(kode);
+  $('form[name="cencle"]').find('input[name="id"]').val(id);
+}
+
+function deleted(id, kode) {
+  $('form[name="delete"]').find('#delete_booking').text(kode);
+  $('form[name="delete"]').find('input[name="id"]').val(id);
 }
 
 $('#tanggal_booking').datetimepicker({
@@ -502,6 +640,9 @@ function areaa(that) {
         data: 'area='+val,
         success: function(response){
           $('select[name="route"]').html(response);
+          $('select[name="type_bus"]').html('<option value="">Pilih Type Bus</option>');
+          $('select[name="bus"]').html('<option value="">Pilih Bus</option>');
+          $('select[name="lokasi"]').html('<option value="">Pilih Lokasi</option>');
         }
       });
       break;
@@ -530,6 +671,8 @@ function routee(that) {
     data: 'lokasi='+val+'&selected=not',
     success: function(response){
       $('select[name="lokasi"]').html(response);
+      $('select[name="type_bus"]').html('<option value="">Pilih Type Bus</option>');
+      $('select[name="bus"]').html('<option value="">Pilih Bus</option>');
     }
   });
 }
@@ -546,8 +689,14 @@ function routee_selected(route, selected) {
   });
 }
 
-function lokasii() {
-  var html = '<option value="">Pilih Type Bus</option><option value="medium">Medium</option><option value="big">Big</option>';
+function lokasii(id) {
+  if (id == 'medium') {
+    var html = '<option value="">Pilih Type Bus</option><option value="medium" selected>Medium</option><option value="big">Big</option>';
+  } else if (id == 'big') {
+    var html = '<option value="">Pilih Type Bus</option><option value="medium">Medium</option><option value="big" selected>Big</option>';
+  } else {
+    var html = '<option value="">Pilih Type Bus</option><option value="medium">Medium</option><option value="big">Big</option>';
+  }
   $('select[name="type_bus"]').html(html);
 }
 
@@ -624,6 +773,10 @@ function clear_form(id) {
       .removeClass('btn-primary')
       .addClass('btn-success')
       .text('Save');
+
+  driver(1);
+  driver(2);
+  lokasii();
 
   if (id == 1) {
     $('#Tambah').modal('hide');

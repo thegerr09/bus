@@ -62,4 +62,33 @@ class BookingHelp
         }
     }
 
+    public static function grafikOrder()
+    {
+        $booking = Booking::find([
+            "columns" => "id, tanggal_mulai, tanggal_kembali, bus, success, dp, batal",
+            "conditions" => "deleted = 'N'"
+        ]);
+
+        foreach ($booking as $key => $value) {
+            $start    = new DateTime($value['tanggal_mulai']);
+            $end      = new DateTime($value['tanggal_kembali']);
+            $interval = new DateInterval('P1D');
+            $period   = new DatePeriod($start, $interval, $end);
+
+            $data = [];
+            foreach ($period as $day) {
+                $data[] = [
+                    'id'      => $value->id,
+                    'bus'     => $value->bus,
+                    'dp'      => $value->dp,
+                    'batal'   => $value->batal,
+                    'success' => $value->success,
+                    'date'    => $day->format('Y-m-d')
+                ]; 
+            }
+            $result[] = $data;
+        }
+        return $result;
+    }
+
 }

@@ -111,6 +111,112 @@ class BookingController extends \Phalcon\Mvc\Controller
         return json_encode($notify);
     }
 
+    public function nextAction($id)
+    {
+        $this->view->disable();
+        $post = $this->request->getPost();
+
+        if ($post['paket'] === 'regular') {
+            unset($post['route_jiarah']);
+            $notify = $post;
+        } else if ($post['paket'] === 'jiarah') {
+            unset($post['area'], $post['route'], $post['lokasi']);
+            $notify = $post;
+        }
+
+        $post['success'] = 'Y';
+        $booking = Booking::findFirst($id);
+
+        BookingHelp::change(0, $booking->bus, $booking->driver, $booking->co_driver);
+        BookingHelp::change(2, $post['bus'], $post['driver'], $post['co_driver']);
+
+        $booking->assign($post);
+        if ($booking->save()) {
+            $notify = [
+                'title' => 'Success',
+                'text'  => 'Data berhasil di simpan ke database',
+                'type'  => 'success',
+                'close' => 1
+            ];
+        } else {
+            $messages = $booking->getMessages();
+            $m = '';
+            foreach ($messages as $message) {
+                $m .= "$message <br/>";
+            }
+            $notify = [
+                'title' => 'Errors',
+                'text'  => $m,
+                'type'  => 'error'
+            ];
+        }
+        return json_encode($notify);
+    }
+
+    public function cencleAction()
+    {
+        $this->view->disable();
+        $id   = $this->request->getPost('id');
+        $note = $this->request->getPost('note');
+
+        $booking = Booking::findFirst($id);
+        BookingHelp::change(0, $booking->bus, $booking->driver, $booking->co_driver);
+        $kode = $booking->kode;
+        $booking->note = $note;
+        $booking->batal = 'Y';
+        if ($booking->save()) {
+            $notify = [
+                'title' => 'Cencle ' . $kode,
+                'text'  => 'kode ' . $kode . ' batal Booking',
+                'type'  => 'error',
+                'id' => $id
+            ];
+        } else {
+            $messages = $booking->getMessages();
+            $m = '';
+            foreach ($messages as $message) {
+                $m .= "$message <br/>";
+            }
+            $notify = [
+                'title' => 'Errors',
+                'text'  => $m,
+                'type'  => 'error'
+            ];
+        }
+        return json_encode($notify);
+    }
+
+    public function deleteAction()
+    {
+        $this->view->disable();
+        $id = $this->request->getPost('id');
+
+        $booking = Booking::findFirst($id);
+        BookingHelp::change(0, $booking->bus, $booking->driver, $booking->co_driver);
+        $kode = $booking->kode;
+        $booking->deleted = 'Y';
+        if ($booking->save()) {
+            $notify = [
+                'title' => 'Delete ' . $kode,
+                'text'  => 'kode ' . $kode . ' batal Booking',
+                'type'  => 'error',
+                'id' => $id
+            ];
+        } else {
+            $messages = $booking->getMessages();
+            $m = '';
+            foreach ($messages as $message) {
+                $m .= "$message <br/>";
+            }
+            $notify = [
+                'title' => 'Errors',
+                'text'  => $m,
+                'type'  => 'error'
+            ];
+        }
+        return json_encode($notify);
+    }
+
     public function detailAction($id)
     {
         $this->view->disable();
@@ -124,7 +230,7 @@ class BookingController extends \Phalcon\Mvc\Controller
     		$driver = Driver::find(["conditions" => "active = 'Y' AND deleted = 'N'"]);
     		$result = '<option value="">Pilih Driver</option>';
     		foreach ($driver as $key => $value) {
-                if ($value->status == '1') { $class = 'class="bg-info"'; } elseif ($value->status == '2') { $class = 'class="bg-warning"'; } else { $class = ''; }
+                if ($value->status == '1') { $class = 'class="bg-teal"'; } elseif ($value->status == '2') { $class = 'class="bg-yellow"'; } else { $class = ''; }
 
     			if ($value->id == $this->request->getPost('selected')) {
     				$result .= '<option value="' . $value->id . '" '.$class.' selected>' . $value->nama . '</option>';
@@ -136,7 +242,7 @@ class BookingController extends \Phalcon\Mvc\Controller
     		$driver = CoDriver::find(["conditions" => "active = 'Y' AND deleted = 'N'"]);
     		$result = '<option value="">Pilih Co. Driver</option>';
     		foreach ($driver as $key => $value) {
-                if ($value->status == '1') { $class = 'class="bg-info"'; } elseif ($value->status == '2') { $class = 'class="bg-warning"'; } else { $class = ''; }
+                if ($value->status == '1') { $class = 'class="bg-teal"'; } elseif ($value->status == '2') { $class = 'class="bg-yellow"'; } else { $class = ''; }
                 
     			if ($value->id == $this->request->getPost('selected')) {
     				$result .= '<option value="' . $value->id . '" '.$class.' selected>' . $value->nama . '</option>';
@@ -149,8 +255,8 @@ class BookingController extends \Phalcon\Mvc\Controller
     		$driver = Bus::find(["conditions" => "ukuran = '$ukuran' AND active = 'Y' AND deleted = 'N'"]);
     		$result = '<option value="">Pilih Bus</option>';
     		foreach ($driver as $key => $value) {
-                if ($value->kondisi == 'Y') { $class = 'class="bg-danger" disabled'; } else { $class = ''; }
-                if ($value->status == '1') { $class = 'class="bg-info"'; } elseif ($value->status == '2') { $class = 'class="bg-warning"'; } else { $class = ''; }
+                if ($value->kondisi == 'Y') { $class = 'class="bg-red" disabled'; } else { $class = ''; }
+                if ($value->status == '1') { $class = 'class="bg-teal"'; } elseif ($value->status == '2') { $class = 'class="bg-yellow"'; } else { $class = ''; }
 
     			if ($value->id == $this->request->getPost('selected')) {
     				$result .= '<option value="'.$value->id . '" '.$class.' selected>'.$value->ukuran.' | '.$value->nomor_polisi.'</option>';

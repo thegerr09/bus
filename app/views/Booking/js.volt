@@ -4,6 +4,7 @@ var handleDataTableButtons = function() {
   if ($("#example").length) {
     $("#example").DataTable({
       dom: "Bfrtip",
+      ordering: false,
       buttons: [
         {
           extend: "copy",
@@ -47,6 +48,9 @@ TableManageButtons.init();
   $('form[data-remote]').on('submit', function(e) {
     var form = $(this);
     var url = form.prop('action');
+    var array_url = url.split("/");
+    var last      = array_url.length - 1;
+    var action    = array_url[last];
 
     $.ajax({
       type: 'POST',
@@ -59,11 +63,15 @@ TableManageButtons.init();
           text: response.text,
           type: response.type
         });
-        update_page('Booking', 'page_booking');
-        update_page('Driver', 'page_driver');
+        update_page('Booking',  'page_booking');
+        update_page('Driver',   'page_driver');
         update_page('CoDriver', 'page_co_driver');
-        update_page('Bus', 'page_bus');
+        update_page('Bus',      'page_bus');
+        update_page('GrafikOrder', 'page_grafik_order');
         clear_form(response.close);
+        if (action == 'cencle'){
+          $('#Cencle').modal('hide');
+        }
         list();
       }
     });
@@ -73,8 +81,39 @@ TableManageButtons.init();
 
 })();
 
+(function() {
 
+  $('form[data-delete]').on('submit', function(e) {
+    var form = $(this);
+    var url = form.prop('action');
 
+    // console.log(action);
+    $.ajax({
+      type: 'POST',
+      url: url,
+      dataType:'json',
+      data: form.serialize(),
+      success: function(response){
+        new PNotify({
+          title: response.title,
+          text: response.text,
+          type: response.type
+        });
+
+        $('#del'+response.id).fadeOut(700);
+        $('#Delete').modal('hide');
+        update_page('Booking',  'page_booking');
+        update_page('Driver',   'page_driver');
+        update_page('CoDriver', 'page_co_driver');
+        update_page('Bus',      'page_bus');
+        update_page('GrafikOrder', 'page_grafik_order');
+      }
+    });
+
+    e.preventDefault();
+  });
+
+})();
 
 function list() {
   $.ajax({
@@ -107,10 +146,49 @@ function edit(id) {
       areaa_selected(response.area, response.route);
       driver(1, response.driver);
       driver(2, response.co_driver);
+      lokasii(response.type_bus);
       bus(response.type_bus, response.bus);
       routee_selected(response.route, response.lokasi);
     }
   });
+}
+
+function next(id) {
+  var form = $('form[name="booking"]')
+  form.attr('action', '{{ url('Booking/next/') }}'+id);
+  form.find('button[type="submit"]')
+      .removeClass('btn-success')
+      .removeClass('btn-primary')
+      .addClass('btn-danger')
+      .text('Lanjut Sewa');
+  $.ajax({
+    type: 'POST',
+    url: '{{ url('Booking/detail/') }}'+id,
+    dataType:'json',
+    success: function(response){
+      $.each(response, function(key, value) {
+        form.find('[name="'+key+'"]').val(value);
+      });
+      $('#label_booking').text('Lanjut Sewa kode booking "'+response.kode+'" ?');
+      $('#'+response.paket).collapse('show');
+      areaa_selected(response.area, response.route);
+      driver(1, response.driver);
+      driver(2, response.co_driver);
+      lokasii(response.type_bus);
+      bus(response.type_bus, response.bus);
+      routee_selected(response.route, response.lokasi);
+    }
+  });
+}
+
+function cencled(id, kode) {
+  $('form[name="cencle"]').find('#cencle_booking').text(kode);
+  $('form[name="cencle"]').find('input[name="id"]').val(id);
+}
+
+function deleted(id, kode) {
+  $('form[name="delete"]').find('#delete_booking').text(kode);
+  $('form[name="delete"]').find('input[name="id"]').val(id);
 }
 
 $('#tanggal_booking').datetimepicker({
@@ -156,6 +234,9 @@ function areaa(that) {
         data: 'area='+val,
         success: function(response){
           $('select[name="route"]').html(response);
+          $('select[name="type_bus"]').html('<option value="">Pilih Type Bus</option>');
+          $('select[name="bus"]').html('<option value="">Pilih Bus</option>');
+          $('select[name="lokasi"]').html('<option value="">Pilih Lokasi</option>');
         }
       });
       break;
@@ -184,6 +265,8 @@ function routee(that) {
     data: 'lokasi='+val+'&selected=not',
     success: function(response){
       $('select[name="lokasi"]').html(response);
+      $('select[name="type_bus"]').html('<option value="">Pilih Type Bus</option>');
+      $('select[name="bus"]').html('<option value="">Pilih Bus</option>');
     }
   });
 }
@@ -200,8 +283,14 @@ function routee_selected(route, selected) {
   });
 }
 
-function lokasii() {
-  var html = '<option value="">Pilih Type Bus</option><option value="medium">Medium</option><option value="big">Big</option>';
+function lokasii(id) {
+  if (id == 'medium') {
+    var html = '<option value="">Pilih Type Bus</option><option value="medium" selected>Medium</option><option value="big">Big</option>';
+  } else if (id == 'big') {
+    var html = '<option value="">Pilih Type Bus</option><option value="medium">Medium</option><option value="big" selected>Big</option>';
+  } else {
+    var html = '<option value="">Pilih Type Bus</option><option value="medium">Medium</option><option value="big">Big</option>';
+  }
   $('select[name="type_bus"]').html(html);
 }
 
@@ -278,6 +367,10 @@ function clear_form(id) {
       .removeClass('btn-primary')
       .addClass('btn-success')
       .text('Save');
+
+  driver(1);
+  driver(2);
+  lokasii();
 
   if (id == 1) {
     $('#Tambah').modal('hide');

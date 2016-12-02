@@ -37,27 +37,34 @@
               </thead>
               <tbody id="list_view">
                 {% for x in booking %}
-                <tr id="del{{ x.id }}" {% if x.success == 'Y' %} class="bg-success" {% elseif x.batal == 'Y' %} class="bg-info" {% elseif x.dp > 0 %} class="bg-info" {% endif %}>
+                <tr id="del{{ x.id }}" {% if x.success == 'Y' %} class="bg-success" {% elseif x.batal == 'Y' %} class="bg-danger" {% elseif x.dp > 0 %} class="bg-info" {% endif %}>
                   <td align="center">
                     <button type="button" class="btn btn-warning btn-xs" onclick="detail()">
                       <i class="fa fa-list" data-toggle="tooltip" data-placement="top" title="Detail"></i>
                     </button>&nbsp;
-                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick="edit({{ x.id }})">
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick="edit({{ x.id }})"
+                    {% if x.success == 'Y' or x.batal == 'Y' %} disabled {% endif %}>
                       <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
                     </button>&nbsp;
-                    <button type="button" class="btn btn-danger btn-xs" onclick="deleted()">
+                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#Delete" onclick="deleted({{ x.id }}, '{{ x.kode }}')">
                       <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i>
                     </button>&nbsp;
                     <button type="button" class="btn btn-default btn-xs" onclick="print()">
                       <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print"></i>
                     </button>&nbsp;
                     <hr>
-                    <span class="label bg-green cursor">
-                      <span data-toggle="tooltip" data-placement="top" title="Lanjut Sewa"><i class="fa fa-check"></i> SEWA</span>
-                    </span>&nbsp;
-                    <span class="label bg-red cursor">
-                      <span data-toggle="tooltip" data-placement="top" title="Batal Sewa"><i class="fa fa-remove"></i> BATAL</span>
-                    </span>
+                    {% if x.success == 'Y' %} 
+                      <span class="label bg-green"><i class="fa fa-check"></i> LANJUT SEWA</span>
+                    {% elseif x.batal == 'Y' %}
+                      <span class="label bg-red"><i class="fa fa-remove"></i> BATAL SEWA</span>
+                    {% else %}
+                      <span class="label bg-green cursor" data-toggle="modal" data-target="#Tambah" onclick="next({{ x.id }})">
+                        <span data-toggle="tooltip" data-placement="top" title="Lanjut Sewa"><i class="fa fa-check"></i> SEWA</span>
+                      </span>&nbsp;
+                      <span class="label bg-red cursor" data-toggle="modal" data-target="#Cencle" onclick="cencled({{ x.id }}, '{{ x.kode }}')">
+                        <span data-toggle="tooltip" data-placement="top" title="Batal Sewa"><i class="fa fa-remove"></i> BATAL</span>
+                      </span>
+                    {% endif %}
                   </td>
                   <td>
                     <span class="label bg-blue">kode</span> : <b>{{ x.kode }}</b>
@@ -101,6 +108,7 @@
 <!-- include popup -->
 {% include "Booking/input_edit.volt" %}
 {% include "Booking/deleted.volt" %}
+{% include "Booking/cencled.volt" %}
 
 <!-- include JS -->
 {% include "Booking/js.volt" %}
