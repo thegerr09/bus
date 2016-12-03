@@ -87,7 +87,7 @@
         </a>
       </li>
       <li>
-        <a href="#Dashboard" onclick="return load_page('#','#','#')">
+        <a href="#Dashboard" onclick="return load_page('page_order','ListOrder','page_order')">
           <i class="fa fa-credit-card"></i> <span>Order</span>
         </a>
       </li>

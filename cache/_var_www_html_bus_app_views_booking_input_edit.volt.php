@@ -100,6 +100,16 @@
                   </select>
                 </div>
               </div>
+              <div class="collapse" id="modal_driver">
+                <div class="form-group">
+                  <div class="input-group" >
+                    <span class="input-group-addon">
+                      <i class="fa fa-money"></i>
+                    </span>
+                    <input type="text" name="modal" data-modalDriver class="form-control" placeholder="Modal Driver">
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- right -->
@@ -221,6 +231,9 @@
                     <td>&nbsp; rusak</td>
                   </tr>
                 </table>
+              </div>
+              <div class="form-group" id="note_modal" style="display:none;">
+                <i><b>NOTE : </b> Jangan lupa untuk mengisi form modal driver setelah memilih Driver dan Co Driver !!!</i>
               </div>
             </div>
 

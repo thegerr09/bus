@@ -167,7 +167,9 @@ function next(id) {
     dataType:'json',
     success: function(response){
       $.each(response, function(key, value) {
-        form.find('[name="'+key+'"]').val(value);
+        form.find('[name="'+key+'"]')
+        .not('[name="modal"]')
+        .val(value);
       });
       $('#label_booking').text('Lanjut Sewa kode booking "'+response.kode+'" ?');
       $('#'+response.paket).collapse('show');
@@ -177,6 +179,9 @@ function next(id) {
       lokasii(response.type_bus);
       bus(response.type_bus, response.bus);
       routee_selected(response.route, response.lokasi);
+      $('select[name="driver"]').attr('onchange', 'modal_driver()');
+      $('select[name="co_driver"]').attr('onchange', 'modal_driver()');
+      modal_driver();
     }
   });
 }
@@ -207,6 +212,7 @@ $('#tanggal_back').datetimepicker({
 $("[data-telp]").inputmask({mask: "99999999999999", placeholder: "",});
 $("[data-tarif]").inputmask({mask: "9999999999", placeholder: "",});
 $("[data-dp]").inputmask({mask: "9999999999", placeholder: "",});
+$("[data-modalDriver]").inputmask({mask: "9999999999", placeholder: "",});
 
 function pakett(that) {
   var val = $(that).val(); 
@@ -354,10 +360,24 @@ function driver(id, selected) {
   }
 }
 
+function modal_driver() {
+  var driver    = $('select[name="driver"]').val();
+  var co_driver = $('select[name="co_driver"]').val();
+  $('#note_modal').show();
+  if (driver != '' && co_driver != '') {
+    $('#modal_driver').collapse('show');
+  } else {
+    $('#modal_driver').collapse('hide');
+  }
+}
+
 function clear_form(id) {
   $('#label_booking').text('Tambah Booking');
 
   var form = $('form[name="booking"]');
+
+  $('#modal_driver').collapse('hide');
+  $('#note_modal').hide();
 
   form.find('[name]').val('');
 
