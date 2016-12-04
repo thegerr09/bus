@@ -17,9 +17,9 @@
   <td>{{ x.asal }}</td>
   <td>{{ x.tujuan }}</td>
   <td>{{ x.location }}</td>
-  <td>Rp. <span class="pull-right">{{ Helpers.number(x.med_agen) }},-</span></td>
+  <td>Rp. <span class="pull-right">{{ Helpers.number(x.medium_agen) }},-</span></td>
   <td>Rp. <span class="pull-right">{{ Helpers.number(x.big_agen) }},-</span></td>
-  <td>Rp. <span class="pull-right">{{ Helpers.number(x.med_umum) }},-</span></td>
+  <td>Rp. <span class="pull-right">{{ Helpers.number(x.medium_umum) }},-</span></td>
   <td>Rp. <span class="pull-right">{{ Helpers.number(x.big_umu) }},-</span></td>
 </tr>
 {% endif %}

@@ -31,7 +31,7 @@ class LocationAndTarif extends \Phalcon\Mvc\Model
      * @var string
      * @Column(type="string", length=16, nullable=false)
      */
-    public $med_agen;
+    public $medium_agen;
 
     /**
      *
@@ -45,7 +45,7 @@ class LocationAndTarif extends \Phalcon\Mvc\Model
      * @var string
      * @Column(type="string", length=16, nullable=false)
      */
-    public $med_umum;
+    public $medium_umum;
 
     /**
      *

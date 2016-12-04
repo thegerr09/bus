@@ -28,7 +28,7 @@
           </div>
           <div class="form-group">
             <label>Tarif Medium Agen</label>
-            <input type="text" name="med_agen" data-med-agen class="form-control" placeholder="Tarif Medium Agen"> 
+            <input type="text" name="medium_agen" data-med-agen class="form-control" placeholder="Tarif Medium Agen"> 
           </div>
           <div class="form-group">
             <label>Tarif Big Agen</label>
@@ -36,7 +36,7 @@
           </div>
           <div class="form-group">
             <label>Tarif Medium Agen</label>
-            <input type="text" name="med_umum" data-med-umum class="form-control" placeholder="Tarif Medium Agen"> 
+            <input type="text" name="medium_umum" data-med-umum class="form-control" placeholder="Tarif Medium Agen"> 
           </div>
           <div class="form-group">
             <label>Tarif Big Agen</label>

@@ -12,5 +12,17 @@ class ListorderController extends \Phalcon\Mvc\Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
+    public function listAction()
+    {
+        $this->view->order = Invoice::find(["conditions" => "deleted = 'N'"]);
+        $this->view->pick("ListOrder/index");
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    }
+
+    public function inputAction($value='')
+    {
+    	# code...
+    }
+
 }
 

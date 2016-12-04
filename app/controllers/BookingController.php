@@ -28,10 +28,8 @@ class BookingController extends \Phalcon\Mvc\Controller
 
         if ($post['paket'] === 'regular') {
             unset($post['route_jiarah']);
-            $notify = $post;
         } else if ($post['paket'] === 'jiarah') {
             unset($post['area'], $post['route'], $post['lokasi']);
-            $notify = $post;
         }
 
         $booking = new Booking();
@@ -77,10 +75,8 @@ class BookingController extends \Phalcon\Mvc\Controller
 
         if ($post['paket'] === 'regular') {
             unset($post['route_jiarah']);
-            $notify = $post;
         } else if ($post['paket'] === 'jiarah') {
             unset($post['area'], $post['route'], $post['lokasi']);
-            $notify = $post;
         }
 
         $booking = Booking::findFirst($id);
@@ -118,26 +114,40 @@ class BookingController extends \Phalcon\Mvc\Controller
 
         if ($post['paket'] === 'regular') {
             unset($post['route_jiarah']);
-            $notify = $post;
         } else if ($post['paket'] === 'jiarah') {
             unset($post['area'], $post['route'], $post['lokasi']);
-            $notify = $post;
         }
 
         $post['success'] = 'Y';
         $booking = Booking::findFirst($id);
+        $post['kode'] = $booking->kode;
 
         BookingHelp::change(0, $booking->bus, $booking->driver, $booking->co_driver);
         BookingHelp::change(2, $post['bus'], $post['driver'], $post['co_driver']);
 
         $booking->assign($post);
         if ($booking->save()) {
-            $notify = [
-                'title' => 'Success',
-                'text'  => 'Data berhasil di simpan ke database',
-                'type'  => 'success',
-                'close' => 1
-            ];
+            $invoice = new Invoice();
+            $invoice->assign($post);
+            if ($invoice->save()) {
+                $notify = [
+                    'title' => 'Success',
+                    'text'  => 'Data berhasil di simpan ke database',
+                    'type'  => 'success',
+                    'close' => 1
+                ];
+            } else {
+                $messages = $invoice->getMessages();
+                $m = '';
+                foreach ($messages as $message) {
+                    $m .= "$message <br/>";
+                }
+                $notify = [
+                    'title' => 'Errors',
+                    'text'  => $m,
+                    'type'  => 'error'
+                ];
+            }
         } else {
             $messages = $booking->getMessages();
             $m = '';
@@ -226,6 +236,7 @@ class BookingController extends \Phalcon\Mvc\Controller
 
     public function dataAction($id)
     {
+        $this->view->disable();
     	if ((int) $id === 1) {
     		$driver = Driver::find(["conditions" => "active = 'Y' AND deleted = 'N'"]);
     		$result = '<option value="">Pilih Driver</option>';

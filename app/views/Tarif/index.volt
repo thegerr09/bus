@@ -18,6 +18,79 @@ td {
 <section class="content animated fadeIn">
   <div class="row">
 
+    <div class="col-md-12 col-xs-12">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Tarif Bus Overland</h3>
+          <div class="box-tools pull-right" style="margin-top:2px;">
+            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#tambahRoute" onclick="clear_form()">
+              <i class="fa fa-plus-circle"></i> Tambah
+            </button>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="bg-blue">
+                <tr>
+                  <td rowspan="2" width="70" align="center" style="vertical-align: middle;">ACTION</td>
+                  <td colspan="2" align="center">ROUTE</td>
+                  <td rowspan="2" width="70" align="center" style="vertical-align: middle;">HARI</td>
+                  <td colspan="4" align="center">TARIF</td>
+                </tr>
+                <tr>
+                  <td>Kota Asal</td>
+                  <td>Kota Tujuan</td>
+                  <td>Med Agen</td>
+                  <td>Big Agen</td>
+                  <td>Med Umum</td>
+                  <td>Big Umum</td>
+                </tr>
+              </thead>
+              <tbody id="list_overland">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12 col-xs-12">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Tarif Bus Jiarah</h3>
+          <div class="box-tools pull-right" style="margin-top:2px;">
+            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#tambahRoute" onclick="clear_form()">
+              <i class="fa fa-plus-circle"></i> Tambah
+            </button>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="bg-blue">
+                <tr>
+                  <td rowspan="2" width="70" align="center" style="vertical-align: middle;">ACTION</td>
+                  <td colspan="2" align="center">ROUTE</td>
+                  <td colspan="4" align="center">TARIF</td>
+                </tr>
+                <tr>
+                  <td>Kota Asal</td>
+                  <td>Kota Tujuan</td>
+                  <td>Med Agen</td>
+                  <td>Big Agen</td>
+                  <td>Med Umum</td>
+                  <td>Big Umum</td>
+                </tr>
+              </thead>
+              <tbody id="list_jiarah">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="col-md-3 col-xs-12">
       <div class="box box-primary">
         <div class="box-header with-border">
@@ -72,7 +145,7 @@ td {
     <div class="col-md-9 col-xs-12">
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">List Tarif Bus</h3>
+          <h3 class="box-title">Tarif Bus Regular</h3>
           <div class="box-tools pull-right" style="margin-top:2px;">
             <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#tambahTarif" onclick="clear_form()">
               <i class="fa fa-plus-circle"></i> Tambah
@@ -118,9 +191,9 @@ td {
                   <td>{{ x.asal }}</td>
                   <td>{{ x.tujuan }}</td>
                   <td>{{ x.location }}</td>
-                  <td>Rp. <span class="pull-right">{{ Helpers.number(x.med_agen) }},-</span></td>
+                  <td>Rp. <span class="pull-right">{{ Helpers.number(x.medium_agen) }},-</span></td>
                   <td>Rp. <span class="pull-right">{{ Helpers.number(x.big_agen) }},-</span></td>
-                  <td>Rp. <span class="pull-right">{{ Helpers.number(x.med_umum) }},-</span></td>
+                  <td>Rp. <span class="pull-right">{{ Helpers.number(x.medium_umum) }},-</span></td>
                   <td>Rp. <span class="pull-right">{{ Helpers.number(x.big_umu) }},-</span></td>
                 </tr>
                 {% endif %}
