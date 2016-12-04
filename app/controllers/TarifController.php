@@ -7,8 +7,10 @@ class TarifController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-        $this->view->tarif = Tarif::find(["conditions" => "deleted = 'N'"]);
-        $this->view->route = Route::find(["conditions" => "deleted = 'N'"]);
+        $this->view->tarif    = Tarif::find(["conditions"    => "deleted = 'N'"]);
+        $this->view->route    = Route::find(["conditions"    => "deleted = 'N'"]);
+        $this->view->jiarah   = Jiarah::find(["conditions"   => "deleted = 'N'"]);
+        $this->view->overland = Overland::find(["conditions" => "deleted = 'N'"]);
         $this->view->pick("Tarif/index");
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
@@ -25,6 +27,20 @@ class TarifController extends \Phalcon\Mvc\Controller
     	$this->view->tarif = Tarif::find(["conditions" => "deleted = 'N'"]);
         $this->view->pick("Tarif/listTarif");
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    }
+
+    public function overlandJiarahAction($check)
+    {
+        if ($check === 'overland') {
+            $this->view->overland = Overland::find(["conditions" => "deleted = 'N'"]);
+            $this->view->pick("Tarif/listOverland");
+            $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        } else {
+            $this->view->jiarah = Jiarah::find(["conditions" => "deleted = 'N'"]);
+            $this->view->pick("Tarif/listJiarah");
+            $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        }
+        
     }
 
     public function inputRouteAction()
@@ -52,6 +68,61 @@ class TarifController extends \Phalcon\Mvc\Controller
                 'type'  => 'error'
             ];
         }
+        return json_encode($notify);
+    }
+
+    public function InputOverlandJiarahAction($check)
+    {
+        $this->view->disable();
+        $data = $this->request->getPost();
+
+        if ($check === 'overland') {
+            $overland = new Overland();
+            $overland->assign($data);
+            if ($overland->save()) {
+                $notify = [
+                    'title'   => 'Success',
+                    'text'    => 'Data berhasil di simpan ke database',
+                    'type'    => 'success',
+                    'check'   => 'overland'
+                ];
+            } else {
+                $messages = $overland->getMessages();
+                $m = '';
+                foreach ($messages as $message) {
+                    $m .= "$message <br/>";
+                }
+                $notify = [
+                    'title' => 'Errors',
+                    'text'  => $m,
+                    'type'  => 'error'
+                ];
+            }
+        } else if ($check === 'jiarah') {
+            $jiarah = new Jiarah();
+            $jiarah->assign($data);
+            if ($jiarah->save()) {
+                $notify = [
+                    'title'   => 'Success',
+                    'text'    => 'Data berhasil di simpan ke database',
+                    'type'    => 'success',
+                    'check'   => 'jiarah'
+                ];
+            } else {
+                $messages = $jiarah->getMessages();
+                $m = '';
+                foreach ($messages as $message) {
+                    $m .= "$message <br/>";
+                }
+                $notify = [
+                    'title' => 'Errors',
+                    'text'  => $m,
+                    'type'  => 'error'
+                ];
+            }
+        }
+        
+
         return json_encode($notify);
     }
 

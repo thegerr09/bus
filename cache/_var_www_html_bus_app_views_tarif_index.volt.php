@@ -23,7 +23,7 @@ td {
         <div class="box-header with-border">
           <h3 class="box-title">Tarif Bus Overland</h3>
           <div class="box-tools pull-right" style="margin-top:2px;">
-            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#tambahRoute" onclick="clear_form()">
+            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#tambahOverland" onclick="clear_form()">
               <i class="fa fa-plus-circle"></i> Tambah
             </button>
           </div>
@@ -48,6 +48,25 @@ td {
                 </tr>
               </thead>
               <tbody id="list_overland">
+                <?php foreach ($overland as $o) { ?>
+                <tr id="delO<?= $o->id ?>">
+                  <td align="center">
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#tambahOverland" onclick="updateOverlandJiarah(<?= $o->id ?>)">
+                      <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delOverland" onclick="deleteOverlandJiarah('<?= $o->id ?>', '<?= $o->asal ?> / <?= $o->tujuan ?>', 'overland')">
+                      <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i>
+                    </button>
+                  </td>
+                  <td><?= $o->asal ?></td>
+                  <td><?= $o->tujuan ?></td>
+                  <td><?= $o->hari ?> Hari</td>
+                  <td>Rp. <span class="pull-right"><?= $this->Helpers->number($o->medium_agen) ?>,-</span></td>
+                  <td>Rp. <span class="pull-right"><?= $this->Helpers->number($o->big_agen) ?>,-</span></td>
+                  <td>Rp. <span class="pull-right"><?= $this->Helpers->number($o->medium_umum) ?>,-</span></td>
+                  <td>Rp. <span class="pull-right"><?= $this->Helpers->number($o->big_umum) ?>,-</span></td>
+                </tr>
+                <?php } ?>
               </tbody>
             </table>
           </div>
@@ -60,7 +79,7 @@ td {
         <div class="box-header with-border">
           <h3 class="box-title">Tarif Bus Jiarah</h3>
           <div class="box-tools pull-right" style="margin-top:2px;">
-            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#tambahRoute" onclick="clear_form()">
+            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#tambahJiarah" onclick="clear_form()">
               <i class="fa fa-plus-circle"></i> Tambah
             </button>
           </div>
@@ -70,20 +89,28 @@ td {
             <table class="table table-bordered table-hover">
               <thead class="bg-blue">
                 <tr>
-                  <td rowspan="2" width="70" align="center" style="vertical-align: middle;">ACTION</td>
-                  <td colspan="2" align="center">ROUTE</td>
-                  <td colspan="4" align="center">TARIF</td>
-                </tr>
-                <tr>
-                  <td>Kota Asal</td>
-                  <td>Kota Tujuan</td>
-                  <td>Med Agen</td>
-                  <td>Big Agen</td>
-                  <td>Med Umum</td>
-                  <td>Big Umum</td>
+                  <td rowspan="2" width="150" align="center">ACTION</td>
+                  <td align="center">KOTA ASAL</td>
+                  <td align="center">KOTA TUJUAN</td>
+                  <td width="200" align="center">HARGA</td>
                 </tr>
               </thead>
               <tbody id="list_jiarah">
+                <?php foreach ($jiarah as $j) { ?>
+                <tr id="delJ<?= $o->id ?>">
+                  <td align="center">
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#tambahJiarah" onclick="updateOverlandJiarah('<?= $j->id ?>')">
+                      <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i> Edit
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delJiarah" onclick="deleteOverlandJiarah('<?= $j->id ?>', '<?= $j->asal ?> / <?= $j->tujuan ?>', 'jiarah')">
+                      <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i> Delete
+                    </button>
+                  </td>
+                  <td><?= $j->asal ?></td>
+                  <td><?= $j->tujuan ?></td>
+                  <td>Rp. <span class="pull-right"><?= $this->Helpers->number($j->harga) ?>,-</span></td>
+                </tr>
+                <?php } ?>
               </tbody>
             </table>
           </div>
@@ -300,6 +327,90 @@ td {
     </div>
   </div>
 </div>
+<div class="modal fade" id="tambahJiarah" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="label_jiarah">Tambah Route Jiarah</h4>
+      </div>
+
+      <form name="jiarah" action="<?= $this->url->get('Tarif/InputOverlandJiarah/jiarah') ?>" method="POST" data-remote="data-remote">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Kota Asal</label>
+            <input type="text" name="asal" class="form-control" placeholder="Kota Asal">
+          </div>
+          <div class="form-group">
+            <label>Kota Tujuan</label>
+            <input type="text" name="tujuan" class="form-control" placeholder="Kota Tujuan"> 
+          </div>
+          <div class="form-group">
+            <label>Harga</label>
+            <input type="text" name="harga" data-harga-jiarah class="form-control" placeholder="Harga"> 
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>
+          <button type="submit" class="btn btn-success">Save Jiarah</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="tambahOverland" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="label_overland">Tambah Route Overland</h4>
+      </div>
+
+      <form name="overland" action="<?= $this->url->get('Tarif/InputOverlandJiarah/overland') ?>" method="POST" data-remote="data-remote">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Kota Asal</label>
+            <input type="text" name="asal" class="form-control" placeholder="Kota Asal">
+          </div>
+          <div class="form-group">
+            <label>Kota Tujuan</label>
+            <input type="text" name="tujuan" class="form-control" placeholder="Kota Tujuan"> 
+          </div>
+          <div class="form-group">
+            <label>Hari</label>
+            <input type="number" name="hari" class="form-control" placeholder="Hari"> 
+          </div>
+          <div class="form-group">
+            <label>Medium Agen</label>
+            <input type="text" name="medium_agen" data-med-agen class="form-control" placeholder="Medium Agen"> 
+          </div>
+          <div class="form-group">
+            <label>Big Agen</label>
+            <input type="text" name="big_agen" data-med-agen class="form-control" placeholder="Big Agen"> 
+          </div>
+          <div class="form-group">
+            <label>Medium Umum</label>
+            <input type="text" name="medium_umum" data-med-agen class="form-control" placeholder="Medium Umum"> 
+          </div>
+          <div class="form-group">
+            <label>Big Umum</label>
+            <input type="text" name="big_umum" data-med-agen class="form-control" placeholder="Big Umum"> 
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>
+          <button type="submit" class="btn btn-success">Save Overland</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
 <div class="modal fade" id="delTarif" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
@@ -349,6 +460,54 @@ td {
     </div>
   </div>
 </div>
+<div class="modal fade" id="delJiarah" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Delete Jiarah </h4>
+      </div>
+
+      <form name="delJiarah" action="<?= $this->url->get('Tarif/deleteOverlandJiarah') ?>" method="POST" data-delete="data-delete">
+        <div class="modal-body">
+          <input type="hidden" name="id" id="id_delete" value="">
+          <p>Apakah anda yakin akan menghapus Jiarah "<span id="deleteJiarah" class="text-danger"></span>" ??</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default close_btn" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="delOverland" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Delete Overland </h4>
+      </div>
+
+      <form name="delOverland" action="<?= $this->url->get('Tarif/deleteOverlandJiarah') ?>" method="POST" data-delete="data-delete">
+        <div class="modal-body">
+          <input type="hidden" name="id" id="id_delete" value="">
+          <p>Apakah anda yakin akan menghapus Overland "<span id="deleteOverland" class="text-danger"></span>" ??</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default close_btn" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
 
 <!-- include JS -->
 <script>
@@ -374,12 +533,18 @@ td {
           text: response.text,
           type: response.type
         });
+        console.log(action);
+        console.log(action2);
         update_page('Tarif', 'page_tarif');
         clear_form(response.close);
         if (action == 'inputRoute' || action2 == 'updateRoute' ) {
 	        listRoute();
-        } else {
+        } else if (action == 'inputTarif' || action2 == 'updateTarif' ) {
 	        listTarif();
+        } else if (action == 'jiarah' && action2 == 'InputOverlandJiarah' ) {
+          listOverlandJiarah(response.check);
+        } else if (action == 'overland' && action2 == 'InputOverlandJiarah' ) {
+          listOverlandJiarah(response.check);
         }
       }
     });
@@ -510,21 +675,62 @@ function searchRoute(that) {
   });
 }
 
+function listOverlandJiarah(check) {
+  if (check == 'overland') {
+    $.ajax({
+      type: 'GET',
+      url: '<?= $this->url->get('Tarif/overlandJiarah/overland') ?>',
+      dataType:'html',
+      success: function(response){
+        $('#list_overland').html(response);
+      }
+    });
+  } else if (check == 'jiarah') {
+    $.ajax({
+      type: 'GET',
+      url: '<?= $this->url->get('Tarif/overlandJiarah/jiarah') ?>',
+      dataType:'html',
+      success: function(response){
+        $('#list_jiarah').html(response);
+      }
+    });
+  }
+}
+
+function deleteOverlandJiarah(id, deleted, check) {
+  if (check == 'overland') {
+    $('form[name="delOverland"] #id_delete').val(id);
+    $('span#deleteOverland').text(deleted);
+  } else if (check == 'jiarah') {
+    $('form[name="delJiarah"] #id_delete').val(id);
+    $('span#deleteJiarah').text(deleted);
+  }
+}
+
 $("[data-med-agen]").inputmask({mask: "9999999999", placeholder: "",});
 $("[data-big-agen]").inputmask({mask: "9999999999", placeholder: "",});
 $("[data-med-umum]").inputmask({mask: "9999999999", placeholder: "",});
 $("[data-big-umum]").inputmask({mask: "9999999999", placeholder: "",});
+$("[data-harga-jiarah]").inputmask({mask: "9999999999", placeholder: "",});
 
 function clear_form(id) {
   $('form[name="route"]').find('[name]').val('');
   $('form[name="tarif"]').find('[name]').val('');
+  $('form[name="jiarah"]').find('[name]').val('');
+  $('form[name="overland"]').find('[name]').val('');
   $('#label_route').text('Tambah Route');
   $('#label_tarif').text('Tambah Tarif');
+  $('#label_jiarah').text('Tambah Route Jiarah');
+  $('#label_tarif').text('Tambah Route Overland');
   $('form[name="route"]').attr('action', '<?= $this->url->get('Tarif/inputRoute') ?>');
   $('form[name="tarif"]').attr('action', '<?= $this->url->get('Tarif/inputTarif') ?>');
+  $('form[name="jiarah"]').attr('action', '<?= $this->url->get('Tarif/InputOverlandJiarah/jiarah') ?>');
+  $('form[name="overland"]').attr('action', '<?= $this->url->get('Tarif/InputOverlandJiarah/overland') ?>');
   if (id == '1') {
     $('#tambahRoute').modal('hide');
     $('#tambahTarif').modal('hide');
+    $('#tambahOverland').modal('hide');
+    $('#tambahJiarah').modal('hide');
   }
 }
 </script>

@@ -21,12 +21,18 @@
           text: response.text,
           type: response.type
         });
+        console.log(action);
+        console.log(action2);
         update_page('Tarif', 'page_tarif');
         clear_form(response.close);
         if (action == 'inputRoute' || action2 == 'updateRoute' ) {
 	        listRoute();
-        } else {
+        } else if (action == 'inputTarif' || action2 == 'updateTarif' ) {
 	        listTarif();
+        } else if (action == 'jiarah' && action2 == 'InputOverlandJiarah' ) {
+          listOverlandJiarah(response.check);
+        } else if (action == 'overland' && action2 == 'InputOverlandJiarah' ) {
+          listOverlandJiarah(response.check);
         }
       }
     });
@@ -157,21 +163,62 @@ function searchRoute(that) {
   });
 }
 
+function listOverlandJiarah(check) {
+  if (check == 'overland') {
+    $.ajax({
+      type: 'GET',
+      url: '{{ url('Tarif/overlandJiarah/overland') }}',
+      dataType:'html',
+      success: function(response){
+        $('#list_overland').html(response);
+      }
+    });
+  } else if (check == 'jiarah') {
+    $.ajax({
+      type: 'GET',
+      url: '{{ url('Tarif/overlandJiarah/jiarah') }}',
+      dataType:'html',
+      success: function(response){
+        $('#list_jiarah').html(response);
+      }
+    });
+  }
+}
+
+function deleteOverlandJiarah(id, deleted, check) {
+  if (check == 'overland') {
+    $('form[name="delOverland"] #id_delete').val(id);
+    $('span#deleteOverland').text(deleted);
+  } else if (check == 'jiarah') {
+    $('form[name="delJiarah"] #id_delete').val(id);
+    $('span#deleteJiarah').text(deleted);
+  }
+}
+
 $("[data-med-agen]").inputmask({mask: "9999999999", placeholder: "",});
 $("[data-big-agen]").inputmask({mask: "9999999999", placeholder: "",});
 $("[data-med-umum]").inputmask({mask: "9999999999", placeholder: "",});
 $("[data-big-umum]").inputmask({mask: "9999999999", placeholder: "",});
+$("[data-harga-jiarah]").inputmask({mask: "9999999999", placeholder: "",});
 
 function clear_form(id) {
   $('form[name="route"]').find('[name]').val('');
   $('form[name="tarif"]').find('[name]').val('');
+  $('form[name="jiarah"]').find('[name]').val('');
+  $('form[name="overland"]').find('[name]').val('');
   $('#label_route').text('Tambah Route');
   $('#label_tarif').text('Tambah Tarif');
+  $('#label_jiarah').text('Tambah Route Jiarah');
+  $('#label_tarif').text('Tambah Route Overland');
   $('form[name="route"]').attr('action', '{{ url('Tarif/inputRoute') }}');
   $('form[name="tarif"]').attr('action', '{{ url('Tarif/inputTarif') }}');
+  $('form[name="jiarah"]').attr('action', '{{ url('Tarif/InputOverlandJiarah/jiarah') }}');
+  $('form[name="overland"]').attr('action', '{{ url('Tarif/InputOverlandJiarah/overland') }}');
   if (id == '1') {
     $('#tambahRoute').modal('hide');
     $('#tambahTarif').modal('hide');
+    $('#tambahOverland').modal('hide');
+    $('#tambahJiarah').modal('hide');
   }
 }
 </script>
