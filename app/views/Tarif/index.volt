@@ -97,7 +97,7 @@ td {
               </thead>
               <tbody id="list_jiarah">
                 {% for j in jiarah %}
-                <tr id="delJ{{ o.id }}">
+                <tr id="delJ{{ j.id }}">
                   <td align="center">
                     <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#tambahJiarah" onclick="updateOverlandJiarah('{{ j.id }}')">
                       <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i> Edit

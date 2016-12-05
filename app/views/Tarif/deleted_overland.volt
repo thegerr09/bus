@@ -8,7 +8,7 @@
         <h4 class="modal-title">Delete Overland </h4>
       </div>
 
-      <form name="delOverland" action="{{ url('Tarif/deleteOverlandJiarah') }}" method="POST" data-delete="data-delete">
+      <form name="delOverland" action="{{ url('Tarif/deleteOverlandJiarah/overland') }}" method="POST" data-delete="data-delete">
         <div class="modal-body">
           <input type="hidden" name="id" id="id_delete" value="">
           <p>Apakah anda yakin akan menghapus Overland "<span id="deleteOverland" class="text-danger"></span>" ??</p>

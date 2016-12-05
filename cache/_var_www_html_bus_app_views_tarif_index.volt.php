@@ -97,7 +97,7 @@ td {
               </thead>
               <tbody id="list_jiarah">
                 <?php foreach ($jiarah as $j) { ?>
-                <tr id="delJ<?= $o->id ?>">
+                <tr id="delJ<?= $j->id ?>">
                   <td align="center">
                     <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#tambahJiarah" onclick="updateOverlandJiarah('<?= $j->id ?>')">
                       <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i> Edit
@@ -470,7 +470,7 @@ td {
         <h4 class="modal-title">Delete Jiarah </h4>
       </div>
 
-      <form name="delJiarah" action="<?= $this->url->get('Tarif/deleteOverlandJiarah') ?>" method="POST" data-delete="data-delete">
+      <form name="delJiarah" action="<?= $this->url->get('Tarif/deleteOverlandJiarah/jiarah') ?>" method="POST" data-delete="data-delete">
         <div class="modal-body">
           <input type="hidden" name="id" id="id_delete" value="">
           <p>Apakah anda yakin akan menghapus Jiarah "<span id="deleteJiarah" class="text-danger"></span>" ??</p>
@@ -494,7 +494,7 @@ td {
         <h4 class="modal-title">Delete Overland </h4>
       </div>
 
-      <form name="delOverland" action="<?= $this->url->get('Tarif/deleteOverlandJiarah') ?>" method="POST" data-delete="data-delete">
+      <form name="delOverland" action="<?= $this->url->get('Tarif/deleteOverlandJiarah/overland') ?>" method="POST" data-delete="data-delete">
         <div class="modal-body">
           <input type="hidden" name="id" id="id_delete" value="">
           <p>Apakah anda yakin akan menghapus Overland "<span id="deleteOverland" class="text-danger"></span>" ??</p>
@@ -560,8 +560,11 @@ td {
     var form = $(this);
     var url = form.prop('action');
     var array_url = url.split("/");
+    var array_url = url.split("/");
     var last      = array_url.length - 1;
-    var action	  = array_url[last];
+    var last2     = last - 1;
+    var action    = array_url[last];
+    var action2   = array_url[last2];
 
    	// console.log(action);
     $.ajax({
@@ -580,9 +583,15 @@ td {
 	        $('#delRoute').modal('hide');
 	        $('#delR'+response.id).fadeOut(700);
 	        $('#delRA'+response.id).fadeOut(700);
-        } else {
+        } else if (action == "deleteTarif") {
 	        $('#delTarif').modal('hide');
 	        $('#delT'+response.id)	.fadeOut(700);
+        } else if (action2 == "deleteOverlandJiarah" && action == 'jiarah') {
+          $('#delJiarah').modal('hide');
+          $('#delJ'+response.id)  .fadeOut(700);
+        } else if (action2 == "deleteOverlandJiarah" && action == 'overland') {
+          $('#delOverland').modal('hide');
+          $('#delO'+response.id)  .fadeOut(700);
         }
         update_page('Tarif', 'page_tarif');
       }

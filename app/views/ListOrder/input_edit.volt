@@ -5,10 +5,10 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form()">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="label_booking">Input Booking</h4>
+        <h4 class="modal-title" id="label_booking">Input Order</h4>
       </div>
 
-      <form name="booking" action="{{ url('Booking/input') }}" method="POST" data-remote="data-remote">
+      <form name="booking" action="{{ url('ListOrder/input') }}" method="POST" data-remote="data-remote">
         <div class="modal-body">
           <div class="row">
 

@@ -5,10 +5,10 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form()">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="label_booking">Input Booking</h4>
+        <h4 class="modal-title" id="label_booking">Input Order</h4>
       </div>
 
-      <form name="booking" action="{{ url('Booking/input') }}" method="POST" data-remote="data-remote">
+      <form name="booking" action="<?= $this->url->get('ListOrder/input') ?>" method="POST" data-remote="data-remote">
         <div class="modal-body">
           <div class="row">
 
@@ -76,7 +76,7 @@
                     <i class="fa fa-credit-card"></i>
                   </span>
                   <select name="metode_pembayaran" class="form-control">
-                    {{ Helpers.tagSetting('pembayaran', 'Methode Pembayaran', '') }}
+                    <?= $this->Helpers->tagSetting('pembayaran', 'Methode Pembayaran', '') ?>
                   </select>
                 </div>
               </div>
@@ -120,7 +120,7 @@
                     <i class="fa fa-cubes"></i>
                   </span>
                   <select name="paket" class="form-control" onchange="pakett(this)">
-                    {{ Helpers.tagSetting('paket', 'Pilih Paket', '') }}
+                    <?= $this->Helpers->tagSetting('paket', 'Pilih Paket', '') ?>
                   </select>
                 </div>
               </div>
@@ -132,7 +132,7 @@
                       <i class="fa fa-map"></i>
                     </span>
                     <select name="area" class="form-control" onchange="areaa(this)">
-                      {{ Helpers.tagSetting('area', 'Pilih Area', '') }}
+                      <?= $this->Helpers->tagSetting('area', 'Pilih Area', '') ?>
                     </select>
                   </div>
                 </div>
@@ -214,7 +214,7 @@
                   </span>
                   <select name="type_booking" class="form-control" onchange="get_harga(this)">
                     <option value="">Booking Dari</option>
-                    {{ Helpers.tagSetting('Booking', 'Booking Dari', '') }}
+                    <?= $this->Helpers->tagSetting('Booking', 'Booking Dari', '') ?>
                   </select>
                 </div>
               </div>

@@ -8,7 +8,7 @@
         <h4 class="modal-title">Delete Jiarah </h4>
       </div>
 
-      <form name="delJiarah" action="{{ url('Tarif/deleteOverlandJiarah') }}" method="POST" data-delete="data-delete">
+      <form name="delJiarah" action="{{ url('Tarif/deleteOverlandJiarah/jiarah') }}" method="POST" data-delete="data-delete">
         <div class="modal-body">
           <input type="hidden" name="id" id="id_delete" value="">
           <p>Apakah anda yakin akan menghapus Jiarah "<span id="deleteJiarah" class="text-danger"></span>" ??</p>

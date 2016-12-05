@@ -40,6 +40,11 @@ class Helpers
 		return $tag;
 	}
 
+	public static function jiarah($value = '')
+	{
+		# code...
+	}
+
 	public static function area()
 	{
 		$setting = Setting::findFirst("name = 'area'");

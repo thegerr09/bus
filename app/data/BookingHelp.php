@@ -72,6 +72,8 @@ class BookingHelp
         foreach ($booking as $key => $value) {
             $start    = new DateTime($value['tanggal_mulai']);
             $end      = new DateTime($value['tanggal_kembali']);
+            $end->modify('+1 day');
+            $end->format('Y-m-d');
             $interval = new DateInterval('P1D');
             $period   = new DatePeriod($start, $interval, $end);
 
@@ -90,5 +92,5 @@ class BookingHelp
         }
         return $result;
     }
-
+    
 }

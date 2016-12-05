@@ -18,8 +18,12 @@
       <div class="box box-primary">
         <div class="box-header with-border">
           <h3 class="box-title">Grafik Order</h3>
-          <div class="box-tools pull-right" style="margin-top:2px;">
-            <!--  -->
+          <div class="box-tools pull-right" style="margin-top:2px; width: 200px;">
+            <form action="{{ url('GrafikOrder/list') }}">
+              <div class="form-group-sm">
+                <input type="month" name="filter" class="form-control" onchange="filter_month(this)">
+              </div>
+            </form>
           </div>
         </div>
         <div class="box-body">

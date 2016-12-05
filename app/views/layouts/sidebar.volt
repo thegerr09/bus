@@ -98,6 +98,36 @@
       </li>
       <li class="treeview">
         <a href="#">
+          <i class="fa fa-paste"></i> <span>Akuntansi</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li style="cursor: pointer;">
+            <a onclick="return load_page('page_users','Users','page_users')">
+              <i class="fa fa-circle-o"></i> Header & Account
+            </a>
+          </li>
+          <li style="cursor: pointer;">
+            <a onclick="return load_page('page_users','Users','page_users')">
+              <i class="fa fa-circle-o"></i> Jurnal
+            </a>
+          </li>
+          <li style="cursor: pointer;">
+            <a onclick="return load_page('page_users','Users','page_users')">
+              <i class="fa fa-circle-o"></i> Tutup Buku
+            </a>
+          </li>
+          <li style="cursor: pointer;">
+            <a onclick="return load_page('page_users','Users','page_users')">
+              <i class="fa fa-circle-o"></i> Buku Besar
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a href="#">
           <i class="fa fa-cubes"></i> <span>Iventaris Barang</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>

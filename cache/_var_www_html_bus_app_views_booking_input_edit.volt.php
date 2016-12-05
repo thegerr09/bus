@@ -164,7 +164,7 @@
                     <span class="input-group-addon">
                       <i class="fa fa-map-marker"></i>
                     </span>
-                    <select name="route_jiarah" class="form-control">
+                    <select name="route_jiarah" class="form-control" onclick="lokasii()">
                       <option value="">Pilih Route Jiarah</option>
                     </select>
                   </div>

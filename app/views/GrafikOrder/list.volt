@@ -1,7 +1,7 @@
 <table id="example" class="table table-bordered">
   <thead>
     <tr>
-      <td align="center" style="vertical-align: middle;" rowspan="2" width="150"><b>TANGGAl</b></td>
+      <td align="center" style="vertical-align: middle;" rowspan="2" width="100"><b>TANGGAl</b></td>
       {% set lenght = bus|length %}
       <td colspan="{{ lenght + 1 }}" align="center"><b>LIST BUS</b></td>
     </tr>
@@ -14,7 +14,7 @@
   <tbody>
     {% for i in 0..dayInMonth %}
     <tr>
-      <td>{{ listDate[i] }}</td>
+      <td align="center">{{ listDate[i] }}</td>
       {% for body in bus %}
       <td {{ Helpers.viewGrafik(filterDate[i], body.id) }}></td>
       {% endfor %}

@@ -18,8 +18,12 @@
       <div class="box box-primary">
         <div class="box-header with-border">
           <h3 class="box-title">Grafik Order</h3>
-          <div class="box-tools pull-right" style="margin-top:2px;">
-            <!--  -->
+          <div class="box-tools pull-right" style="margin-top:2px; width: 200px;">
+            <form action="<?= $this->url->get('GrafikOrder/list') ?>">
+              <div class="form-group-sm">
+                <input type="month" name="filter" class="form-control" onchange="filter_month(this)">
+              </div>
+            </form>
           </div>
         </div>
         <div class="box-body">
@@ -513,6 +517,11 @@ $('#tanggal_back').datetimepicker({
   format: 'YYYY-MM-DD'
 });
 
+$('[data-filter]').datetimepicker({ 
+  viewMode: 'months',
+  format: 'YYYY-MM'
+});
+
 $("[data-telp]").inputmask({mask: "99999999999999", placeholder: "",});
 $("[data-tarif]").inputmask({mask: "9999999999", placeholder: "",});
 $("[data-dp]").inputmask({mask: "9999999999", placeholder: "",});
@@ -689,5 +698,61 @@ function clear_form(id) {
 
 function close_action() {
   $('body').removeAttr('style');
+}
+
+function filter_month(that) {
+  var val = $(that).val();
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('GrafikOrder/list') ?>',
+    dataType:'html',
+    data: 'filter='+val,
+    success: function(response){
+      $('#list_view').html(response);
+      var handleDataTableButtons = function() {
+        if ($("#example").length) {
+          $("#example").DataTable({
+            dom: "Bfrtip",
+          paging:       false,
+            lengthChange: false,
+            ordering:   false,
+            buttons: [
+              {
+                extend: "copy",
+                className: "btn-sm"
+              },
+              {
+                extend: "csv",
+                className: "btn-sm"
+              },
+              {
+                extend: "excel",
+                className: "btn-sm"
+              },
+              {
+                extend: "pdfHtml5",
+                className: "btn-sm"
+              },
+              {
+                extend: "print",
+                className: "btn-sm"
+              },
+            ],
+            responsive: true
+          });
+        }
+      };
+
+      TableManageButtons = function() {
+        "use strict";
+        return {
+          init: function() {
+            handleDataTableButtons();
+          }
+        };
+      }();
+      TableManageButtons.init();
+    }
+  });
 }
 </script>

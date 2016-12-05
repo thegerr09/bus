@@ -142,13 +142,24 @@ function edit(id) {
         form.find('[name="'+key+'"]').val(value);
       });
       $('#label_booking').text('Update Data Booking "'+response.kode+'"');
-      $('#'+response.paket).collapse('show');
-      areaa_selected(response.area, response.route);
-      driver(1, response.driver);
-      driver(2, response.co_driver);
-      lokasii(response.type_bus);
-      bus(response.type_bus, response.bus);
-      routee_selected(response.route, response.lokasi);
+      if (response.paket == 'regular') {
+        $('#regular').collapse('show');
+        $('#jiarah').collapse('hide');
+        areaa_selected(response.area, response.route);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+        routee_selected(response.route, response.lokasi);
+      } else if (response.paket == 'jiarah') {
+        $('#regular').collapse('hide');
+        $('#jiarah').collapse('show');
+        route_jiarah(response.route_jiarah);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+      }
     }
   });
 }
@@ -172,16 +183,30 @@ function next(id) {
         .val(value);
       });
       $('#label_booking').text('Lanjut Sewa kode booking "'+response.kode+'" ?');
-      $('#'+response.paket).collapse('show');
-      areaa_selected(response.area, response.route);
-      driver(1, response.driver);
-      driver(2, response.co_driver);
-      lokasii(response.type_bus);
-      bus(response.type_bus, response.bus);
-      routee_selected(response.route, response.lokasi);
-      $('select[name="driver"]').attr('onchange', 'modal_driver()');
-      $('select[name="co_driver"]').attr('onchange', 'modal_driver()');
-      modal_driver();
+      if (response.paket == 'regular') {
+        $('#regular').collapse('show');
+        $('#jiarah').collapse('hide');
+        areaa_selected(response.area, response.route);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+        routee_selected(response.route, response.lokasi);
+        $('select[name="driver"]').attr('onchange', 'modal_driver()');
+        $('select[name="co_driver"]').attr('onchange', 'modal_driver()');
+        modal_driver();
+      } else if (response.paket == 'jiarah') {
+        $('#regular').collapse('hide');
+        $('#jiarah').collapse('show');
+        route_jiarah(response.route_jiarah);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+        $('select[name="driver"]').attr('onchange', 'modal_driver()');
+        $('select[name="co_driver"]').attr('onchange', 'modal_driver()');
+        modal_driver();
+      }
     }
   });
 }
@@ -220,6 +245,7 @@ function pakett(that) {
     $('#regular').collapse('show');
     $('#jiarah').collapse('hide');
   } else if (val == 'jiarah') {
+    route_jiarah();
     $('#regular').collapse('hide');
     $('#jiarah').collapse('show');
   } else {
@@ -268,7 +294,7 @@ function routee(that) {
     type: 'POST',
     url: '<?= $this->url->get('Booking/data/') ?>'+5,
     dataType:'html',
-    data: 'lokasi='+val+'&selected=not',
+    data: 'lokasi='+val+'&selected=not&paket=regular',
     success: function(response){
       $('select[name="lokasi"]').html(response);
       $('select[name="type_bus"]').html('<option value="">Pilih Type Bus</option>');
@@ -282,9 +308,21 @@ function routee_selected(route, selected) {
     type: 'POST',
     url: '<?= $this->url->get('Booking/data/') ?>'+5,
     dataType:'html',
-    data: 'lokasi='+route+'&selected='+selected,
+    data: 'lokasi='+route+'&selected='+selected+'&paket=regular',
     success: function(response){
       $('select[name="lokasi"]').html(response);
+    }
+  });
+}
+
+function route_jiarah(selected) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Booking/data/') ?>'+5,
+    dataType:'html',
+    data: 'selected='+selected+'&paket=jiarah',
+    success: function(response){
+      $('select[name="route_jiarah"]').html(response);
     }
   });
 }
@@ -322,14 +360,20 @@ function bus(ukuran, selected) {
 
 function get_harga(that) {
   var val      = $(that).val();
+  var paket    = $('select[name="paket"]').val();
   var type_bus = $('select[name="type_bus"]').val();
-  var lokasi   = $('select[name="lokasi"]').val();
+
+  if (paket == 'regular') {
+    var lokasi = $('select[name="lokasi"]').val();
+  } else if (paket == 'jiarah') {
+    var lokasi = $('select[name="route_jiarah"]').val();
+  }
 
   $.ajax({
     type: 'POST',
     url: '<?= $this->url->get('Booking/data/') ?>'+6,
     dataType:'html',
-    data: 'id='+lokasi+'&key='+type_bus+'_'+val,
+    data: 'id='+lokasi+'&key='+type_bus+'_'+val+'&paket='+paket,
     success: function(response){
       $('input[name="tarif"]').val(response);
     }

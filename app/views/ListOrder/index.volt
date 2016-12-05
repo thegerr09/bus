@@ -54,15 +54,10 @@
                     </button>&nbsp;
                     <hr>
                     {% if x.success == 'Y' %} 
-                      <span class="label bg-green"><i class="fa fa-check"></i> LANJUT SEWA</span>
-                    {% elseif x.batal == 'Y' %}
-                      <span class="label bg-red"><i class="fa fa-remove"></i> BATAL SEWA</span>
+                      <span class="label bg-green"><i class="fa fa-check-circle"></i> SUCCESS</span>
                     {% else %}
-                      <span class="label bg-green cursor" data-toggle="modal" data-target="#Tambah" onclick="next({{ x.id }})">
-                        <span data-toggle="tooltip" data-placement="top" title="Lanjut Sewa"><i class="fa fa-check"></i> SEWA</span>
-                      </span>&nbsp;
-                      <span class="label bg-red cursor" data-toggle="modal" data-target="#Cencle" onclick="cencled({{ x.id }}, '{{ x.kode }}')">
-                        <span data-toggle="tooltip" data-placement="top" title="Batal Sewa"><i class="fa fa-remove"></i> BATAL</span>
+                      <span class="label bg-primary cursor" data-toggle="modal" data-target="#Tambah" onclick="car_back({{ x.id }})">
+                        <span data-toggle="tooltip" data-placement="top" title="Mobil Kembali"><i class="fa fa-car"></i> MOBIL KEMBALI</span>
                       </span>
                     {% endif %}
                   </td>
@@ -106,6 +101,7 @@
 </section>
 
 <!-- include popup -->
+{% include "ListOrder/input_edit.volt" %}
 
 <!-- include JS -->
 {% include "ListOrder/js.volt" %}

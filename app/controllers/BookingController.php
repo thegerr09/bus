@@ -7,14 +7,14 @@ class BookingController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-        $this->view->booking = Booking::find(["conditions" => "deleted = 'N'"]);
+        $this->view->booking = Booking::find(["conditions" => "invoice = 'N' AND deleted = 'N'"]);
         $this->view->pick("Booking/index");
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
     public function listAction()
     {
-        $this->view->booking = Booking::find(["conditions" => "deleted = 'N'"]);
+        $this->view->booking = Booking::find(["conditions" => "invoice = 'N' AND deleted = 'N'"]);
         $this->view->pick("Booking/list");
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
@@ -127,6 +127,7 @@ class BookingController extends \Phalcon\Mvc\Controller
 
         $booking->assign($post);
         if ($booking->save()) {
+            $post['success'] = 'N';
             $invoice = new Invoice();
             $invoice->assign($post);
             if ($invoice->save()) {
@@ -287,21 +288,43 @@ class BookingController extends \Phalcon\Mvc\Controller
     			}
     		}
     	} else if ((int) $id === 5) {
-    		$lokasi = $this->request->getPost('lokasi');
-    		$driver = LocationAndTarif::find(["conditions" => "route_id = '$lokasi' AND deleted = 'N'"]);
-    		$result = '<option value="">Pilih Lokasi</option>';
-    		foreach ($driver as $key => $value) {
-    			if ($value->id == $this->request->getPost('selected')) {
-    				$result .= '<option value="' . $value->id . '" selected>' . $value->location . '</option>';
-    			} else {
-    				$result .= '<option value="' . $value->id . '">' . $value->location . '</option>';
-    			}
-    		}
+            $paket = $this->request->getPost('paket');
+
+            if ($paket === 'regular') {
+                $lokasi = $this->request->getPost('lokasi');
+        		$driver = LocationAndTarif::find(["conditions" => "route_id = '$lokasi' AND deleted = 'N'"]);
+        		$result = '<option value="">Pilih Lokasi</option>';
+        		foreach ($driver as $key => $value) {
+        			if ($value->id == $this->request->getPost('selected')) {
+        				$result .= '<option value="' . $value->id . '" selected>' . $value->location . '</option>';
+        			} else {
+        				$result .= '<option value="' . $value->id . '">' . $value->location . '</option>';
+        			}
+        		}
+            } else if ($paket === 'jiarah') {
+                $driver = Jiarah::find(["conditions" => "deleted = 'N'"]);
+                $result = '<option value="">Pilih Route Jiarah</option>';
+                foreach ($driver as $key => $value) {
+                    if ($value->id == $this->request->getPost('selected')) {
+                        $result .= '<option value="' . $value->id . '" selected>' . $value->asal . '/' . $value->tujuan . '</option>';
+                    } else {
+                        $result .= '<option value="' . $value->id . '">' . $value->asal . '/' . $value->tujuan . '</option>';
+                    }
+                }
+            }
         } else if ((int) $id === 6) {
             $value  = $this->request->getPost('id');
             $key    = $this->request->getPost('key');
-            $harga  = LocationAndTarif::findFirst($value);
-    	    $result = $harga->$key;
+            $paket  = $this->request->getPost('paket');
+
+            if ($paket === 'regular') {
+                $harga  = LocationAndTarif::findFirst($value);
+        	    $result = $harga->$key;
+            } else if ($paket === 'jiarah') {
+                $harga  = Jiarah::findFirst($value);
+                $result = $harga->harga;
+            }
+            
         }
     	return $result;
     }

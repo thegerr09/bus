@@ -48,8 +48,11 @@
     var form = $(this);
     var url = form.prop('action');
     var array_url = url.split("/");
+    var array_url = url.split("/");
     var last      = array_url.length - 1;
-    var action	  = array_url[last];
+    var last2     = last - 1;
+    var action    = array_url[last];
+    var action2   = array_url[last2];
 
    	// console.log(action);
     $.ajax({
@@ -68,9 +71,15 @@
 	        $('#delRoute').modal('hide');
 	        $('#delR'+response.id).fadeOut(700);
 	        $('#delRA'+response.id).fadeOut(700);
-        } else {
+        } else if (action == "deleteTarif") {
 	        $('#delTarif').modal('hide');
 	        $('#delT'+response.id)	.fadeOut(700);
+        } else if (action2 == "deleteOverlandJiarah" && action == 'jiarah') {
+          $('#delJiarah').modal('hide');
+          $('#delJ'+response.id)  .fadeOut(700);
+        } else if (action2 == "deleteOverlandJiarah" && action == 'overland') {
+          $('#delOverland').modal('hide');
+          $('#delO'+response.id)  .fadeOut(700);
         }
         update_page('Tarif', 'page_tarif');
       }

@@ -269,6 +269,60 @@ class TarifController extends \Phalcon\Mvc\Controller
         return json_encode($notify);
     }
 
+    public function deleteOverlandJiarahAction($check)
+    {
+        $this->view->disable();
+        $id = $this->request->getPost('id');
+
+        if ($check === 'overland') {
+            $overland = Overland::findFirst($id);
+            $overland->deleted = 'Y';
+            if ($overland->save()) {
+                $notify = [
+                    'title'   => 'Success',
+                    'text'    => 'Data berhasil di simpan ke database',
+                    'type'    => 'success',
+                    'id'      => $id
+                ];
+            } else {
+                $messages = $overland->getMessages();
+                $m = '';
+                foreach ($messages as $message) {
+                    $m .= "$message <br/>";
+                }
+                $notify = [
+                    'title' => 'Errors',
+                    'text'  => $m,
+                    'type'  => 'error'
+                ];
+            }
+        } else if ($check === 'jiarah') {
+            $jiarah = Jiarah::findFirst($id);
+            $jiarah->deleted = 'Y';
+            if ($jiarah->save()) {
+                $notify = [
+                    'title'   => 'Success',
+                    'text'    => 'Data berhasil di simpan ke database',
+                    'type'    => 'success',
+                    'id'      => $id
+                ];
+            } else {
+                $messages = $jiarah->getMessages();
+                $m = '';
+                foreach ($messages as $message) {
+                    $m .= "$message <br/>";
+                }
+                $notify = [
+                    'title' => 'Errors',
+                    'text'  => $m,
+                    'type'  => 'error'
+                ];
+            }
+        }
+        
+        return json_encode($notify);
+    }
+
     public function detailAction()
     {
         $this->view->disable();
