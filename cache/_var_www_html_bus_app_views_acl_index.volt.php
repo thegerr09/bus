@@ -193,7 +193,7 @@
 $(document).ready(function() {
 	var table = $('#example').DataTable( {
 		scrollY:        "310px",
-		dom: 			'<"pull-left"f><"pull-right"i>tip',
+		dom: 			'<"pull-left"f><"pull-right"i>t',
 		scrollX:        true,
 		scrollCollapse: true,
 		paging:         false,

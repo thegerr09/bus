@@ -30,7 +30,7 @@ class SettingController extends \Phalcon\Mvc\Controller
             $notify = [
                 'title' => 'Success',
                 'text'  => 'Data berhasil di simpan ke database',
-                'type'  => 'success',
+                'type'  => 'success'
             ];
         } else {
             $messages = $setting->getMessages();

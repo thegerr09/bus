@@ -105,22 +105,22 @@
         </a>
         <ul class="treeview-menu">
           <li style="cursor: pointer;">
-            <a onclick="return load_page('page_users','Users','page_users')">
+            <a onclick="return load_page('page_header_account','HeaderAccount','page_header_account')">
               <i class="fa fa-circle-o"></i> Header & Account
             </a>
           </li>
           <li style="cursor: pointer;">
-            <a onclick="return load_page('page_users','Users','page_users')">
+            <a onclick="return load_page('#','#','#')">
               <i class="fa fa-circle-o"></i> Jurnal
             </a>
           </li>
           <li style="cursor: pointer;">
-            <a onclick="return load_page('page_users','Users','page_users')">
+            <a onclick="return load_page('#','#','#')">
               <i class="fa fa-circle-o"></i> Tutup Buku
             </a>
           </li>
           <li style="cursor: pointer;">
-            <a onclick="return load_page('page_users','Users','page_users')">
+            <a onclick="return load_page('#','#','#')">
               <i class="fa fa-circle-o"></i> Buku Besar
             </a>
           </li>
