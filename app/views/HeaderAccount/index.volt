@@ -34,10 +34,10 @@
               <tbody id="list_header">
                 {% set no = 1 %}
                 {% for h in header %}
-                <tr id="del{{ h.id }}">
+                <tr id="delHeader{{ h.id }}">
                   <td align="center">{{ no }}</td>
                   <td align="center">
-                    <button type="button" class="btn btn-primary btn-xs">
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#TambahHeader" onclick="update({{ h.id }}, '{{ h.header }}', '{{ h.jenis }}', 'header')">
                       <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
                     </button>
                     <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#DeleteHeader" onclick="deleted({{ h.id }},'{{ h.header }}', 'header')">
@@ -80,11 +80,15 @@
               <tbody id="list_account">
                 {% set no = 1 %}
                 {% for a in account %}
-                <tr>
+                <tr id="delAccount{{ a.id }}">
                   <td>{{ no }}</td>
                   <td>
-                    <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></button>
-                    <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#TambahAccount" onclick="update({{ a.id }}, '{{ a.account }}', '{{ a.id_header }}', 'account', '{{ a.name_header }}')">
+                      <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#DeleteAccount" onclick="deleted({{ a.id }},'{{ a.account }}', 'account')">
+                      <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i>
+                    </button>
                   </td>
                   <td>{{ a.account }}</td>
                   <td>{{ a.name_header }}</td>

@@ -34,10 +34,10 @@
               <tbody id="list_header">
                 <?php $no = 1; ?>
                 <?php foreach ($header as $h) { ?>
-                <tr id="del<?= $h->id ?>">
+                <tr id="delHeader<?= $h->id ?>">
                   <td align="center"><?= $no ?></td>
                   <td align="center">
-                    <button type="button" class="btn btn-primary btn-xs">
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#TambahHeader" onclick="update(<?= $h->id ?>, '<?= $h->header ?>', '<?= $h->jenis ?>', 'header')">
                       <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
                     </button>
                     <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#DeleteHeader" onclick="deleted(<?= $h->id ?>,'<?= $h->header ?>', 'header')">
@@ -80,11 +80,15 @@
               <tbody id="list_account">
                 <?php $no = 1; ?>
                 <?php foreach ($account as $a) { ?>
-                <tr>
+                <tr id="delAccount<?= $a->id ?>">
                   <td><?= $no ?></td>
                   <td>
-                    <button type="button" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></button>
-                    <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#TambahAccount" onclick="update(<?= $a->id ?>, '<?= $a->account ?>', '<?= $a->id_header ?>', 'account', '<?= $a->name_header ?>')">
+                      <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#DeleteAccount" onclick="deleted(<?= $a->id ?>,'<?= $a->account ?>', 'account')">
+                      <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i>
+                    </button>
                   </td>
                   <td><?= $a->account ?></td>
                   <td><?= $a->name_header ?></td>
@@ -106,13 +110,14 @@
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form()">
           <span aria-hidden="true">&times;</span>
         </button>
         <h4 class="modal-title" id="label_header">Input Header</h4>
       </div>
 
       <form name="header" action="<?= $this->url->get('HeaderAccount/input/header') ?>" method="POST" data-remote="data-remote">
+        <input type="hidden" name="id">
         <div class="modal-body">
           <div class="form-group">
             <label>Nama Header</label>
@@ -140,13 +145,14 @@
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form()">
           <span aria-hidden="true">&times;</span>
         </button>
         <h4 class="modal-title" id="label_header">Input Account</h4>
       </div>
 
       <form name="account" action="<?= $this->url->get('HeaderAccount/input/account') ?>" method="POST" data-remote="data-remote">
+        <input type="hidden" name="id">
         <div class="modal-body">
           <div class="form-group">
             <label>Nama Account</label>
@@ -154,11 +160,10 @@
           </div>
           <div class="form-group">
             <label>Header</label>
-            <select name="jenis" class="form-control">
-              <option value="">Pilih Header</option>
-              <option value="debet">Debet</option>
-              <option value="kredit">Kredit</option>
+            <select name="id_header" class="form-control" onchange="headerr(this)">
+              <?= $this->Helpers->tagHeader() ?>
             </select>
+            <input type="hidden" name="name_header">
           </div>
         </div>
         <div class="modal-footer">
@@ -182,7 +187,7 @@
 
       <form name="deleteHeader" action="<?= $this->url->get('HeaderAccount/delete/header') ?>" method="POST" data-delete="data-delete">
         <div class="modal-body">
-          <input type="hidden" name="id" id="id_delete" value="">
+          <input type="hidden" name="id" id="id_delete_header" value="">
           <p>Apakah anda yakin akan menghapus Header "<span id="header_label" class="text-red"></span>" ?</p>
         </div>
         <div class="modal-footer">
@@ -194,7 +199,30 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="DeleteAccount" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Delete Account </h4>
+      </div>
 
+      <form name="deleteAccount" action="<?= $this->url->get('HeaderAccount/delete/account') ?>" method="POST" data-delete="data-delete">
+        <div class="modal-body">
+          <input type="hidden" name="id" id="id_delete_account" value="">
+          <p>Apakah anda yakin akan menghapus Account "<span id="account_label" class="text-red"></span>" ?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default close_btn" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
 
 <!-- js -->
 <script>
@@ -226,7 +254,8 @@ $(function () {
           type: response.type
         });
         update_page('HeaderAccount', 'page_header_account');
-        clear_form(response.close);
+        clear_form();
+        $('#Tambah'+response.close).modal('hide');
         list(response.check);
       }
     });
@@ -255,9 +284,8 @@ $(function () {
           icon: response.icon
         });
         $('#Delete'+response.check).modal('hide');
-        $('#del'+response.id).fadeOut(700);
+        $('#del'+response.check+response.id).fadeOut(700);
         update_page('HeaderAccount', 'page_header_account');
-        console.log(response.id);
       }
     });
 
@@ -266,9 +294,31 @@ $(function () {
 
 })();
 
-function deleted(id, header, check) {
-  $('input#id_delete').val(id);
-  $('#header_label').text(header);
+function deleted(id, val, check) {
+  if (check == 'header') {
+    $('input#id_delete_header').val(id);
+    $('#header_label').text(val);
+  } else if (check == 'account') {
+    $('input#id_delete_account').val(id);
+    $('#account_label').text(val);
+  }
+}
+
+function update(id, header, jenis, check, name_header) {
+  if (check == 'header') {
+    $('#label_header').val('Update Header');
+    $('form[name="header"]').attr('action', '<?= $this->url->get('HeaderAccount/update/header') ?>');
+    $('input[name="id"]').val(id);
+    $('input[name="header"]').val(header);
+    $('select[name="jenis"]').val(jenis);
+  } else if (check == 'account') {
+    $('#label_header').val('Update Account');
+    $('form[name="account"]').attr('action', '<?= $this->url->get('HeaderAccount/update/account') ?>');
+    $('form[name="account"]').find('input[name="id"]').val(id);
+    $('input[name="account"]').val(header);
+    $('select[name="id_header"]').val(jenis);
+    $('input[name="name_header"]').val(name_header);
+  }
 }
 
 function list(check) {
@@ -293,7 +343,16 @@ function list(check) {
   }
 }
 
+function headerr(that) {
+  var val  = $(that).val();
+  var name = $(that).find('[value="'+val+'"]').text();
+  $('form[name="account"]').find('[name="name_header"]').val(name);  
+}
+
 function clear_form() {
-	
+  $('form[name="header"]').find('[name]').val('');
+  $('form[name="header"]').attr('action', '<?= $this->url->get('HeaderAccount/input/header') ?>');
+  $('form[name="account"]').find('[name]').val('');
+  $('form[name="account"]').attr('action', '<?= $this->url->get('HeaderAccount/input/account') ?>');
 }
 </script>

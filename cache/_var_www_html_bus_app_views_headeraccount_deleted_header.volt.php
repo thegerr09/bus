@@ -10,7 +10,7 @@
 
       <form name="deleteHeader" action="<?= $this->url->get('HeaderAccount/delete/header') ?>" method="POST" data-delete="data-delete">
         <div class="modal-body">
-          <input type="hidden" name="id" id="id_delete" value="">
+          <input type="hidden" name="id" id="id_delete_header" value="">
           <p>Apakah anda yakin akan menghapus Header "<span id="header_label" class="text-red"></span>" ?</p>
         </div>
         <div class="modal-footer">

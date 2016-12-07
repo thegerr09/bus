@@ -2,13 +2,14 @@
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form()">
           <span aria-hidden="true">&times;</span>
         </button>
         <h4 class="modal-title" id="label_header">Input Account</h4>
       </div>
 
       <form name="account" action="<?= $this->url->get('HeaderAccount/input/account') ?>" method="POST" data-remote="data-remote">
+        <input type="hidden" name="id">
         <div class="modal-body">
           <div class="form-group">
             <label>Nama Account</label>
@@ -16,11 +17,10 @@
           </div>
           <div class="form-group">
             <label>Header</label>
-            <select name="jenis" class="form-control">
-              <option value="">Pilih Header</option>
-              <option value="debet">Debet</option>
-              <option value="kredit">Kredit</option>
+            <select name="id_header" class="form-control" onchange="headerr(this)">
+              <?= $this->Helpers->tagHeader() ?>
             </select>
+            <input type="hidden" name="name_header">
           </div>
         </div>
         <div class="modal-footer">

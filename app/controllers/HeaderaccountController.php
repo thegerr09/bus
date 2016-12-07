@@ -139,9 +139,53 @@ class HeaderAccountController extends \Phalcon\Mvc\Controller
     	$this->view->disable();
     	$post = $this->request->getPost();
     	if ($check === 'header') {
-
+    		$header = Header::findFirst($post['id']);
+    		$header->assign($post);
+    		if ($header->save()) {
+	            $notify = [
+	                'title' => 'Success',
+	                'text'  => 'Data berhasil di simpan ke database',
+	                'type'  => 'success',
+	                'icon'  => 'fa fa-trash',
+	                'check' => 'header',
+	                'close' => 'Header'
+	            ];
+    		} else {
+	            $messages = $header->getMessages();
+	            $m = '';
+	            foreach ($messages as $message) {
+	                $m .= "$message <br/>";
+	            }
+	            $notify = [
+	                'title' => 'Errors',
+	                'text'  => $m,
+	                'type'  => 'error'
+	            ];
+    		}
     	} else if ($check === 'account') {
-
+    		$account = Account::findFirst($post['id']);
+    		$account->assign($post);
+    		if ($account->save()) {
+	            $notify = [
+	                'title' => 'Success',
+	                'text'  => 'Data berhasil di simpan ke database',
+	                'type'  => 'success',
+	                'icon'  => 'fa fa-trash',
+	                'check' => 'account',
+	                'close' => 'Account'
+	            ];
+    		} else {
+	            $messages = $account->getMessages();
+	            $m = '';
+	            foreach ($messages as $message) {
+	                $m .= "$message <br/>";
+	            }
+	            $notify = [
+	                'title' => 'Errors',
+	                'text'  => $m,
+	                'type'  => 'error'
+	            ];
+    		}
     	}
     	return json_encode($notify);
     }

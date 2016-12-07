@@ -27,7 +27,8 @@ $(function () {
           type: response.type
         });
         update_page('HeaderAccount', 'page_header_account');
-        clear_form(response.close);
+        clear_form();
+        $('#Tambah'+response.close).modal('hide');
         list(response.check);
       }
     });
@@ -56,9 +57,8 @@ $(function () {
           icon: response.icon
         });
         $('#Delete'+response.check).modal('hide');
-        $('#del'+response.id).fadeOut(700);
+        $('#del'+response.check+response.id).fadeOut(700);
         update_page('HeaderAccount', 'page_header_account');
-        console.log(response.id);
       }
     });
 
@@ -67,9 +67,31 @@ $(function () {
 
 })();
 
-function deleted(id, header, check) {
-  $('input#id_delete').val(id);
-  $('#header_label').text(header);
+function deleted(id, val, check) {
+  if (check == 'header') {
+    $('input#id_delete_header').val(id);
+    $('#header_label').text(val);
+  } else if (check == 'account') {
+    $('input#id_delete_account').val(id);
+    $('#account_label').text(val);
+  }
+}
+
+function update(id, header, jenis, check, name_header) {
+  if (check == 'header') {
+    $('#label_header').val('Update Header');
+    $('form[name="header"]').attr('action', '<?= $this->url->get('HeaderAccount/update/header') ?>');
+    $('input[name="id"]').val(id);
+    $('input[name="header"]').val(header);
+    $('select[name="jenis"]').val(jenis);
+  } else if (check == 'account') {
+    $('#label_header').val('Update Account');
+    $('form[name="account"]').attr('action', '<?= $this->url->get('HeaderAccount/update/account') ?>');
+    $('form[name="account"]').find('input[name="id"]').val(id);
+    $('input[name="account"]').val(header);
+    $('select[name="id_header"]').val(jenis);
+    $('input[name="name_header"]').val(name_header);
+  }
 }
 
 function list(check) {
@@ -94,7 +116,16 @@ function list(check) {
   }
 }
 
+function headerr(that) {
+  var val  = $(that).val();
+  var name = $(that).find('[value="'+val+'"]').text();
+  $('form[name="account"]').find('[name="name_header"]').val(name);  
+}
+
 function clear_form() {
-	
+  $('form[name="header"]').find('[name]').val('');
+  $('form[name="header"]').attr('action', '<?= $this->url->get('HeaderAccount/input/header') ?>');
+  $('form[name="account"]').find('[name]').val('');
+  $('form[name="account"]').attr('action', '<?= $this->url->get('HeaderAccount/input/account') ?>');
 }
 </script>

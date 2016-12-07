@@ -95,4 +95,14 @@ class Helpers
         return $result;
     }
 
+   	public function tagHeader()
+   	{
+   		$header = Header::find(["conditions" => "deleted = 'N'"]);
+		$tag 	= '<option value="">Pilih Header</option>';
+   		foreach ($header as $key => $value) {
+			$tag .= '<option value="' . $value->id . '">' . $value->header . '</option>';
+   		}
+        return $tag;
+   	}
+
 }
