@@ -21,8 +21,8 @@ $("#table").DataTable({
           type: response.type
         });
         update_page('Jurnal',  'page_jurnal');
-        clear_form(response.close);
-        list();
+        // clear_form(response.close);
+        // list();
       }
     });
  
@@ -57,6 +57,50 @@ function removerTrChild(that) {
 	} else {
 		data.remove();
 	}
+}
+
+$("[data-debetKredit]").inputmask({mask: "9999999999", placeholder: "",});
+
+function hitung_debet() {
+  var values = [];
+  $("input[name='debet[]']").each(function() {
+      values.push($(this).val());
+  });
+
+  n   = values.length,
+  sum = 0;
+  while(n--)
+  sum += parseFloat(values[n]) || 0;
+
+  $("input[name='total_debet']").val(sum);
+}
+
+function isNumberKey_debet(evt){
+  var charCode = (evt.which) ? evt.which : event.keyCode;
+  if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+  return false;
+  return true;
+}
+
+function hitung_kredit() {
+  var values = [];
+  $("input[name='kredit[]']").each(function() {
+      values.push($(this).val());
+  });
+
+  n   = values.length,
+  sum = 0;
+  while(n--)
+  sum += parseFloat(values[n]) || 0;
+
+  $("input[name='total_kredit']").val(sum);
+}
+
+function isNumberKey_kredit(evt){
+  var charCode = (evt.which) ? evt.which : event.keyCode;
+  if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+  return false;
+  return true;
 }
 
 $('#tanggal').datetimepicker({

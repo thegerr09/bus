@@ -6,6 +6,8 @@ class JurnalChild extends \Phalcon\Mvc\Model
     /**
      *
      * @var integer
+     * @Primary
+     * @Identity
      * @Column(type="integer", length=11, nullable=false)
      */
     public $id;
@@ -22,19 +24,19 @@ class JurnalChild extends \Phalcon\Mvc\Model
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $header;
+    public $account;
 
     /**
      *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=false)
+     * @var string
+     * @Column(type="string", length=11, nullable=false)
      */
     public $debet;
 
     /**
      *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=false)
+     * @var string
+     * @Column(type="string", length=11, nullable=false)
      */
     public $kredit;
 

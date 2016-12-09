@@ -36,11 +36,11 @@
                 </td>
                 <td width="1%"></td>
                 <td width="21%">
-                  <input type="text" name="debet[]" class="form-control" placeholder="Debet">
+                  <input type="text" name="debet[]" class="form-control" data-debetKredit placeholder="Debet" onkeyup="hitung_debet();" onkeypress="isNumberKey_debet(event)">
                 </td>
                 <td width="1%"></td>
                 <td width="21%">
-                  <input type="text" name="kredit[]" class="form-control" placeholder="Kredit">
+                  <input type="text" name="kredit[]" class="form-control" data-debetKredit placeholder="Kredit" onkeyup="hitung_kredit();" onkeypress="isNumberKey_kredit(event)">
                 </td>
                 <td width="1%"></td>
                 <td width="5%" align="right">
@@ -59,11 +59,11 @@
                 </td>
                 <td width="1%"></td>
                 <td width="21%">
-                  <input type="text" name="debet[]" class="form-control" placeholder="Debet">
+                  <input type="text" name="debet[]" class="form-control" data-debetKredit placeholder="Debet" onkeyup="hitung_debet();" onkeypress="isNumberKey_debet(event)">
                 </td>
                 <td width="1%"></td>
                 <td width="21%">
-                  <input type="text" name="kredit[]" class="form-control" placeholder="Kredit">
+                  <input type="text" name="kredit[]" class="form-control" data-debetKredit placeholder="Kredit" onkeyup="hitung_kredit();" onkeypress="isNumberKey_kredit(event)">
                 </td>
                 <td width="1%"></td>
                 <td width="5%" align="right">
@@ -81,11 +81,11 @@
               </td>
               <td width="1%"></td>
               <td width="21%">
-                <input type="text" name="total_debet" class="form-control" placeholder="Total Debet">
+                <input type="text" name="total_debet" data-debetKredit class="form-control" placeholder="Total Debet">
               </td>
               <td width="1%"></td>
               <td width="21%">
-                <input type="text" name="total_kredit" class="form-control" placeholder="Total Kredit">
+                <input type="text" name="total_kredit" data-debetKredit class="form-control" placeholder="Total Kredit">
               </td>
               <td width="1%"></td>
               <td width="5%" align="right"></td>

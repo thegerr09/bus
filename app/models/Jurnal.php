@@ -14,20 +14,6 @@ class Jurnal extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=false)
-     */
-    public $id_header;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=false)
-     */
-    public $id_account;
-
-    /**
-     *
      * @var string
      * @Column(type="string", nullable=false)
      */
@@ -36,9 +22,16 @@ class Jurnal extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
-     * @Column(type="string", length=255, nullable=false)
+     * @Column(type="string", length=11, nullable=false)
      */
     public $kode_jurnal;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", nullable=false)
+     */
+    public $keterangan;
 
     /**
      *
@@ -60,13 +53,6 @@ class Jurnal extends \Phalcon\Mvc\Model
      * @Column(type="integer", length=11, nullable=false)
      */
     public $total_kredit;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=false)
-     */
-    public $id_child;
 
     /**
      * Returns table name mapped in the model.

@@ -53,7 +53,7 @@ td {
                     31 December 2016
                   </td>
                   <td align="center">
-                    109873BNMKJ
+                    <?= $this->Helpers->kodeJurnal() ?>
                   </td>
                   <td></td>
                   <td align="center">
@@ -109,11 +109,11 @@ td {
                 </td>
                 <td width="1%"></td>
                 <td width="21%">
-                  <input type="text" name="debet[]" class="form-control" placeholder="Debet">
+                  <input type="text" name="debet[]" class="form-control" data-debetKredit placeholder="Debet" onkeyup="hitung_debet();" onkeypress="isNumberKey_debet(event)">
                 </td>
                 <td width="1%"></td>
                 <td width="21%">
-                  <input type="text" name="kredit[]" class="form-control" placeholder="Kredit">
+                  <input type="text" name="kredit[]" class="form-control" data-debetKredit placeholder="Kredit" onkeyup="hitung_kredit();" onkeypress="isNumberKey_kredit(event)">
                 </td>
                 <td width="1%"></td>
                 <td width="5%" align="right">
@@ -132,11 +132,11 @@ td {
                 </td>
                 <td width="1%"></td>
                 <td width="21%">
-                  <input type="text" name="debet[]" class="form-control" placeholder="Debet">
+                  <input type="text" name="debet[]" class="form-control" data-debetKredit placeholder="Debet" onkeyup="hitung_debet();" onkeypress="isNumberKey_debet(event)">
                 </td>
                 <td width="1%"></td>
                 <td width="21%">
-                  <input type="text" name="kredit[]" class="form-control" placeholder="Kredit">
+                  <input type="text" name="kredit[]" class="form-control" data-debetKredit placeholder="Kredit" onkeyup="hitung_kredit();" onkeypress="isNumberKey_kredit(event)">
                 </td>
                 <td width="1%"></td>
                 <td width="5%" align="right">
@@ -154,11 +154,11 @@ td {
               </td>
               <td width="1%"></td>
               <td width="21%">
-                <input type="text" name="total_debet" class="form-control" placeholder="Total Debet">
+                <input type="text" name="total_debet" data-debetKredit class="form-control" placeholder="Total Debet">
               </td>
               <td width="1%"></td>
               <td width="21%">
-                <input type="text" name="total_kredit" class="form-control" placeholder="Total Kredit">
+                <input type="text" name="total_kredit" data-debetKredit class="form-control" placeholder="Total Kredit">
               </td>
               <td width="1%"></td>
               <td width="5%" align="right"></td>
@@ -199,8 +199,8 @@ $("#table").DataTable({
           type: response.type
         });
         update_page('Jurnal',  'page_jurnal');
-        clear_form(response.close);
-        list();
+        // clear_form(response.close);
+        // list();
       }
     });
  
@@ -235,6 +235,50 @@ function removerTrChild(that) {
 	} else {
 		data.remove();
 	}
+}
+
+$("[data-debetKredit]").inputmask({mask: "9999999999", placeholder: "",});
+
+function hitung_debet() {
+  var values = [];
+  $("input[name='debet[]']").each(function() {
+      values.push($(this).val());
+  });
+
+  n   = values.length,
+  sum = 0;
+  while(n--)
+  sum += parseFloat(values[n]) || 0;
+
+  $("input[name='total_debet']").val(sum);
+}
+
+function isNumberKey_debet(evt){
+  var charCode = (evt.which) ? evt.which : event.keyCode;
+  if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+  return false;
+  return true;
+}
+
+function hitung_kredit() {
+  var values = [];
+  $("input[name='kredit[]']").each(function() {
+      values.push($(this).val());
+  });
+
+  n   = values.length,
+  sum = 0;
+  while(n--)
+  sum += parseFloat(values[n]) || 0;
+
+  $("input[name='total_kredit']").val(sum);
+}
+
+function isNumberKey_kredit(evt){
+  var charCode = (evt.which) ? evt.which : event.keyCode;
+  if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+  return false;
+  return true;
 }
 
 $('#tanggal').datetimepicker({

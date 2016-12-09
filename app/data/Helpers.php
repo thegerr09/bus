@@ -110,4 +110,15 @@ class Helpers
         return $tag;
 	}
 
+	public static function kodeJurnal()
+	{
+        $char       = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $lengthChar = strlen($char);
+        $kode 		= '';
+        for ($i = 0; $i < 4; $i++) {
+            $kode .= $char[rand(0, $lengthChar - 1)];
+        }
+        return $kode . date('dmy');
+	}
+
 }

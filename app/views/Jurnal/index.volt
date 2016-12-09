@@ -39,6 +39,7 @@ td {
                 </tr>
               </thead>
               <tbody id="list_view">
+                {% for x in jurnal %}
                 <tr>
                   <td align="center">1</td>
                   <td align="center">
@@ -53,13 +54,14 @@ td {
                     31 December 2016
                   </td>
                   <td align="center">
-                    109873BNMKJ
+                    {{ Helpers.kodeJurnal() }}
                   </td>
                   <td></td>
                   <td align="center">
                     GALATAMA 1 SEMARANG
                   </td>
                 </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
