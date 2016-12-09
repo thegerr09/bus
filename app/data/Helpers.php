@@ -40,11 +40,6 @@ class Helpers
 		return $tag;
 	}
 
-	public static function jiarah($value = '')
-	{
-		# code...
-	}
-
 	public static function area()
 	{
 		$setting = Setting::findFirst("name = 'area'");
@@ -104,5 +99,15 @@ class Helpers
    		}
         return $tag;
    	}
+
+	public static function tagAccount()
+	{
+   		$header = Account::find(["conditions" => "deleted = 'N'"]);
+		$tag 	= '<option value="">Pilih account</option>';
+   		foreach ($header as $key => $value) {
+			$tag .= '<option value="' . $value->id . '">' . $value->account . '</option>';
+   		}
+        return $tag;
+	}
 
 }

@@ -83,7 +83,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="Booking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="Booking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -185,6 +185,16 @@
                   </select>
                 </div>
               </div>
+              <div class="collapse" id="modal_driver">
+                <div class="form-group">
+                  <div class="input-group" >
+                    <span class="input-group-addon">
+                      <i class="fa fa-money"></i>
+                    </span>
+                    <input type="text" name="modal" data-modalDriver class="form-control" placeholder="Modal Driver">
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- right -->
@@ -239,7 +249,7 @@
                     <span class="input-group-addon">
                       <i class="fa fa-map-marker"></i>
                     </span>
-                    <select name="route_jiarah" class="form-control">
+                    <select name="route_jiarah" class="form-control" onclick="lokasii()">
                       <option value="">Pilih Route Jiarah</option>
                     </select>
                   </div>
@@ -269,7 +279,6 @@
                   </span>
                   <select name="type_bus" class="form-control" onchange="typee_bus(this)">
                     <option value="">Pilih Type Bus</option>
-                    <?= $this->Helpers->tagSetting('type_bus', 'Pilih Type Bus', '') ?>
                   </select>
                 </div>
               </div>
@@ -307,6 +316,9 @@
                     <td>&nbsp; rusak</td>
                   </tr>
                 </table>
+              </div>
+              <div class="form-group" id="note_modal" style="display:none;">
+                <i><b>NOTE : </b> Jangan lupa untuk mengisi form modal driver setelah memilih Driver dan Co Driver !!!</i>
               </div>
             </div>
 
@@ -476,6 +488,8 @@ function list() {
   });
 }
 
+
+
 function next(id) {
   var form = $('form[name="booking"]')
   form.attr('action', '<?= $this->url->get('Booking/next/') ?>'+id);
@@ -490,16 +504,35 @@ function next(id) {
     dataType:'json',
     success: function(response){
       $.each(response, function(key, value) {
-        form.find('[name="'+key+'"]').val(value);
+        form.find('[name="'+key+'"]')
+        .not('[name="modal"]')
+        .val(value);
       });
       $('#label_booking').text('Lanjut Sewa kode booking "'+response.kode+'" ?');
-      $('#'+response.paket).collapse('show');
-      areaa_selected(response.area, response.route);
-      driver(1, response.driver);
-      driver(2, response.co_driver);
-      lokasii(response.type_bus);
-      bus(response.type_bus, response.bus);
-      routee_selected(response.route, response.lokasi);
+      if (response.paket == 'regular') {
+        $('#regular').collapse('show');
+        $('#jiarah').collapse('hide');
+        areaa_selected(response.area, response.route);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+        routee_selected(response.route, response.lokasi);
+        $('select[name="driver"]').attr('onchange', 'modal_driver()');
+        $('select[name="co_driver"]').attr('onchange', 'modal_driver()');
+        modal_driver();
+      } else if (response.paket == 'jiarah') {
+        $('#regular').collapse('hide');
+        $('#jiarah').collapse('show');
+        route_jiarah(response.route_jiarah);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+        $('select[name="driver"]').attr('onchange', 'modal_driver()');
+        $('select[name="co_driver"]').attr('onchange', 'modal_driver()');
+        modal_driver();
+      }
     }
   });
 }
@@ -580,7 +613,7 @@ function routee(that) {
     type: 'POST',
     url: '<?= $this->url->get('Booking/data/') ?>'+5,
     dataType:'html',
-    data: 'lokasi='+val+'&selected=not',
+    data: 'lokasi='+val+'&selected=not&paket=regular',
     success: function(response){
       $('select[name="lokasi"]').html(response);
       $('select[name="type_bus"]').html('<option value="">Pilih Type Bus</option>');
@@ -594,9 +627,21 @@ function routee_selected(route, selected) {
     type: 'POST',
     url: '<?= $this->url->get('Booking/data/') ?>'+5,
     dataType:'html',
-    data: 'lokasi='+route+'&selected='+selected,
+    data: 'lokasi='+route+'&selected='+selected+'&paket=regular',
     success: function(response){
       $('select[name="lokasi"]').html(response);
+    }
+  });
+}
+
+function route_jiarah(selected) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Booking/data/') ?>'+5,
+    dataType:'html',
+    data: 'selected='+selected+'&paket=jiarah',
+    success: function(response){
+      $('select[name="route_jiarah"]').html(response);
     }
   });
 }
@@ -672,11 +717,24 @@ function driver(id, selected) {
   }
 }
 
+function modal_driver() {
+  var driver    = $('select[name="driver"]').val();
+  var co_driver = $('select[name="co_driver"]').val();
+  $('#note_modal').show();
+  if (driver != '' && co_driver != '') {
+    $('#modal_driver').collapse('show');
+  } else {
+    $('#modal_driver').collapse('hide');
+  }
+}
+
 function clear_form(id) {
   $('#label_booking').text('Tambah Booking');
-  $('#New').modal('hide');
 
   var form = $('form[name="booking"]');
+
+  $('#modal_driver').collapse('hide');
+  $('#note_modal').hide();
 
   form.find('[name]').val('');
 

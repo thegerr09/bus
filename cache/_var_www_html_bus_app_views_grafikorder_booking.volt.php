@@ -1,4 +1,4 @@
-<div class="modal fade" id="Booking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="Booking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -100,6 +100,16 @@
                   </select>
                 </div>
               </div>
+              <div class="collapse" id="modal_driver">
+                <div class="form-group">
+                  <div class="input-group" >
+                    <span class="input-group-addon">
+                      <i class="fa fa-money"></i>
+                    </span>
+                    <input type="text" name="modal" data-modalDriver class="form-control" placeholder="Modal Driver">
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- right -->
@@ -154,7 +164,7 @@
                     <span class="input-group-addon">
                       <i class="fa fa-map-marker"></i>
                     </span>
-                    <select name="route_jiarah" class="form-control">
+                    <select name="route_jiarah" class="form-control" onclick="lokasii()">
                       <option value="">Pilih Route Jiarah</option>
                     </select>
                   </div>
@@ -184,7 +194,6 @@
                   </span>
                   <select name="type_bus" class="form-control" onchange="typee_bus(this)">
                     <option value="">Pilih Type Bus</option>
-                    <?= $this->Helpers->tagSetting('type_bus', 'Pilih Type Bus', '') ?>
                   </select>
                 </div>
               </div>
@@ -222,6 +231,9 @@
                     <td>&nbsp; rusak</td>
                   </tr>
                 </table>
+              </div>
+              <div class="form-group" id="note_modal" style="display:none;">
+                <i><b>NOTE : </b> Jangan lupa untuk mengisi form modal driver setelah memilih Driver dan Co Driver !!!</i>
               </div>
             </div>
 

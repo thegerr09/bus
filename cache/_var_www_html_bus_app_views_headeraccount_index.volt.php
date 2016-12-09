@@ -254,6 +254,7 @@ $(function () {
           type: response.type
         });
         update_page('HeaderAccount', 'page_header_account');
+        update_page('Jurnal', 'page_jurnal');
         clear_form();
         $('#Tambah'+response.close).modal('hide');
         list(response.check);
@@ -286,6 +287,7 @@ $(function () {
         $('#Delete'+response.check).modal('hide');
         $('#del'+response.check+response.id).fadeOut(700);
         update_page('HeaderAccount', 'page_header_account');
+        update_page('Jurnal', 'page_jurnal');
       }
     });
 

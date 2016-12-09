@@ -244,7 +244,7 @@
             </a>
           </li>
           <li style="cursor: pointer;">
-            <a onclick="return load_page('#','#','#')">
+            <a onclick="return load_page('page_jurnal','Jurnal','page_jurnal')">
               <i class="fa fa-circle-o"></i> Jurnal
             </a>
           </li>
