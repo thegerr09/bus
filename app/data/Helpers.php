@@ -5,6 +5,10 @@
 class Helpers
 {
 
+	public static function dateChange($date)
+	{
+		return date("d F Y", strtotime($date));
+	}
 
 	public function number($number)
 	{
@@ -69,10 +73,10 @@ class Helpers
 		return $bus->nomor_polisi;
 	}
 
-    public static function viewGrafik($tgl, $id)
+    public static function viewGrafik($tgl, $id, $ukuran)
     {
     	$data = BookingHelp::grafikOrder();
-    	$result = 'class="cursor" data-toggle="modal" data-target="#New"';
+    	$result = 'class="cursor" data-toggle="modal" data-target="#New" onclick="new_action('."'".$tgl."',"."'".$id."',"."'".$ukuran."'".')"';
 		for ($i = 0; $i < count($data); $i++) { 
 			for ($a = 0; $a < count($data[$i]); $a++) { 
 				if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id) {

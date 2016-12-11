@@ -70,10 +70,45 @@ class Invoice extends \Phalcon\Mvc\Model
 
     /**
      *
+     * @var integer
+     * @Column(type="integer", length=11, nullable=false)
+     */
+    public $pelunasan;
+
+    /**
+     *
      * @var string
      * @Column(type="string", length=12, nullable=true)
      */
     public $modal;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=11, nullable=true)
+     */
+    public $lama_overtime;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=11, nullable=true)
+     */
+    public $biaya_overtime;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=11, nullable=true)
+     */
+    public $total_pengeluaran;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=11, nullable=true)
+     */
+    public $sisa_modal;
 
     /**
      *
@@ -200,34 +235,6 @@ class Invoice extends \Phalcon\Mvc\Model
      * @Column(type="string", nullable=false)
      */
     public $deleted;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=11, nullable=false)
-     */
-    public $lama_overtime;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=11, nullable=false)
-     */
-    public $biaya_overtime;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=11, nullable=false)
-     */
-    public $total_pengeluaran;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=11, nullable=false)
-     */
-    public $sisa_modal;
 
     /**
      * Returns table name mapped in the model.

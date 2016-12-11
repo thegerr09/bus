@@ -49,8 +49,8 @@ $('input[type="radio"].flat-blue').iCheck({
   radioClass: 'iradio_flat-blue'
 });
 
-function new_action() {
-  console.log('test');
+function new_action(tgl, id, ukuran) {
+  $('.new_action').attr('onclick', 'close_action("'+tgl+'", "'+id+'", "'+ukuran+'")');
 }
 
 (function() {
@@ -78,7 +78,7 @@ function new_action() {
         update_page('CoDriver', 'page_co_driver');
         update_page('Bus',      'page_bus');
         update_page('GrafikOrder', 'page_grafik_order');
-        clear_form(response.close);
+        clear_form(1);
         if (action == 'cencle'){
           $('#Cencle').modal('hide');
         }
@@ -242,9 +242,8 @@ function areaa(that) {
         data: 'area='+val,
         success: function(response){
           $('select[name="route"]').html(response);
-          $('select[name="type_bus"]').html('<option value="">Pilih Type Bus</option>');
-          $('select[name="bus"]').html('<option value="">Pilih Bus</option>');
-          $('select[name="lokasi"]').html('<option value="">Pilih Lokasi</option>');
+          var html = '<option value="">Booking Dari</option><option value="agen">Agen</option><option value="umum">Umum</option>';
+          $('select[name="type_booking"]').html(html);
         }
       });
       break;
@@ -273,8 +272,8 @@ function routee(that) {
     data: 'lokasi='+val+'&selected=not&paket=regular',
     success: function(response){
       $('select[name="lokasi"]').html(response);
-      $('select[name="type_bus"]').html('<option value="">Pilih Type Bus</option>');
-      $('select[name="bus"]').html('<option value="">Pilih Bus</option>');
+      var html = '<option value="">Booking Dari</option><option value="agen">Agen</option><option value="umum">Umum</option>';
+      $('select[name="type_booking"]').html(html);
     }
   });
 }
@@ -336,14 +335,20 @@ function bus(ukuran, selected) {
 
 function get_harga(that) {
   var val      = $(that).val();
+  var paket    = $('select[name="paket"]').val();
   var type_bus = $('select[name="type_bus"]').val();
-  var lokasi   = $('select[name="lokasi"]').val();
+
+  if (paket == 'regular') {
+    var lokasi = $('select[name="lokasi"]').val();
+  } else if (paket == 'jiarah') {
+    var lokasi = $('select[name="route_jiarah"]').val();
+  }
 
   $.ajax({
     type: 'POST',
     url: '{{ url('Booking/data/') }}'+6,
     dataType:'html',
-    data: 'id='+lokasi+'&key='+type_bus+'_'+val,
+    data: 'id='+lokasi+'&key='+type_bus+'_'+val+'&paket='+paket,
     success: function(response){
       $('input[name="tarif"]').val(response);
     }
@@ -380,8 +385,10 @@ function modal_driver() {
   $('#note_modal').show();
   if (driver != '' && co_driver != '') {
     $('#modal_driver').collapse('show');
+    $('#charge').collapse('show');
   } else {
     $('#modal_driver').collapse('hide');
+    $('#charge').collapse('hide');
   }
 }
 
@@ -399,6 +406,7 @@ function clear_form(id) {
 
   form.find('button[type="submit"]')
       .removeClass('btn-primary')
+      .removeClass('btn-danger')
       .addClass('btn-success')
       .text('Save');
 
@@ -407,12 +415,16 @@ function clear_form(id) {
   lokasii();
 
   if (id == 1) {
-    $('#Tambah').modal('hide');
+    $('#Booking').modal('hide');
   }
 }
 
-function close_action() {
+function close_action(tgl, id, ukuran) {
+  lokasii(ukuran);
+  bus(ukuran, id)
   $('body').removeAttr('style');
+  $('form[name="booking"]').find('input[name="tanggal_mulai"]').val(tgl);
+  $('form[name="booking"]').find('input[name="tanggal_booking"]').val('{{ date('Y-m-d') }}');
 }
 
 function filter_month(that) {
@@ -469,5 +481,21 @@ function filter_month(that) {
       TableManageButtons.init();
     }
   });
+}
+
+$("#tambah_charge").click(function(){
+  var charge = $('#parent_charge').html();
+  $("#child_charge").append(charge);
+});
+
+function removerTrChild(that) {
+  var data = $(that).parent().parent();
+  var id   = data.parent().attr('id');
+
+  if (id == 'parent_charge') {
+    return false;
+  } else {
+    data.remove();
+  }
 }
 </script>

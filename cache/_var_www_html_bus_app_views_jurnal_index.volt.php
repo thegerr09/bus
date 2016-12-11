@@ -30,36 +30,48 @@ td {
             <table id="table" class="table table-bordered">
               <thead class="bg-blue">
                 <tr>
-                  <td align="center" width="50">NO</td>
-                  <td align="center" width="80">ACTION</td>
-                  <td align="center" width="150">TANGGAL</td>
-                  <td align="center" width="120">NO. JURNAL</td>
+                  <td align="center" width="30">NO</td>
+                  <td align="center" width="120">ACTION</td>
+                  <td align="center" width="120">TANGGAL</td>
+                  <td align="center" width="80">NO. JURNAL</td>
                   <td align="center">KETERANGAN</td>
-                  <td align="center" width="200">KANTOR</td>
+                  <td align="center" width="100">KANTOR</td>
                 </tr>
               </thead>
               <tbody id="list_view">
+                <?php $no = 1; ?>
+                <?php foreach ($jurnal as $x) { ?>
                 <tr>
-                  <td align="center">1</td>
+                  <td align="center"><?= $no ?></td>
                   <td align="center">
+                    <button type="button" class="btn btn-warning btn-xs">
+                      <i class="fa fa-bars" data-toggle="tooltip" data-placement="top" title="Detail"></i>
+                    </button>&nbsp;
                     <button type="button" class="btn btn-primary btn-xs">
                       <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
-                    </button>
+                    </button>&nbsp;
                     <button type="button" class="btn btn-danger btn-xs">
                       <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Hapus"></i>
+                    </button>&nbsp;
+                    <button type="button" class="btn btn-default btn-xs">
+                      <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print"></i>
                     </button>
                   </td>
                   <td align="center">
-                    31 December 2016
+                    <?= $this->Helpers->dateChange($x->tanggal) ?>
                   </td>
                   <td align="center">
-                    <?= $this->Helpers->kodeJurnal() ?>
+                    <?= $x->kode_jurnal ?>
                   </td>
-                  <td></td>
+                  <td>
+                    <?= Phalcon\Text::upper($x->keterangan) ?>
+                  </td>
                   <td align="center">
-                    GALATAMA 1 SEMARANG
+                    <?= $x->kantor ?>
                   </td>
                 </tr>
+                <?php $no = $no + 1; ?>
+                <?php } ?>
               </tbody>
             </table>
           </div>
@@ -92,7 +104,7 @@ td {
             <label>Kantor</label>
             <select name="kantor" class="form-control">
               <option value="">Pilih Kantor</option>
-              <option value="Galatama 1" selected="true">Galatama 1</option>
+              <option value="GALATAMA 1" selected="true">Galatama 1</option>
             </select>
           </div>
           <div class="form-group">
@@ -199,8 +211,8 @@ $("#table").DataTable({
           type: response.type
         });
         update_page('Jurnal',  'page_jurnal');
-        // clear_form(response.close);
-        // list();
+        clear_form(response.close);
+        list();
       }
     });
  

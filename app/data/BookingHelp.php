@@ -92,5 +92,44 @@ class BookingHelp
         }
         return $result;
     }
+
+    public static function jurnalBayarDp($dp, $kode)
+    {
+        $parent = [
+            'tanggal' => date('Y-m-d'),
+            'kode_jurnal' => Helpers::kodeJurnal(),
+            'keterangan' => 'DP BOOKING KODE ' . $kode . ' ' . date('d F Y'),
+            'kantor' => 'GALATAMA 1',
+            'total_debet' => $dp,
+            'total_kredit' => $dp
+        ];
+
+        $jurnal = new Jurnal();
+        $jurnal->assign($parent);
+
+        if ($jurnal->save()) {
+            $get_parent = $jurnal->findFirst(["conditions" => "kode_jurnal = '" . $parent['kode_jurnal'] . "'"]);
+            $child_data = [
+                'debet'   => [$dp, ''],
+                'kredit'  => ['', $dp],
+                'account' => [4, 1]
+            ];
+
+            for ($i=0; $i < 2 ; $i++) { 
+                $child = [
+                    'id_jurnal' => $get_parent->id,
+                    'account' => $child_data['account'][$i],
+                    'debet' => $child_data['debet'][$i],
+                    'kredit' => $child_data['kredit'][$i]
+                ];
+
+                $jurnal_child = new JurnalChild();
+                $jurnal_child->assign($child);
+                if (!$jurnal_child->save()) {
+                    $get_parent->delete();
+                }
+            }
+        }
+    }
     
 }

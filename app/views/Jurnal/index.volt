@@ -30,37 +30,47 @@ td {
             <table id="table" class="table table-bordered">
               <thead class="bg-blue">
                 <tr>
-                  <td align="center" width="50">NO</td>
-                  <td align="center" width="80">ACTION</td>
-                  <td align="center" width="150">TANGGAL</td>
-                  <td align="center" width="120">NO. JURNAL</td>
+                  <td align="center" width="30">NO</td>
+                  <td align="center" width="120">ACTION</td>
+                  <td align="center" width="120">TANGGAL</td>
+                  <td align="center" width="80">NO. JURNAL</td>
                   <td align="center">KETERANGAN</td>
-                  <td align="center" width="200">KANTOR</td>
+                  <td align="center" width="100">KANTOR</td>
                 </tr>
               </thead>
               <tbody id="list_view">
+                {% set no = 1 %}
                 {% for x in jurnal %}
                 <tr>
-                  <td align="center">1</td>
+                  <td align="center">{{ no }}</td>
                   <td align="center">
+                    <button type="button" class="btn btn-warning btn-xs">
+                      <i class="fa fa-bars" data-toggle="tooltip" data-placement="top" title="Detail"></i>
+                    </button>&nbsp;
                     <button type="button" class="btn btn-primary btn-xs">
                       <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
-                    </button>
+                    </button>&nbsp;
                     <button type="button" class="btn btn-danger btn-xs">
                       <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Hapus"></i>
+                    </button>&nbsp;
+                    <button type="button" class="btn btn-default btn-xs">
+                      <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print"></i>
                     </button>
                   </td>
                   <td align="center">
-                    31 December 2016
+                    {{ Helpers.dateChange(x.tanggal) }}
                   </td>
                   <td align="center">
-                    {{ Helpers.kodeJurnal() }}
+                    {{ x.kode_jurnal }}
                   </td>
-                  <td></td>
+                  <td>
+                    {{ x.keterangan|upper }}
+                  </td>
                   <td align="center">
-                    GALATAMA 1 SEMARANG
+                    {{ x.kantor }}
                   </td>
                 </tr>
+                {% set no = no + 1 %}
                 {% endfor %}
               </tbody>
             </table>

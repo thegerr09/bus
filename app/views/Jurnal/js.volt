@@ -21,8 +21,8 @@ $("#table").DataTable({
           type: response.type
         });
         update_page('Jurnal',  'page_jurnal');
-        // clear_form(response.close);
-        // list();
+        clear_form(response.close);
+        list();
       }
     });
  

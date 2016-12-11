@@ -12,6 +12,13 @@ class JurnalController extends \Phalcon\Mvc\Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
+    public function listAction()
+    {
+    	$this->view->jurnal = Jurnal::find();
+        $this->view->pick("Jurnal/list");
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    }
+
     public function inputAction()
     {
     	$this->view->disable();
@@ -26,7 +33,6 @@ class JurnalController extends \Phalcon\Mvc\Controller
 	        return json_encode($notify);
 	        die();
     	}
-    	
 
     	$jurnal_parent = [
     		'tanggal' => $post['tanggal'],

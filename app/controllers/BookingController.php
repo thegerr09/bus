@@ -40,6 +40,9 @@ class BookingController extends \Phalcon\Mvc\Controller
         $coDriver = BookingHelp::coDriver($post['co_driver']);
  
         if ($booking->save()) {
+            if (isset($post['dp'])) {
+                BookingHelp::jurnalBayarDp($post['dp'], $post['kode']);
+            }
             if ($bus == true and $driver == true and $coDriver == true) {
                 $notify = [
                     'title' => 'Success',

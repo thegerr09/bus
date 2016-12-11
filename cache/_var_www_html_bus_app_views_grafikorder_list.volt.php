@@ -16,7 +16,7 @@
     <tr>
       <td align="center"><?= $listDate[$i] ?></td>
       <?php foreach ($bus as $body) { ?>
-      <td <?= $this->Helpers->viewGrafik($filterDate[$i], $body->id) ?>></td>
+      <td <?= $this->Helpers->viewGrafik($filterDate[$i], $body->id, $body->ukuran) ?>></td>
       <?php } ?>
     </tr>
     <?php } ?>

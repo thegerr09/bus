@@ -19,7 +19,7 @@
             <label>Kantor</label>
             <select name="kantor" class="form-control">
               <option value="">Pilih Kantor</option>
-              <option value="Galatama 1" selected="true">Galatama 1</option>
+              <option value="GALATAMA 1" selected="true">Galatama 1</option>
             </select>
           </div>
           <div class="form-group">

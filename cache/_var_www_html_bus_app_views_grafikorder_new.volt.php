@@ -7,7 +7,7 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <button class="btn btn-primary btn-flat btn-lg btn-block" data-toggle="modal" data-target="#Booking" onclick="close_action()">
+          <button class="btn btn-primary btn-flat btn-lg btn-block new_action" data-toggle="modal" data-target="#Booking">
             New Booking
           </button>
         </div>

@@ -1,5 +1,5 @@
 <style>
-.clear,.dataTables_scroll{clear:both}.dataTables_wrapper{position:relative;clear:both;zoom:1}.dataTables_processing{position:absolute;top:50%;left:50%;width:250px;height:30px;margin-left:-125px;margin-top:-15px;padding:14px 0 2px;border:1px solid #ddd;text-align:center;color:#999;font-size:14px;background-color:#fff}.dataTables_length{width:40%;float:left}.dataTables_filter{width:50%;float:right;text-align:right}.dataTables_info{width:60%;float:left}.dataTables_paginate{float:right;text-align:right}table.dataTable td.focus,table.dataTable th.focus{outline:#1ABB9C solid 2px!important;outline-offset:-1px}.dataTables_scrollBody{-webkit-overflow-scrolling:touch}.top .dataTables_info{float:none}.dataTables_empty{text-align:center}.example_alt_pagination div.dataTables_info{width:40%}td {color:#555;}hr{margin-top:4px;margin-bottom:3px;}.cursor{cursor:pointer;}.cursor:hover{background-color:#f4f4f4;}
+.clear,.dataTables_scroll{clear:both}.dataTables_wrapper{position:relative;clear:both;zoom:1}.dataTables_processing{position:absolute;top:50%;left:50%;width:250px;height:30px;margin-left:-125px;margin-top:-15px;padding:14px 0 2px;border:1px solid #ddd;text-align:center;color:#999;font-size:14px;background-color:#fff}.dataTables_length{width:40%;float:left}.dataTables_filter{width:50%;float:right;text-align:right}.dataTables_info{width:60%;float:left}.dataTables_paginate{float:right;text-align:right}table.dataTable td.focus,table.dataTable th.focus{outline:#1ABB9C solid 2px!important;outline-offset:-1px}.dataTables_scrollBody{-webkit-overflow-scrolling:touch}.top .dataTables_info{float:none}.dataTables_empty{text-align:center}.example_alt_pagination div.dataTables_info{width:40%}td {color:#555;}hr{margin-top:4px;margin-bottom:3px;}.cursor{cursor:pointer;}.cursor:hover{background-color:#f4f4f4;}td{font-size:13px}
 }
 </style>
 <section class="content-header animated fadeIn">
@@ -21,7 +21,7 @@
           <div class="box-tools pull-right" style="margin-top:2px; width: 200px;">
             <form action="<?= $this->url->get('GrafikOrder/list') ?>">
               <div class="form-group-sm">
-                <input type="month" name="filter" class="form-control" onchange="filter_month(this)">
+                <input type="month" name="filter" class="form-control" value="<?= date('Y-m') ?>" onchange="filter_month(this)">
               </div>
             </form>
           </div>
@@ -46,7 +46,7 @@
                 <tr>
                   <td align="center"><?= $listDate[$i] ?></td>
                   <?php foreach ($bus as $body) { ?>
-                  <td <?= $this->Helpers->viewGrafik($filterDate[$i], $body->id) ?>></td>
+                  <td <?= $this->Helpers->viewGrafik($filterDate[$i], $body->id, $body->ukuran) ?>></td>
                   <?php } ?>
                 </tr>
                 <?php } ?>
@@ -70,7 +70,7 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <button class="btn btn-primary btn-flat btn-lg btn-block" data-toggle="modal" data-target="#Booking" onclick="close_action()">
+          <button class="btn btn-primary btn-flat btn-lg btn-block new_action" data-toggle="modal" data-target="#Booking">
             New Booking
           </button>
         </div>
@@ -155,6 +155,27 @@
                   <input type="text" name="dp" data-dp class="form-control" placeholder="DP / Uang Muka"> 
                 </div>
               </div>
+              <div class="collapse" id="modal_driver">
+                <div class="form-group">
+                  <div class="input-group" >
+                    <span class="input-group-addon">
+                      <i class="fa fa-money"></i>
+                    </span>
+                    <input type="text" name="pelunasan" data-modalDriver class="form-control" placeholder="Pelunasan">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group" >
+                    <span class="input-group-addon">
+                      <i class="fa fa-money"></i>
+                    </span>
+                    <input type="text" name="modal" data-modalDriver class="form-control" placeholder="Modal Driver">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group" id="note_modal" style="display:none; font-size: 12px;">
+                <i><b>NOTE : </b> Jangan lupa untuk mengisi form modal driver setelah memilih Driver dan Co Driver !!!</i>
+              </div>
               <div class="form-group">
                 <div class="input-group" >
                   <span class="input-group-addon">
@@ -163,36 +184,6 @@
                   <select name="metode_pembayaran" class="form-control">
                     <?= $this->Helpers->tagSetting('pembayaran', 'Methode Pembayaran', '') ?>
                   </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="input-group" >
-                  <span class="input-group-addon">
-                    <i class="fa fa-user"></i>
-                  </span>
-                  <select name="driver" class="form-control">
-                    <option value="">Pilih Driver</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="input-group" >
-                  <span class="input-group-addon">
-                    <i class="fa fa-user"></i>
-                  </span>
-                  <select name="co_driver" class="form-control">
-                    <option value="">Pilih Co. Driver</option>
-                  </select>
-                </div>
-              </div>
-              <div class="collapse" id="modal_driver">
-                <div class="form-group">
-                  <div class="input-group" >
-                    <span class="input-group-addon">
-                      <i class="fa fa-money"></i>
-                    </span>
-                    <input type="text" name="modal" data-modalDriver class="form-control" placeholder="Modal Driver">
-                  </div>
                 </div>
               </div>
             </div>
@@ -210,7 +201,7 @@
                 </div>
               </div>
 
-              <div class="collapse in" id="regular">
+              <div class="collapse" id="regular">
                 <div class="form-group">
                   <div class="input-group" >
                     <span class="input-group-addon">
@@ -236,7 +227,7 @@
                     <span class="input-group-addon">
                       <i class="fa fa-map-marker"></i>
                     </span>
-                    <select name="lokasi" class="form-control" onchange="lokasii()">
+                    <select name="lokasi" class="form-control">
                       <option value="">Pilih Lokasi</option>
                     </select>
                   </div>
@@ -304,22 +295,118 @@
                 </div>
               </div>
               <div class="form-group">
-                <table width="100%">
+                <div class="input-group" >
+                  <span class="input-group-addon">
+                    <i class="fa fa-user"></i>
+                  </span>
+                  <select name="driver" class="form-control">
+                    <option value="">Pilih Driver</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group" >
+                  <span class="input-group-addon">
+                    <i class="fa fa-user"></i>
+                  </span>
+                  <select name="co_driver" class="form-control">
+                    <option value="">Pilih Co. Driver</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="col-md-6 col-xs-12 collapse" id="charge">
+              <table>
+                <tbody id="parent_charge">
                   <tr>
-                    <td style="border:1px solid #ccc;" height="25" width="25"></td>
-                    <td>&nbsp; stand by</td>
-                    <td class="bg-teal" width="25"></td>
-                    <td>&nbsp; di booking</td>
-                    <td class="bg-yellow" width="25"></td>
-                    <td>&nbsp; di jalan</td>
-                    <td class="bg-red" width="25"></td>
-                    <td>&nbsp; rusak</td>
+                    <td>
+                      <div class="form-group">
+                        <button type="button" class="btn btn-danger btn-flat btn-sm" onclick="removerTrChild(this)">
+                          <i class="fa fa-remove"></i>
+                        </button>
+                      </div>
+                    </td>
+                    <td width="5"></td>
+                    <td>
+                      <div class="form-group">
+                        <div class="input-group" >
+                          <span class="input-group-addon">
+                            <i class="fa fa-list"></i>
+                          </span>
+                          <input type="text" name="name_charge[]" value="BBM" class="form-control" placeholder="Extra Charge">
+                        </div>
+                      </div>
+                    </td>
+                    <td width="5"></td>
+                    <td>
+                      <div class="form-group">
+                        <div class="input-group" >
+                          <span class="input-group-addon">
+                            <i class="fa fa-money"></i>
+                          </span>
+                          <input type="text" name="biaya_charge[]" data-tarif class="form-control" placeholder="Biaya Charge">
+                        </div>
+                      </div>
+                    </td>
                   </tr>
-                </table>
-              </div>
-              <div class="form-group" id="note_modal" style="display:none;">
-                <i><b>NOTE : </b> Jangan lupa untuk mengisi form modal driver setelah memilih Driver dan Co Driver !!!</i>
-              </div>
+                </tbody>
+                <tbody id="child_charge">
+                  <tr>
+                    <td>
+                      <div class="form-group">
+                        <button type="button" class="btn btn-danger btn-flat btn-sm" onclick="removerTrChild(this)">
+                          <i class="fa fa-remove"></i>
+                        </button>
+                      </div>
+                    </td>
+                    <td width="5"></td>
+                    <td>
+                      <div class="form-group">
+                        <div class="input-group" >
+                          <span class="input-group-addon">
+                            <i class="fa fa-list"></i>
+                          </span>
+                          <input type="text" name="name_charge[]" value="PREMI" class="form-control" placeholder="Extra Charge">
+                        </div>
+                      </div>
+                    </td>
+                    <td width="5"></td>
+                    <td>
+                      <div class="form-group">
+                        <div class="input-group" >
+                          <span class="input-group-addon">
+                            <i class="fa fa-money"></i>
+                          </span>
+                          <input type="text" name="biaya_charge[]" data-tarif class="form-control" placeholder="Biaya Charge">
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tr>
+                  <td colspan="3">
+                    <div class="form-group">
+                      <button type="button" class="btn btn-success btn-flat btn-sm" id="tambah_charge">
+                        <i class="fa fa-plus"></i> Tambah
+                      </button>
+                    </div>
+                  </td>
+                  <td width="5"></td>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="modal" data-tarif class="form-control" placeholder="Total Charge">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
             </div>
 
             <div class="col-md-12 col-xs-12">
@@ -331,6 +418,20 @@
           </div>
         </div>
         <div class="modal-footer">
+          <div class="form-group pull-left">
+            <table width="100%">
+              <tr>
+                <td style="border:1px solid #ccc;" height="25" width="25"></td>
+                <td>&nbsp; stand by &nbsp; </td>
+                <td class="bg-teal" width="25"></td>
+                <td>&nbsp; di booking &nbsp; </td>
+                <td class="bg-yellow" width="25"></td>
+                <td>&nbsp; di jalan &nbsp; </td>
+                <td class="bg-red" width="25"></td>
+                <td>&nbsp; rusak &nbsp; </td>
+              </tr>
+            </table>
+          </div>
           <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>
           <button type="submit" class="btn btn-success">Save</button>
         </div>
@@ -392,8 +493,8 @@ $('input[type="radio"].flat-blue').iCheck({
   radioClass: 'iradio_flat-blue'
 });
 
-function new_action() {
-  console.log('test');
+function new_action(tgl, id, ukuran) {
+  $('.new_action').attr('onclick', 'close_action("'+tgl+'", "'+id+'", "'+ukuran+'")');
 }
 
 (function() {
@@ -421,7 +522,7 @@ function new_action() {
         update_page('CoDriver', 'page_co_driver');
         update_page('Bus',      'page_bus');
         update_page('GrafikOrder', 'page_grafik_order');
-        clear_form(response.close);
+        clear_form(1);
         if (action == 'cencle'){
           $('#Cencle').modal('hide');
         }
@@ -585,9 +686,8 @@ function areaa(that) {
         data: 'area='+val,
         success: function(response){
           $('select[name="route"]').html(response);
-          $('select[name="type_bus"]').html('<option value="">Pilih Type Bus</option>');
-          $('select[name="bus"]').html('<option value="">Pilih Bus</option>');
-          $('select[name="lokasi"]').html('<option value="">Pilih Lokasi</option>');
+          var html = '<option value="">Booking Dari</option><option value="agen">Agen</option><option value="umum">Umum</option>';
+          $('select[name="type_booking"]').html(html);
         }
       });
       break;
@@ -616,8 +716,8 @@ function routee(that) {
     data: 'lokasi='+val+'&selected=not&paket=regular',
     success: function(response){
       $('select[name="lokasi"]').html(response);
-      $('select[name="type_bus"]').html('<option value="">Pilih Type Bus</option>');
-      $('select[name="bus"]').html('<option value="">Pilih Bus</option>');
+      var html = '<option value="">Booking Dari</option><option value="agen">Agen</option><option value="umum">Umum</option>';
+      $('select[name="type_booking"]').html(html);
     }
   });
 }
@@ -679,14 +779,20 @@ function bus(ukuran, selected) {
 
 function get_harga(that) {
   var val      = $(that).val();
+  var paket    = $('select[name="paket"]').val();
   var type_bus = $('select[name="type_bus"]').val();
-  var lokasi   = $('select[name="lokasi"]').val();
+
+  if (paket == 'regular') {
+    var lokasi = $('select[name="lokasi"]').val();
+  } else if (paket == 'jiarah') {
+    var lokasi = $('select[name="route_jiarah"]').val();
+  }
 
   $.ajax({
     type: 'POST',
     url: '<?= $this->url->get('Booking/data/') ?>'+6,
     dataType:'html',
-    data: 'id='+lokasi+'&key='+type_bus+'_'+val,
+    data: 'id='+lokasi+'&key='+type_bus+'_'+val+'&paket='+paket,
     success: function(response){
       $('input[name="tarif"]').val(response);
     }
@@ -723,8 +829,10 @@ function modal_driver() {
   $('#note_modal').show();
   if (driver != '' && co_driver != '') {
     $('#modal_driver').collapse('show');
+    $('#charge').collapse('show');
   } else {
     $('#modal_driver').collapse('hide');
+    $('#charge').collapse('hide');
   }
 }
 
@@ -742,6 +850,7 @@ function clear_form(id) {
 
   form.find('button[type="submit"]')
       .removeClass('btn-primary')
+      .removeClass('btn-danger')
       .addClass('btn-success')
       .text('Save');
 
@@ -750,12 +859,16 @@ function clear_form(id) {
   lokasii();
 
   if (id == 1) {
-    $('#Tambah').modal('hide');
+    $('#Booking').modal('hide');
   }
 }
 
-function close_action() {
+function close_action(tgl, id, ukuran) {
+  lokasii(ukuran);
+  bus(ukuran, id)
   $('body').removeAttr('style');
+  $('form[name="booking"]').find('input[name="tanggal_mulai"]').val(tgl);
+  $('form[name="booking"]').find('input[name="tanggal_booking"]').val('<?= date('Y-m-d') ?>');
 }
 
 function filter_month(that) {
@@ -812,5 +925,21 @@ function filter_month(that) {
       TableManageButtons.init();
     }
   });
+}
+
+$("#tambah_charge").click(function(){
+  var charge = $('#parent_charge').html();
+  $("#child_charge").append(charge);
+});
+
+function removerTrChild(that) {
+  var data = $(that).parent().parent();
+  var id   = data.parent().attr('id');
+
+  if (id == 'parent_charge') {
+    return false;
+  } else {
+    data.remove();
+  }
 }
 </script>
