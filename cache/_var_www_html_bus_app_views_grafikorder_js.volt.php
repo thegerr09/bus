@@ -145,8 +145,6 @@ function list() {
   });
 }
 
-
-
 function next(id) {
   var form = $('form[name="booking"]')
   form.attr('action', '<?= $this->url->get('Booking/next/') ?>'+id);
@@ -155,6 +153,8 @@ function next(id) {
       .removeClass('btn-primary')
       .addClass('btn-danger')
       .text('Lanjut Sewa');
+  form.find('input[name="pelunasan"]').attr('required', 'required');
+  form.find('input[name="charge"]').attr('required', 'required');
   $.ajax({
     type: 'POST',
     url: '<?= $this->url->get('Booking/detail/') ?>'+id,
@@ -227,6 +227,7 @@ function pakett(that) {
   } else {
     $('#regular').collapse('hide');
     $('#jiarah').collapse('hide');
+    $('#overland').collapse('hide');
   }
 }
 
@@ -382,7 +383,6 @@ function driver(id, selected) {
 function modal_driver() {
   var driver    = $('select[name="driver"]').val();
   var co_driver = $('select[name="co_driver"]').val();
-  $('#note_modal').show();
   if (driver != '' && co_driver != '') {
     $('#modal_driver').collapse('show');
     $('#charge').collapse('show');
@@ -398,9 +398,10 @@ function clear_form(id) {
   var form = $('form[name="booking"]');
 
   $('#modal_driver').collapse('hide');
-  $('#note_modal').hide();
 
   form.find('[name]').val('');
+  form.find('input[name="pelunasan"]').removeAttr('required');
+  form.find('input[name="charge"]').removeAttr('required');
 
   form.attr('action', '<?= $this->url->get('Booking/input') ?>');
 
@@ -413,6 +414,8 @@ function clear_form(id) {
   driver(1);
   driver(2);
   lokasii();
+  pakett();
+  $('#charge').collapse('hide');
 
   if (id == 1) {
     $('#Booking').modal('hide');
@@ -497,5 +500,26 @@ function removerTrChild(that) {
   } else {
     data.remove();
   }
+}
+
+function hitung() {
+  var values = [];
+  $("input[name='biaya_charge[]']").each(function() {
+      values.push($(this).val());
+  });
+
+  n   = values.length,
+  sum = 0;
+  while(n--)
+  sum += parseFloat(values[n]) || 0;
+
+  $("input[name='charge']").val(sum);
+}
+
+function isNumberKey(evt){
+  var charCode = (evt.which) ? evt.which : event.keyCode;
+  if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+  return false;
+  return true;
 }
 </script>

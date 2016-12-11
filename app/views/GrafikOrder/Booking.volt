@@ -79,17 +79,6 @@
                     <input type="text" name="pelunasan" data-modalDriver class="form-control" placeholder="Pelunasan">
                   </div>
                 </div>
-                <div class="form-group">
-                  <div class="input-group" >
-                    <span class="input-group-addon">
-                      <i class="fa fa-money"></i>
-                    </span>
-                    <input type="text" name="modal" data-modalDriver class="form-control" placeholder="Modal Driver">
-                  </div>
-                </div>
-              </div>
-              <div class="form-group" id="note_modal" style="display:none; font-size: 12px;">
-                <i><b>NOTE : </b> Jangan lupa untuk mengisi form modal driver setelah memilih Driver dan Co Driver !!!</i>
               </div>
               <div class="form-group">
                 <div class="input-group" >
@@ -100,6 +89,96 @@
                     {{ Helpers.tagSetting('pembayaran', 'Methode Pembayaran', '') }}
                   </select>
                 </div>
+              </div>
+              <div class="collapse" id="charge">
+                <table>
+                  <tbody id="parent_charge">
+                    <tr>
+                      <td>
+                        <div class="form-group">
+                          <button type="button" class="btn btn-danger btn-flat btn-sm" onclick="removerTrChild(this)">
+                            <i class="fa fa-remove"></i>
+                          </button>
+                        </div>
+                      </td>
+                      <td width="5"></td>
+                      <td>
+                        <div class="form-group">
+                          <div class="input-group" >
+                            <span class="input-group-addon">
+                              <i class="fa fa-list"></i>
+                            </span>
+                            <input type="text" name="name_charge[]" value="BBM" class="form-control" placeholder="Extra Charge">
+                          </div>
+                        </div>
+                      </td>
+                      <td width="5"></td>
+                      <td>
+                        <div class="form-group">
+                          <div class="input-group" >
+                            <span class="input-group-addon">
+                              <i class="fa fa-money"></i>
+                            </span>
+                            <input type="text" name="biaya_charge[]" data-tarif class="form-control" placeholder="Biaya Charge" onkeyup="hitung();" onkeypress="isNumberKey(event)">
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody id="child_charge">
+                    <tr>
+                      <td>
+                        <div class="form-group">
+                          <button type="button" class="btn btn-danger btn-flat btn-sm" onclick="removerTrChild(this)">
+                            <i class="fa fa-remove"></i>
+                          </button>
+                        </div>
+                      </td>
+                      <td width="5"></td>
+                      <td>
+                        <div class="form-group">
+                          <div class="input-group" >
+                            <span class="input-group-addon">
+                              <i class="fa fa-list"></i>
+                            </span>
+                            <input type="text" name="name_charge[]" value="PREMI" class="form-control" placeholder="Extra Charge">
+                          </div>
+                        </div>
+                      </td>
+                      <td width="5"></td>
+                      <td>
+                        <div class="form-group">
+                          <div class="input-group" >
+                            <span class="input-group-addon">
+                              <i class="fa fa-money"></i>
+                            </span>
+                            <input type="text" name="biaya_charge[]" data-tarif class="form-control" placeholder="Biaya Charge" onkeyup="hitung();" onkeypress="isNumberKey(event)">
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tr>
+                    <td colspan="3">
+                      <div class="form-group">
+                        <button type="button" class="btn btn-success btn-flat btn-sm" id="tambah_charge">
+                          <i class="fa fa-plus"></i> Tambah
+                        </button>
+                      </div>
+                    </td>
+                    <td width="5"></td>
+                    <td>
+                      <div class="form-group">
+                        <div class="input-group" >
+                          <span class="input-group-addon">
+                            <i class="fa fa-money"></i>
+                          </span>
+                          <input type="text" name="charge" data-tarif class="form-control" placeholder="Total Charge">
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
               </div>
             </div>
 
@@ -229,99 +308,6 @@
                   </select>
                 </div>
               </div>
-            </div>
-
-            <hr>
-
-            <div class="col-md-6 col-xs-12 collapse" id="charge">
-              <table>
-                <tbody id="parent_charge">
-                  <tr>
-                    <td>
-                      <div class="form-group">
-                        <button type="button" class="btn btn-danger btn-flat btn-sm" onclick="removerTrChild(this)">
-                          <i class="fa fa-remove"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td width="5"></td>
-                    <td>
-                      <div class="form-group">
-                        <div class="input-group" >
-                          <span class="input-group-addon">
-                            <i class="fa fa-list"></i>
-                          </span>
-                          <input type="text" name="name_charge[]" value="BBM" class="form-control" placeholder="Extra Charge">
-                        </div>
-                      </div>
-                    </td>
-                    <td width="5"></td>
-                    <td>
-                      <div class="form-group">
-                        <div class="input-group" >
-                          <span class="input-group-addon">
-                            <i class="fa fa-money"></i>
-                          </span>
-                          <input type="text" name="biaya_charge[]" data-tarif class="form-control" placeholder="Biaya Charge">
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody id="child_charge">
-                  <tr>
-                    <td>
-                      <div class="form-group">
-                        <button type="button" class="btn btn-danger btn-flat btn-sm" onclick="removerTrChild(this)">
-                          <i class="fa fa-remove"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td width="5"></td>
-                    <td>
-                      <div class="form-group">
-                        <div class="input-group" >
-                          <span class="input-group-addon">
-                            <i class="fa fa-list"></i>
-                          </span>
-                          <input type="text" name="name_charge[]" value="PREMI" class="form-control" placeholder="Extra Charge">
-                        </div>
-                      </div>
-                    </td>
-                    <td width="5"></td>
-                    <td>
-                      <div class="form-group">
-                        <div class="input-group" >
-                          <span class="input-group-addon">
-                            <i class="fa fa-money"></i>
-                          </span>
-                          <input type="text" name="biaya_charge[]" data-tarif class="form-control" placeholder="Biaya Charge">
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-                <tr>
-                  <td colspan="3">
-                    <div class="form-group">
-                      <button type="button" class="btn btn-success btn-flat btn-sm" id="tambah_charge">
-                        <i class="fa fa-plus"></i> Tambah
-                      </button>
-                    </div>
-                  </td>
-                  <td width="5"></td>
-                  <td>
-                    <div class="form-group">
-                      <div class="input-group" >
-                        <span class="input-group-addon">
-                          <i class="fa fa-money"></i>
-                        </span>
-                        <input type="text" name="modal" data-tarif class="form-control" placeholder="Total Charge">
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </table>
             </div>
 
             <div class="col-md-12 col-xs-12">

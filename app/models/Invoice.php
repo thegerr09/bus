@@ -80,7 +80,7 @@ class Invoice extends \Phalcon\Mvc\Model
      * @var string
      * @Column(type="string", length=12, nullable=true)
      */
-    public $modal;
+    public $charge;
 
     /**
      *
@@ -108,7 +108,7 @@ class Invoice extends \Phalcon\Mvc\Model
      * @var string
      * @Column(type="string", length=11, nullable=true)
      */
-    public $sisa_modal;
+    public $sisa_charge;
 
     /**
      *

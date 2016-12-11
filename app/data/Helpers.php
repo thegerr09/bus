@@ -81,12 +81,27 @@ class Helpers
 			for ($a = 0; $a < count($data[$i]); $a++) { 
 				if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id) {
 					if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'N' and $data[$i][$a]['dp'] > 0) {
-						$result = 'class="bg-blue cursor" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
+						$result = 'class="bg-yellow cursor" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
 					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'N') {
-						$result = 'class="bg-teal cursor" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
+						$result = 'class="bg-red cursor" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
 					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'Y') {
 						$result = 'class="bg-green cursor"';
 					}
+					break;
+				}
+			}
+		}
+        return $result;
+    }
+
+    public static function viewGrafikName($tgl, $id)
+    {
+    	$data = BookingHelp::grafikOrder();
+    	$result = '';
+		for ($i = 0; $i < count($data); $i++) { 
+			for ($a = 0; $a < count($data[$i]); $a++) { 
+				if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id) {
+					$result = $data[$i][$a]['nama'];
 					break;
 				}
 			}

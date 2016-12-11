@@ -89,6 +89,9 @@ class BookingController extends \Phalcon\Mvc\Controller
 
         $booking->assign($post);
         if ($booking->save()) {
+            if (isset($post['dp'])) {
+                BookingHelp::jurnalBayarDp($post['dp'], $post['kode']);
+            }
             $notify = [
                 'title' => 'Success',
                 'text'  => 'Data berhasil di simpan ke database',
@@ -125,6 +128,7 @@ class BookingController extends \Phalcon\Mvc\Controller
         $booking = Booking::findFirst($id);
         $post['kode'] = $booking->kode;
 
+        BookingHelp::ExtraCharge($post['kode'], $post['name_charge'], $post['biaya_charge']);
         BookingHelp::change(0, $booking->bus, $booking->driver, $booking->co_driver);
         BookingHelp::change(2, $post['bus'], $post['driver'], $post['co_driver']);
 
@@ -274,9 +278,9 @@ class BookingController extends \Phalcon\Mvc\Controller
                 if ($value->status == '1') { $class = 'class="bg-teal"'; } elseif ($value->status == '2') { $class = 'class="bg-yellow"'; } else { $class = ''; }
 
     			if ($value->id == $this->request->getPost('selected')) {
-    				$result .= '<option value="'.$value->id . '" '.$class.' selected>'.$value->ukuran.' | '.$value->nomor_polisi.'</option>';
+    				$result .= '<option value="'.$value->id . '" '.$class.' selected>'.strtoupper($value->ukuran).' | '.$value->nomor_polisi.'</option>';
     			} else {
-    				$result .= '<option value="'.$value->id.'" '.$class.'>'.$value->ukuran.' | '.$value->nomor_polisi.'</option>';
+    				$result .= '<option value="'.$value->id.'" '.$class.'>'.strtoupper($value->ukuran).' | '.$value->nomor_polisi.'</option>';
     			}
     		}
     	} else if ((int) $id === 4) {

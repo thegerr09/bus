@@ -71,6 +71,13 @@ class Booking extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
+     * @Column(type="string", length=12, nullable=true)
+     */
+    public $charge;
+
+    /**
+     *
+     * @var string
      * @Column(type="string", length=100, nullable=false)
      */
     public $metode_pembayaran;
@@ -102,6 +109,13 @@ class Booking extends \Phalcon\Mvc\Model
      * @Column(type="string", length=100, nullable=true)
      */
     public $lokasi;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=10, nullable=false)
+     */
+    public $type_booking;
 
     /**
      *
@@ -178,7 +192,7 @@ class Booking extends \Phalcon\Mvc\Model
      * @var string
      * @Column(type="string", nullable=false)
      */
-    public $active;
+    public $invoice;
 
     /**
      *

@@ -65,7 +65,7 @@ class BookingHelp
     public static function grafikOrder()
     {
         $booking = Booking::find([
-            "columns" => "id, tanggal_mulai, tanggal_kembali, bus, success, dp, batal",
+            "columns" => "id, nama, tanggal_mulai, tanggal_kembali, bus, success, dp, batal",
             "conditions" => "deleted = 'N'"
         ]);
 
@@ -82,6 +82,7 @@ class BookingHelp
                 $data[] = [
                     'id'      => $value->id,
                     'bus'     => $value->bus,
+                    'nama'    => $value->nama,
                     'dp'      => $value->dp,
                     'batal'   => $value->batal,
                     'success' => $value->success,
@@ -129,6 +130,17 @@ class BookingHelp
                     $get_parent->delete();
                 }
             }
+        }
+    }
+
+    public static function ExtraCharge($kode, $charge, $biaya)
+    {
+        for ($i = 0; $i < count($charge); $i++) { 
+            $charge_new = new Charges();
+            $charge_new->kode = $kode;
+            $charge_new->charge = $charge[$i];
+            $charge_new->biaya = $biaya[$i];
+            $charge_new->save();
         }
     }
     
