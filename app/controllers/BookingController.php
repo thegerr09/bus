@@ -34,28 +34,16 @@ class BookingController extends \Phalcon\Mvc\Controller
 
         $booking = new Booking();
         $booking->assign($post);
-
-        $bus      = BookingHelp::bus($post['bus']);
-        $driver   = BookingHelp::driver($post['driver']);
-        $coDriver = BookingHelp::coDriver($post['co_driver']);
  
         if ($booking->save()) {
             if (isset($post['dp'])) {
                 BookingHelp::jurnalBayarDp($post['dp'], $post['kode']);
             }
-            if ($bus == true and $driver == true and $coDriver == true) {
-                $notify = [
-                    'title' => 'Success',
-                    'text'  => 'Data berhasil di simpan ke database',
-                    'type'  => 'success',
-                ];
-            } else {
-                $notify = [
-                    'title' => 'gagal',
-                    'text'  => 'Data error di simpan ke database',
-                    'type'  => 'error',
-                ];
-            }
+            $notify = [
+                'title' => 'Success',
+                'text'  => 'Data berhasil di simpan ke database',
+                'type'  => 'success',
+            ];
         } else {
             $messages = $booking->getMessages();
             $m = '';
@@ -83,9 +71,6 @@ class BookingController extends \Phalcon\Mvc\Controller
         }
 
         $booking = Booking::findFirst($id);
-
-        BookingHelp::change(0, $booking->bus, $booking->driver, $booking->co_driver);
-        BookingHelp::change(1, $post['bus'], $post['driver'], $post['co_driver']);
 
         $booking->assign($post);
         if ($booking->save()) {
@@ -128,10 +113,8 @@ class BookingController extends \Phalcon\Mvc\Controller
         $booking = Booking::findFirst($id);
         $post['kode'] = $booking->kode;
 
-        BookingHelp::ExtraCharge($post['kode'], $post['name_charge'], $post['biaya_charge']);
-        BookingHelp::change(0, $booking->bus, $booking->driver, $booking->co_driver);
-        BookingHelp::change(2, $post['bus'], $post['driver'], $post['co_driver']);
-
+        BookingHelp::biayaCost($post['kode'], $post['name_cost'], $post['satuan'], $post['harga_satuan'], $post['jumlah']);
+        
         $booking->assign($post);
         if ($booking->save()) {
             $post['success'] = 'N';
@@ -178,7 +161,6 @@ class BookingController extends \Phalcon\Mvc\Controller
         $note = $this->request->getPost('note');
 
         $booking = Booking::findFirst($id);
-        BookingHelp::change(0, $booking->bus, $booking->driver, $booking->co_driver);
         $kode = $booking->kode;
         $booking->note = $note;
         $booking->batal = 'Y';
@@ -210,7 +192,6 @@ class BookingController extends \Phalcon\Mvc\Controller
         $id = $this->request->getPost('id');
 
         $booking = Booking::findFirst($id);
-        BookingHelp::change(0, $booking->bus, $booking->driver, $booking->co_driver);
         $kode = $booking->kode;
         $booking->deleted = 'Y';
         if ($booking->save()) {
@@ -248,20 +229,22 @@ class BookingController extends \Phalcon\Mvc\Controller
     	if ((int) $id === 1) {
     		$driver = Driver::find(["conditions" => "active = 'Y' AND deleted = 'N'"]);
     		$result = '<option value="">Pilih Driver</option>';
-    		foreach ($driver as $key => $value) {
-                if ($value->status == '1') { $class = 'class="bg-teal"'; } elseif ($value->status == '2') { $class = 'class="bg-yellow"'; } else { $class = ''; }
+            foreach ($driver as $key => $value) {
+                $class = '';
+                // if ($value->status == '1') { $class = 'class="bg-teal"'; } elseif ($value->status == '2') { $class = 'class="bg-yellow"'; } else { $class = ''; }
 
-    			if ($value->id == $this->request->getPost('selected')) {
-    				$result .= '<option value="' . $value->id . '" '.$class.' selected>' . $value->nama . '</option>';
-    			} else {
-    				$result .= '<option value="' . $value->id . '" '.$class.'>' . $value->nama . '</option>';
-    			}
-    		}
-    	} else if ((int) $id === 2) {
-    		$driver = CoDriver::find(["conditions" => "active = 'Y' AND deleted = 'N'"]);
-    		$result = '<option value="">Pilih Co. Driver</option>';
-    		foreach ($driver as $key => $value) {
-                if ($value->status == '1') { $class = 'class="bg-teal"'; } elseif ($value->status == '2') { $class = 'class="bg-yellow"'; } else { $class = ''; }
+                if ($value->id == $this->request->getPost('selected')) {
+                    $result .= '<option value="' . $value->id . '" '.$class.' selected>' . $value->nama . '</option>';
+                } else {
+                    $result .= '<option value="' . $value->id . '" '.$class.'>' . $value->nama . '</option>';
+                }
+            }
+        } else if ((int) $id === 2) {
+            $driver = CoDriver::find(["conditions" => "active = 'Y' AND deleted = 'N'"]);
+            $result = '<option value="">Pilih Co. Driver</option>';
+            foreach ($driver as $key => $value) {
+                $class = '';
+                // if ($value->status == '1') { $class = 'class="bg-teal"'; } elseif ($value->status == '2') { $class = 'class="bg-yellow"'; } else { $class = ''; }
                 
     			if ($value->id == $this->request->getPost('selected')) {
     				$result .= '<option value="' . $value->id . '" '.$class.' selected>' . $value->nama . '</option>';
@@ -275,7 +258,7 @@ class BookingController extends \Phalcon\Mvc\Controller
     		$result = '<option value="">Pilih Bus</option>';
     		foreach ($driver as $key => $value) {
                 if ($value->kondisi == 'Y') { $class = 'class="bg-red" disabled'; } else { $class = ''; }
-                if ($value->status == '1') { $class = 'class="bg-teal"'; } elseif ($value->status == '2') { $class = 'class="bg-yellow"'; } else { $class = ''; }
+                // if ($value->status == '1') { $class = 'class="bg-teal"'; } elseif ($value->status == '2') { $class = 'class="bg-yellow"'; } else { $class = ''; }
 
     			if ($value->id == $this->request->getPost('selected')) {
     				$result .= '<option value="'.$value->id . '" '.$class.' selected>'.strtoupper($value->ukuran).' | '.$value->nomor_polisi.'</option>';

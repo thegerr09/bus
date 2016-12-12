@@ -4,43 +4,15 @@
 */
 class BookingHelp
 {
-	
-    public static function bus($id)
-    {
-        $bus = Bus::findFirst($id);
-        $bus->status = 1;
-        if ($bus->save()) {
-            $result = true;
-        } else {
-            $result = false;
-        }
-        return $result;
-    }
 
-    public static function driver($id)
-    {
-        $driver = Driver::findFirst($id);
-        $driver->status = 1;
-        if ($driver->save()) {
-            $result = true;
-        } else {
-            $result = false;
-        }
-        return $result;
-    }
-
-    public static function coDriver($id)
-    {
-        $coDriver = CoDriver::findFirst($id);
-        $coDriver->status = 1;
-        if ($coDriver->save()) {
-            $result = true;
-        } else {
-            $result = false;
-        }
-        return $result;
-    }
-
+    /**
+     * [change description]
+     * @param  [type] $check        [description]
+     * @param  [type] $id_bus       [description]
+     * @param  [type] $id_driver    [description]
+     * @param  [type] $id_co_driver [description]
+     * @return [type]               [description]
+     */
     public static function change($check, $id_bus, $id_driver, $id_co_driver )
     {
         if (!empty($id_bus)) {
@@ -62,10 +34,14 @@ class BookingHelp
         }
     }
 
+    /**
+     * [grafikOrder description]
+     * @return [type] [description]
+     */
     public static function grafikOrder()
     {
         $booking = Booking::find([
-            "columns" => "id, nama, tanggal_mulai, tanggal_kembali, bus, success, dp, batal",
+            "columns" => "id, nama, kode, tanggal_mulai, tanggal_kembali, bus, success, invoice, dp, batal",
             "conditions" => "deleted = 'N'"
         ]);
 
@@ -82,10 +58,12 @@ class BookingHelp
                 $data[] = [
                     'id'      => $value->id,
                     'bus'     => $value->bus,
+                    'kode'    => $value->kode,
                     'nama'    => $value->nama,
                     'dp'      => $value->dp,
                     'batal'   => $value->batal,
                     'success' => $value->success,
+                    'invoice' => $value->invoice,
                     'date'    => $day->format('Y-m-d')
                 ]; 
             }
@@ -94,6 +72,12 @@ class BookingHelp
         return $result;
     }
 
+    /**
+     * [jurnalBayarDp description]
+     * @param  [type] $dp   [description]
+     * @param  [type] $kode [description]
+     * @return [type]       [description]
+     */
     public static function jurnalBayarDp($dp, $kode)
     {
         $parent = [
@@ -133,14 +117,40 @@ class BookingHelp
         }
     }
 
-    public static function ExtraCharge($kode, $charge, $biaya)
+    /**
+     * [biayaCost description]
+     * @param  [type] $kode   [description]
+     * @param  [type] $cost   [description]
+     * @param  [type] $satuan [description]
+     * @param  [type] $harga  [description]
+     * @param  [type] $jumlah [description]
+     * @return [type]         [description]
+     */
+    public static function biayaCost($kode, $cost, $satuan, $harga, $jumlah)
     {
+        $cost_delete = Cost::find("kode = '$kode'");
+        $cost_delete->delete();
+        for ($i = 0; $i < count($satuan); $i++) { 
+            $cost_db = new Cost();
+            $cost_db->kode = $kode;
+            $cost_db->cost = $cost[$i];
+            $cost_db->satuan = $satuan[$i];
+            $cost_db->harga_satuan = $harga[$i];
+            $cost_db->jumlah = $jumlah[$i];
+            $cost_db->save();
+        }
+    }
+
+    public static function extraCharge($kode, $charge, $biaya)
+    {
+        $charge_delete = Charge::find("kode = '$kode'");
+        $charge_delete->delete();
         for ($i = 0; $i < count($charge); $i++) { 
-            $charge_new = new Charges();
-            $charge_new->kode = $kode;
-            $charge_new->charge = $charge[$i];
-            $charge_new->biaya = $biaya[$i];
-            $charge_new->save();
+            $charge_db = new Charge();
+            $charge_db->kode = $kode;
+            $charge_db->charge = $charge[$i];
+            $charge_db->biaya = $biaya[$i];
+            $charge_db->save();
         }
     }
     

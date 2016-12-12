@@ -80,6 +80,13 @@ class Invoice extends \Phalcon\Mvc\Model
      * @var string
      * @Column(type="string", length=12, nullable=true)
      */
+    public $cost;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=11, nullable=true)
+     */
     public $charge;
 
     /**
@@ -108,7 +115,7 @@ class Invoice extends \Phalcon\Mvc\Model
      * @var string
      * @Column(type="string", length=11, nullable=true)
      */
-    public $sisa_charge;
+    public $sisa_or_bon;
 
     /**
      *

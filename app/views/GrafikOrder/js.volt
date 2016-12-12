@@ -49,9 +49,9 @@ $('input[type="radio"].flat-blue').iCheck({
   radioClass: 'iradio_flat-blue'
 });
 
-function new_action(tgl, id, ukuran) {
-  $('.new_action').attr('onclick', 'close_action("'+tgl+'", "'+id+'", "'+ukuran+'")');
-}
+// function new_action(tgl, id, ukuran) {
+//   $('.new_action').attr('onclick', 'close_action("'+tgl+'", "'+id+'", "'+ukuran+'")');
+// }
 
 (function() {
 
@@ -146,15 +146,18 @@ function list() {
 }
 
 function next(id) {
-  var form = $('form[name="booking"]')
+  var form = $('form[name="booking"]');
   form.attr('action', '{{ url('Booking/next/') }}'+id);
   form.find('button[type="submit"]')
       .removeClass('btn-success')
       .removeClass('btn-primary')
       .addClass('btn-danger')
       .text('Lanjut Sewa');
-  form.find('input[name="pelunasan"]').attr('required', 'required');
-  form.find('input[name="charge"]').attr('required', 'required');
+  form.find('select[name="driver"]').attr('required', 'required').parent().parent().show();
+  form.find('select[name="co_driver"]').attr('required', 'required').parent().parent().show();
+  form.find('input[name="pelunasan"]').attr('required', 'required').parent().parent().show();
+  form.find('input[name="cost"]').attr('required', 'required');
+  $('#cost').show();
   $.ajax({
     type: 'POST',
     url: '{{ url('Booking/detail/') }}'+id,
@@ -175,9 +178,7 @@ function next(id) {
         lokasii(response.type_bus);
         bus(response.type_bus, response.bus);
         routee_selected(response.route, response.lokasi);
-        $('select[name="driver"]').attr('onchange', 'modal_driver()');
-        $('select[name="co_driver"]').attr('onchange', 'modal_driver()');
-        modal_driver();
+        costView(response.kode, response.cost);
       } else if (response.paket == 'jiarah') {
         $('#regular').collapse('hide');
         $('#jiarah').collapse('show');
@@ -186,9 +187,56 @@ function next(id) {
         driver(2, response.co_driver);
         lokasii(response.type_bus);
         bus(response.type_bus, response.bus);
-        $('select[name="driver"]').attr('onchange', 'modal_driver()');
-        $('select[name="co_driver"]').attr('onchange', 'modal_driver()');
-        modal_driver();
+        costView(response.kode, response.cost);
+      }
+    }
+  });
+}
+
+function carback(kode) {
+  var form = $('form[name="booking"]');
+  form.find('button[type="submit"]')
+      .removeClass('btn-success')
+      .removeClass('btn-danger')
+      .addClass('btn-primary')
+      .text('Mobil Kembali');
+  form.find('select[name="driver"]').attr('required', 'required').parent().parent().show();
+  form.find('select[name="co_driver"]').attr('required', 'required').parent().parent().show();
+  form.find('input[name="pelunasan"]').attr('required', 'required').parent().parent().show();
+  form.find('input[name="cost"]').attr('required', 'required');
+  $('#cost').show();
+  $('#charge').show();
+  $.ajax({
+    type: 'POST',
+    url: '{{ url('ListOrder/detail/') }}'+kode,
+    dataType:'json',
+    success: function(response){
+      form.attr('action', '{{ url('ListOrder/carBack/') }}'+response.id);
+      $.each(response, function(key, value) {
+        form.find('[name="'+key+'"]')
+        .not('[name="modal"]')
+        .val(value);
+      });
+      $('#label_booking').text('Mobil kembali kode booking "'+response.kode+'" ?');
+      if (response.paket == 'regular') {
+        $('#regular').collapse('show');
+        $('#jiarah').collapse('hide');
+        areaa_selected(response.area, response.route);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+        routee_selected(response.route, response.lokasi);
+        costView(response.kode, response.cost);
+      } else if (response.paket == 'jiarah') {
+        $('#regular').collapse('hide');
+        $('#jiarah').collapse('show');
+        route_jiarah(response.route_jiarah);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+        costView(response.kode, response.cost);
       }
     }
   });
@@ -380,28 +428,18 @@ function driver(id, selected) {
   }
 }
 
-function modal_driver() {
-  var driver    = $('select[name="driver"]').val();
-  var co_driver = $('select[name="co_driver"]').val();
-  if (driver != '' && co_driver != '') {
-    $('#modal_driver').collapse('show');
-    $('#charge').collapse('show');
-  } else {
-    $('#modal_driver').collapse('hide');
-    $('#charge').collapse('hide');
-  }
-}
-
 function clear_form(id) {
   $('#label_booking').text('Tambah Booking');
 
   var form = $('form[name="booking"]');
 
   $('#modal_driver').collapse('hide');
+  form.find('select[name="driver"]').removeAttr('required').parent().parent().hide();
+  form.find('select[name="co_driver"]').removeAttr('required').parent().parent().hide();
+  form.find('input[name="pelunasan"]').removeAttr('required').parent().parent().hide();
 
   form.find('[name]').val('');
-  form.find('input[name="pelunasan"]').removeAttr('required');
-  form.find('input[name="charge"]').removeAttr('required');
+  form.find('input[name="cost"]').removeAttr('required');
 
   form.attr('action', '{{ url('Booking/input') }}');
 
@@ -415,7 +453,8 @@ function clear_form(id) {
   driver(2);
   lokasii();
   pakett();
-  $('#charge').collapse('hide');
+  $('#cost').hide();
+  $('#charge').hide();
 
   if (id == 1) {
     $('#Booking').modal('hide');
@@ -486,13 +525,29 @@ function filter_month(that) {
   });
 }
 
-$("#tambah_charge").click(function(){
-  var charge = $('#parent_charge').html();
-  $("#child_charge").append(charge);
+$("#tambah_cost").click(function(){
+  var cost = $('#parent_cost').html();
+  $("#child_cost").append(cost);
 });
 
 function removerTrChild(that) {
-  var data = $(that).parent().parent();
+  var data = $(that).parent().parent().parent();
+  var id   = data.parent().attr('id');
+
+  if (id == 'parent_cost') {
+    return false;
+  } else {
+    data.remove();
+  }
+}
+
+$("#tambah_charge").click(function(){
+  var cost = $('#parent_charge').html();
+  $("#child_charge").append(cost);
+});
+
+function removerTrCharge(that) {
+  var data = $(that).parent().parent().parent();
   var id   = data.parent().attr('id');
 
   if (id == 'parent_charge') {
@@ -502,7 +557,55 @@ function removerTrChild(that) {
   }
 }
 
+function checkboxPercent(that) {
+  var data = $(that).parent().parent().parent().parent().parent();
+  var satuan = data.find('input[name="satuan[]"]').val();
+  var percent = data.find('input[type="checkbox"]');
+  var harga_satuan = data.find('input[name="harga_satuan[]"]').val();
+  
+  if (satuan != null && harga_satuan != null) {
+    if(percent.is(':checked')) {
+      var result = satuan / 100 * harga_satuan;
+      data.find('input[name="jumlah[]"]').val(result);
+    } else {
+      var result = satuan * harga_satuan;
+      data.find('input[name="jumlah[]"]').val(result);
+    }
+  }
+}
+
+function hitungJumlah(that) {
+  var data = $(that).parent().parent().parent().parent();
+  var satuan = data.find('input[name="satuan[]"]').val();
+  var percent = data.find('input[type="checkbox"]');
+  var harga_satuan = data.find('input[name="harga_satuan[]"]').val();
+  
+  if (satuan != null && harga_satuan != null) {
+    if(percent.is(':checked')) {
+      var result = satuan / 100 * harga_satuan;
+      data.find('input[name="jumlah[]"]').val(result);
+    } else {
+      var result = satuan * harga_satuan;
+      data.find('input[name="jumlah[]"]').val(result);
+    }
+  }
+}
+
 function hitung() {
+  var values = [];
+  $("input[name='jumlah[]']").each(function() {
+      values.push($(this).val());
+  });
+
+  n   = values.length,
+  sum = 0;
+  while(n--)
+  sum += parseFloat(values[n]) || 0;
+
+  $("input[name='cost']").val(sum);
+}
+
+function hitungCharge() {
   var values = [];
   $("input[name='biaya_charge[]']").each(function() {
       values.push($(this).val());
@@ -516,10 +619,15 @@ function hitung() {
   $("input[name='charge']").val(sum);
 }
 
-function isNumberKey(evt){
-  var charCode = (evt.which) ? evt.which : event.keyCode;
-  if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
-  return false;
-  return true;
+function costView(kode, cost) {
+  $.ajax({
+    type: 'POST',
+    url: '{{ url('GrafikOrder/viewCost') }}',
+    dataType:'html',
+    data: 'kode='+kode+'&cost='+cost,
+    success: function(response){ 
+      $('#viewCost').html(response);
+    }
+  });
 }
 </script>

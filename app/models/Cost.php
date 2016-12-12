@@ -1,6 +1,6 @@
 <?php
 
-class Charges extends \Phalcon\Mvc\Model
+class Cost extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -21,17 +21,31 @@ class Charges extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=false)
+     * @var string
+     * @Column(type="string", length=100, nullable=false)
      */
-    public $charge;
+    public $cost;
 
     /**
      *
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
-    public $biaya;
+    public $satuan;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=11, nullable=false)
+     */
+    public $harga_satuan;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=11, nullable=false)
+     */
+    public $jumlah;
 
     /**
      * Returns table name mapped in the model.
@@ -40,14 +54,14 @@ class Charges extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'charges';
+        return 'cost';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Charges[]
+     * @return Cost[]
      */
     public static function find($parameters = null)
     {
@@ -58,7 +72,7 @@ class Charges extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Charges
+     * @return Cost
      */
     public static function findFirst($parameters = null)
     {

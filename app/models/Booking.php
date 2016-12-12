@@ -71,14 +71,7 @@ class Booking extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
-     * @Column(type="string", length=12, nullable=true)
-     */
-    public $charge;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=100, nullable=false)
+     * @Column(type="string", length=100, nullable=true)
      */
     public $metode_pembayaran;
 

@@ -25,6 +25,20 @@ class GrafikorderController extends \Phalcon\Mvc\Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
+    public function viewCostAction()
+    {
+    	$post = $this->request->getPost();
+    	$cost = Cost::find(["conditions" => "kode = '" . $post['kode'] . "'"]);
+    	$this->view->cost = $cost;
+    	$this->view->check = isset($cost[0]->id);
+		$this->view->total_cost = $post['cost'];
+    	if ($post['cost'] === 'undefined') {
+	    	$this->view->total_cost = '';
+    	}
+        $this->view->pick("GrafikOrder/costView");
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    }
+
     public function listAction()
     {
     	if ($this->request->isPost()) {

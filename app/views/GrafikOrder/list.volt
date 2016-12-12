@@ -16,7 +16,7 @@
     <tr>
       <td align="center">{{ listDate[i] }}</td>
       {% for body in bus %}
-      <td {{ Helpers.viewGrafik(filterDate[i], body.id, body.ukuran) }}></td>
+      <td {{ Helpers.viewGrafik(filterDate[i], body.id, body.ukuran) }}>{{ Helpers.viewGrafikName(filterDate[i], body.id) }}</td>
       {% endfor %}
     </tr>
     {% endfor %}

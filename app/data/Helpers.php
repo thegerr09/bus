@@ -76,16 +76,18 @@ class Helpers
     public static function viewGrafik($tgl, $id, $ukuran)
     {
     	$data = BookingHelp::grafikOrder();
-    	$result = 'class="cursor" data-toggle="modal" data-target="#New" onclick="new_action('."'".$tgl."',"."'".$id."',"."'".$ukuran."'".')"';
+    	$result = 'class="cursor" data-toggle="modal" data-target="#Booking" onclick="close_action('."'".$tgl."',"."'".$id."',"."'".$ukuran."'".')"';
 		for ($i = 0; $i < count($data); $i++) { 
 			for ($a = 0; $a < count($data[$i]); $a++) { 
 				if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id) {
-					if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'N' and $data[$i][$a]['dp'] > 0) {
+					if ($data[$i][$a]['invoice'] == 'Y') {
+						$result = 'class="bg-green cursor"';
+					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'N' and $data[$i][$a]['dp'] > 0) {
 						$result = 'class="bg-yellow cursor" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
 					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'N') {
 						$result = 'class="bg-red cursor" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
 					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'Y') {
-						$result = 'class="bg-green cursor"';
+						$result = 'class="bg-blue cursor" data-toggle="modal" data-target="#Booking" onclick="carback('."'".$data[$i][$a]['kode']."'".')"';
 					}
 					break;
 				}
@@ -100,8 +102,14 @@ class Helpers
     	$result = '';
 		for ($i = 0; $i < count($data); $i++) { 
 			for ($a = 0; $a < count($data[$i]); $a++) { 
-				if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id) {
-					$result = $data[$i][$a]['nama'];
+				if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id and $data[$i][$a]['invoice'] == 'Y') {
+					$result = '(s) '.$data[$i][$a]['nama'];
+					break;
+				} else if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id and $data[$i][$a]['success'] == 'Y') {
+					$result = '(p) '.$data[$i][$a]['nama'];
+					break;
+				}else if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id) {
+					$result = '(b) '.$data[$i][$a]['nama'];
 					break;
 				}
 			}
