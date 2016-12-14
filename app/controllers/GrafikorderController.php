@@ -69,5 +69,12 @@ class GrafikorderController extends \Phalcon\Mvc\Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
+    public function printBookingAction($id)
+    {
+        $this->view->booking = Booking::findFirst($id);
+        $this->view->pick("GrafikOrder/suratbuktisewa");
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    }
+
 }
 

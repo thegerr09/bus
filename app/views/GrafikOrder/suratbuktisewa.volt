@@ -7,7 +7,7 @@
   <body style="font-family: arial;"  onload="window.print()">
     <main>
       <div style="width: 47%; float: left; padding-left: 30px;">
-        <img src="logo.jpg" alt="logo" width="70px" height="80px" style="padding:10px; float: left;"/>
+        {{ image('img/logo.jpg', 'alt':'logo', 'width':'70px', 'height':'80px', 'style':'padding:10px; float: left;') }}
         <p style="color: green; font-size: 14px;"><b>GALATAMA</b></p>
         <p style="font-size: 10px;  ">
           <b>Kantor :</b><br>
@@ -23,17 +23,22 @@
           <tr>
             <td>Nama Pemesan</td>
             <td>:</td>
-            <td colspan="3"><div style="border-bottom: 1px dashed #000;">SAIPUL HIDAYAT</div></td>
+            <td colspan="3">{{ booking.nama|upper }}</td>
           </tr>
           <tr>
             <td>Nomor Telpon</td>
             <td>:</td>
-            <td colspan="3">..............................................................................................</td>
+            <td colspan="3">{{ booking.telpon|upper }}</td>
           </tr>
           <tr>
             <td>Tujuan</td>
             <td>:</td>
-            <td colspan="3">..............................................................................................</td>
+            <td colspan="3">
+            {% if booking.paket == 'regular' %}
+              {{ booking.nama|upper }}
+            {% else %}
+            {% endif %}
+            </td>
           </tr>
           <tr>
             <td></td>
@@ -132,7 +137,7 @@
       <div style="border-right:1px solid black; width:0; height:700px; float:left;margin:-20px 0 0 0;"></div>
 
       <div style="width: 47%; float: left; padding-left: 30px;">
-        <img src="logo.jpg" alt="logo" width="70px" height="80px" style="padding:10px; float: left;"/>
+        {{ image('img/logo.jpg', 'alt':'logo', 'width':'70px', 'height':'80px', 'style':'padding:10px; float: left;') }}
         <p style="color: green; font-size: 14px;"><b>GALATAMA</b></p>
         <p style="font-size: 10px;  ">
           <b>Kantor :</b><br>
@@ -253,6 +258,17 @@
         </ul>
       </div>
     </main>
-
+<script type="text/javascript">
+if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1){   // Chrome Browser Detected?
+    window.PPClose = false;                                     // Clear Close Flag
+    window.onbeforeunload = function(){                         // Before Window Close Event
+        if(window.PPClose === false){                           // Close not OK?
+            return 'Leaving this page will block the parent window!\nPlease select "Stay on this Page option" and use the\nCancel button instead to close the Print Preview Window.\n';
+        }
+    }                   
+    window.print();                                             // Print preview
+    window.PPClose = true;                                      // Set Close Flag to OK.
+}
+</script>
   </body>
 </html>

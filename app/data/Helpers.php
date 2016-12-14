@@ -81,13 +81,13 @@ class Helpers
 			for ($a = 0; $a < count($data[$i]); $a++) { 
 				if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id) {
 					if ($data[$i][$a]['invoice'] == 'Y') {
-						$result = 'class="bg-green cursor"';
+						$result = 'class="bg-green"';
 					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'N' and $data[$i][$a]['dp'] > 0) {
-						$result = 'class="bg-yellow cursor" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
+						$result = 'class="bg-yellow" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
 					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'N') {
-						$result = 'class="bg-red cursor" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
+						$result = 'class="bg-red" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
 					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'Y') {
-						$result = 'class="bg-blue cursor" data-toggle="modal" data-target="#Booking" onclick="carback('."'".$data[$i][$a]['kode']."'".')"';
+						$result = 'class="bg-blue" data-toggle="modal" data-target="#Booking" onclick="carback('."'".$data[$i][$a]['kode']."'".')"';
 					}
 					break;
 				}
@@ -103,13 +103,19 @@ class Helpers
 		for ($i = 0; $i < count($data); $i++) { 
 			for ($a = 0; $a < count($data[$i]); $a++) { 
 				if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id and $data[$i][$a]['invoice'] == 'Y') {
-					$result = '(s) '.$data[$i][$a]['nama'];
+					$result .= '<a href="#" target="_blank" class="btn btn-default btn-xs">';
+					$result .= '<i class="fa fa-print"></i></a> (p) ';
+					$result .= $data[$i][$a]['nama'];
 					break;
 				} else if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id and $data[$i][$a]['success'] == 'Y') {
-					$result = '(p) '.$data[$i][$a]['nama'];
+					$result .= '<a href="#" target="_blank" class="btn btn-default btn-xs">';
+					$result .= '<i class="fa fa-print"></i></a> (p) ';
+					$result .= $data[$i][$a]['nama'];
 					break;
 				}else if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id) {
-					$result = '(b) '.$data[$i][$a]['nama'];
+					$result .= '<a href="GrafikOrder/printBooking/'.$data[$i][$a]['id'].'" target="_blank" class="btn btn-default btn-xs">';
+					$result .= '<i class="fa fa-print"></i></a> (b) ';
+					$result .= $data[$i][$a]['nama'];
 					break;
 				}
 			}
