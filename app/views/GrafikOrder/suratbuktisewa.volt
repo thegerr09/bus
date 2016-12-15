@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Surat Bukti Sewa</title>
+    {{ javascript_include('plugins/jQuery/jquery-2.2.3.min.js') }}
   </head>
   <body style="font-family: arial;"  onload="window.print()">
     <main>
@@ -19,107 +20,87 @@
         </p>
 
         <h1 style="font-size: 15px; text-align: center;"><u><b>SURAT BUKTI SEWA</b></u></h1>
-        <table border="0" style="font-size: 11px;" width="400">
+        <table border="0" style="font-size: 11px;">
           <tr>
             <td>Nama Pemesan</td>
             <td>:</td>
-            <td colspan="3">{{ booking.nama|upper }}</td>
+            <td colspan="2">{{ booking.nama|upper }}</td>
           </tr>
           <tr>
             <td>Nomor Telpon</td>
             <td>:</td>
-            <td colspan="3">{{ booking.telpon|upper }}</td>
+            <td colspan="2">{{ booking.telpon|upper }}</td>
           </tr>
           <tr>
-            <td>Tujuan</td>
-            <td>:</td>
-            <td colspan="3">
+            <td valign="top">Tujuan</td>
+            <td valign="top">:</td>
+            <td valign="top" colspan="2">
             {% if booking.paket == 'regular' %}
-              {{ booking.nama|upper }}
+              {{ Prints.TujuanRegular(booking.route, booking.lokasi) }}
             {% else %}
             {% endif %}
             </td>
           </tr>
           <tr>
-            <td></td>
-            <td></td>
-            <td colspan="3">..............................................................................................</td>
-          </tr>
-          <tr>
             <td>Berangkat Tgl</td>
             <td>:</td>
-            <td colspan="3">..............................................................................................</td>
+            <td colspan="2">{{ booking.tanggal_mulai|upper }}</td>
           </tr>
           <tr>
             <td>Jumlah Armada</td>
             <td>:</td>
-            <td width="100">....................................Besar</td>
-            <td width="100" align="right">Seat....................................</td>
-            <td width="40"></td>
+            <td colspan="2"> {{ Prints.BusCount(booking.nama, 'big', booking.tanggal_mulai) }} Besar | {{ Prints.BusCount(booking.nama, 'medium', booking.tanggal_mulai) }} Medium</td>
           </tr>
           <tr>
-            <td></td>
-            <td></td>
-            <td width="100">....................................Medium</td>
-            <td width="100" align="right">Seat....................................</td>
-            <td width="40"></td>
+            <td>Kode Booking Bus</td>
+            <td>:</td>
+            <td colspan="2"> {{ Prints.KodeBooking(booking.nama, booking.tanggal_mulai) }}</td>
           </tr>
           <tr>
             <td>Biaya Sewa</td>
             <td>:</td>
-            <td colspan="3">Rp. .......................................................................................</td>
+            <td colspan="2">Rp. {{ Helpers.number(booking.tarif) }},-</td>
           </tr>
           <tr>
             <td>Uang Muka</td>
             <td>:</td>
-            <td colspan="3">Rp. .......................................................................................</td>
+            <td>Rp. {{ Helpers.number(booking.dp) }},-<td>
           </tr>
           <tr>
             <td>Sisa</td>
             <td>:</td>
-            <td colspan="3">Rp. .......................................................................................</td>
+            <td>Rp.{% set sisa = booking.tarif - booking.dp %} {{ Helpers.number(sisa) }},-<td>
           </tr>
           <tr>
             <td>Alamat Penjemputan</td>
             <td>:</td>
-            <td colspan="3">..............................................................................................</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td colspan="3">..............................................................................................</td>
-          </tr>
-          <tr>
-            <td>Jemput Jam</td>
-            <td>:</td>
-            <td colspan="3">..............................................................................................</td>
+            <td colspan="2"> {{ booking.lokasi_jemput }}</td>
           </tr>
           <tr>
             <td>Keterangan</td>
             <td>:</td>
-            <td colspan="3">..............................................................................................</td>
+            <td colspan="2"> {{ booking.note }}</td>
           </tr>
           <tr>
             <td></td>
             <td></td>
-            <td colspan="3">..............................................................................................</td>
-          </tr>
-          <tr>
-            <td colspan="3"></td>
-            <td colspan="2"><p>Semarang, ...............................</p></td>
-          </tr>
-          <tr>
-            <td colspan="2" align="center">Penyewa</td>
             <td></td>
-            <td colspan="2" align="center">GALATAMA BUS PARIWISATA</td>
+            <td width="120" align="center" valign="bottom"><p>Semarang, {{ date('d M Y') }}</p></td>
           </tr>
           <tr>
-            <td height="45" colspan="5"></td>
-          </tr>
-          <tr>
-            <td colspan="2" align="center">.................................</td>
+            <td align="center">Penyewa</td>
             <td></td>
-            <td colspan="2" align="center">.................................</td>
+            <td></td>
+            <td align="center">GALATAMA BUS PARIWISATA</td>
+          </tr>
+          <tr>
+            <td height="45" colspan="4"></td>
+          </tr>
+          <tr>
+            <td align="center"><b>{{ booking.nama|upper }}</b></td>
+            <td></td>
+            <td></td>
+            <td align="center">.................................</td>
           </tr>
         </table>
 
@@ -149,102 +130,87 @@
         </p>
 
         <h1 style="font-size: 15px; text-align: center;"><u><b>SURAT BUKTI SEWA</b></u></h1>
-        <table border="0" style="font-size: 11px;  ">
+        <table border="0" style="font-size: 11px;">
           <tr>
             <td>Nama Pemesan</td>
             <td>:</td>
-            <td colspan="3">..............................................................................................</td>
+            <td colspan="2">{{ booking.nama|upper }}</td>
           </tr>
           <tr>
-            <td>Alamat/Telp</td>
+            <td>Nomor Telpon</td>
             <td>:</td>
-            <td colspan="3">..............................................................................................</td>
+            <td colspan="2">{{ booking.telpon|upper }}</td>
           </tr>
           <tr>
-            <td>Tujuan</td>
-            <td>:</td>
-            <td colspan="3">..............................................................................................</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td colspan="3">..............................................................................................</td>
+            <td valign="top">Tujuan</td>
+            <td valign="top">:</td>
+            <td valign="top" colspan="2">
+            {% if booking.paket == 'regular' %}
+              {{ Prints.TujuanRegular(booking.route, booking.lokasi) }}
+            {% else %}
+            {% endif %}
+            </td>
           </tr>
           <tr>
             <td>Berangkat Tgl</td>
             <td>:</td>
-            <td colspan="3">..............................................................................................</td>
+            <td colspan="2">{{ booking.tanggal_mulai|upper }}</td>
           </tr>
           <tr>
             <td>Jumlah Armada</td>
             <td>:</td>
-            <td width="100">....................................Besar</td>
-            <td width="100" align="right">Seat....................................</td>
-            <td width="40"></td>
+            <td colspan="2"> {{ Prints.BusCount(booking.nama, 'big', booking.tanggal_mulai) }} Besar | {{ Prints.BusCount(booking.nama, 'medium', booking.tanggal_mulai) }} Medium</td>
           </tr>
           <tr>
-            <td></td>
-            <td></td>
-            <td width="100">....................................Medium</td>
-            <td width="100" align="right">Seat....................................</td>
-            <td width="40"></td>
+            <td>Kode Booking Bus</td>
+            <td>:</td>
+            <td colspan="2"> {{ Prints.KodeBooking(booking.nama, booking.tanggal_mulai) }}</td>
           </tr>
           <tr>
             <td>Biaya Sewa</td>
             <td>:</td>
-            <td colspan="3">Rp. .......................................................................................</td>
+            <td colspan="2">Rp. {{ Helpers.number(booking.tarif) }},-</td>
           </tr>
           <tr>
             <td>Uang Muka</td>
             <td>:</td>
-            <td colspan="3">Rp. .......................................................................................</td>
+            <td>Rp. {{ Helpers.number(booking.dp) }},-<td>
           </tr>
           <tr>
             <td>Sisa</td>
             <td>:</td>
-            <td colspan="3">Rp. .......................................................................................</td>
+            <td>Rp.{% set sisa = booking.tarif - booking.dp %} {{ Helpers.number(sisa) }},-<td>
           </tr>
           <tr>
             <td>Alamat Penjemputan</td>
             <td>:</td>
-            <td colspan="3">..............................................................................................</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td colspan="3">..............................................................................................</td>
-          </tr>
-          <tr>
-            <td>Jemput Jam</td>
-            <td>:</td>
-            <td colspan="3">..............................................................................................</td>
+            <td colspan="2"> {{ booking.lokasi_jemput }}</td>
           </tr>
           <tr>
             <td>Keterangan</td>
             <td>:</td>
-            <td colspan="3">..............................................................................................</td>
+            <td colspan="2"> {{ booking.note }}</td>
           </tr>
           <tr>
             <td></td>
             <td></td>
-            <td colspan="3">..............................................................................................</td>
-          </tr>
-          <tr>
-            <td colspan="3"></td>
-            <td colspan="2"><p>Semarang, ...............................</p></td>
-          </tr>
-          <tr>
-            <td colspan="2" align="center">Penyewa</td>
             <td></td>
-            <td colspan="2" align="center">GALATAMA BUS PARIWISATA</td>
+            <td width="120" align="center"><p>Semarang, {{ date('d M Y') }}</p></td>
           </tr>
           <tr>
-            <td height="45" colspan="5"></td>
-          </tr>
-          <tr>
-            <td colspan="2" align="center">.................................</td>
+            <td align="center">Penyewa</td>
             <td></td>
-            <td colspan="2" align="center">.................................</td>
+            <td></td>
+            <td align="center">GALATAMA BUS PARIWISATA</td>
+          </tr>
+          <tr>
+            <td height="45" colspan="4"></td>
+          </tr>
+          <tr>
+            <td align="center"><b>{{ booking.nama|upper }}</b></td>
+            <td></td>
+            <td></td>
+            <td align="center">.................................</td>
           </tr>
         </table>
 
@@ -269,6 +235,9 @@ if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1){   // Chrome Browse
     window.print();                                             // Print preview
     window.PPClose = true;                                      // Set Close Flag to OK.
 }
+$(document).bind("contextmenu",function(e) {
+ e.preventDefault();
+});
 </script>
   </body>
 </html>

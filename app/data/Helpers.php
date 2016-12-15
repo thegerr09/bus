@@ -103,19 +103,19 @@ class Helpers
 		for ($i = 0; $i < count($data); $i++) { 
 			for ($a = 0; $a < count($data[$i]); $a++) { 
 				if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id and $data[$i][$a]['invoice'] == 'Y') {
-					$result .= '<a href="#" target="_blank" class="btn btn-default btn-xs">';
-					$result .= '<i class="fa fa-print"></i></a> (p) ';
-					$result .= $data[$i][$a]['nama'];
+					$result .= '<a href="#" target="_blank" class="btn btn-warning btn-xs">';
+					$result .= '<i class="fa fa-bars"></i></a> (s) ';
+					$result .= '<span class="cursor">'.$data[$i][$a]['nama'].'</span>';
 					break;
 				} else if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id and $data[$i][$a]['success'] == 'Y') {
 					$result .= '<a href="#" target="_blank" class="btn btn-default btn-xs">';
 					$result .= '<i class="fa fa-print"></i></a> (p) ';
-					$result .= $data[$i][$a]['nama'];
+					$result .= '<span class="cursor">'.$data[$i][$a]['nama'].'</span>';
 					break;
 				}else if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id) {
 					$result .= '<a href="GrafikOrder/printBooking/'.$data[$i][$a]['id'].'" target="_blank" class="btn btn-default btn-xs">';
 					$result .= '<i class="fa fa-print"></i></a> (b) ';
-					$result .= $data[$i][$a]['nama'];
+					$result .= '<span class="cursor">'.$data[$i][$a]['nama'].'</span>';
 					break;
 				}
 			}

@@ -1,5 +1,5 @@
 <style>
-.clear,.dataTables_scroll{clear:both}.dataTables_wrapper{position:relative;clear:both;zoom:1}.dataTables_processing{position:absolute;top:50%;left:50%;width:250px;height:30px;margin-left:-125px;margin-top:-15px;padding:14px 0 2px;border:1px solid #ddd;text-align:center;color:#999;font-size:14px;background-color:#fff}.dataTables_length{width:40%;float:left}.dataTables_filter{width:50%;float:right;text-align:right}.dataTables_info{width:60%;float:left}.dataTables_paginate{float:right;text-align:right}table.dataTable td.focus,table.dataTable th.focus{outline:#1ABB9C solid 2px!important;outline-offset:-1px}.dataTables_scrollBody{-webkit-overflow-scrolling:touch}.top .dataTables_info{float:none}.dataTables_empty{text-align:center}.example_alt_pagination div.dataTables_info{width:40%}td {color:#555;}hr{margin-top:4px;margin-bottom:3px;}.cursor{cursor:pointer;}.cursor:hover{background-color:#f4f4f4;}td{font-size:13px}
+.clear,.dataTables_scroll{clear:both}.dataTables_wrapper{position:relative;clear:both;zoom:1}.dataTables_processing{position:absolute;top:50%;left:50%;width:250px;height:30px;margin-left:-125px;margin-top:-15px;padding:14px 0 2px;border:1px solid #ddd;text-align:center;color:#999;font-size:14px;background-color:#fff}.dataTables_length{width:40%;float:left}.dataTables_filter{width:50%;float:right;text-align:right}.dataTables_info{width:60%;float:left}.dataTables_paginate{float:right;text-align:right}table.dataTable td.focus,table.dataTable th.focus{outline:#1ABB9C solid 2px!important;outline-offset:-1px}.dataTables_scrollBody{-webkit-overflow-scrolling:touch}.top .dataTables_info{float:none}.dataTables_empty{text-align:center}.example_alt_pagination div.dataTables_info{width:40%}td {color:#555;}hr{margin-top:4px;margin-bottom:3px;}.cursor{cursor:pointer;}.cursor:hover{color:#f4f4f4;}td{font-size:13px}
 }
 </style>
 <section class="content-header animated fadeIn">
@@ -53,6 +53,34 @@
               </tbody>
             </table>
           </div>
+        </div>
+        <div class="box-footer">
+          <table>
+            <tr>
+              <td style="border:1px solid #ccc;" height="25" width="25"></td>
+              <td width="130">&nbsp; Belum Di Booking</td>
+              <td class="bg-yellow" width="25"></td>
+              <td width="130">&nbsp; booking sudah dp</td>
+              <td class="bg-red" width="25"></td>
+              <td width="130">&nbsp; booking belum dp</td>
+              <td class="bg-blue" width="25"></td>
+              <td width="130">&nbsp; dalam perjalanan</td>
+              <td class="bg-green" width="25"></td>
+              <td width="130">&nbsp; Sudah Kembali</td>
+              <td align="center" width="25">
+                <div style="border:1px solid #ccc; border-radius: 3px; height: 25px; padding-top: 3px;">
+                  <i class="fa fa-print"></i>
+                </div>
+              </td>
+              <td width="130">&nbsp; Tombol Print</td>
+              <td align="center" width="25">
+                <div style="border-radius: 4px; height: 25px; padding-top: 3px;" class="bg-yellow">
+                  <i class="fa fa-bars"></i>
+                </div>
+              </td>
+              <td width="130">&nbsp; Tombol Detail</td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>

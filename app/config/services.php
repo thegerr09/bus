@@ -114,8 +114,15 @@ $di->set('AclAction', function(){
 });
 
 /**
- * Acl View
+ * Helpers View
  */
 $di->set('Helpers', function(){
     return new Helpers();
+});
+
+/**
+ * Prints View
+ */
+$di->set('Prints', function(){
+    return new Prints();
 });

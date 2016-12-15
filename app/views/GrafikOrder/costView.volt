@@ -255,7 +255,6 @@
           </span>
           <input type="text" name="cost" value="{{ total_cost }}" data-tarif class="form-control" placeholder="Total Cost">
         </div>
-        {{ total_cost }}
       </div>
     </td>
   </tr>
