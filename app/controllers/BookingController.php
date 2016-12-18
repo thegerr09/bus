@@ -114,6 +114,7 @@ class BookingController extends \Phalcon\Mvc\Controller
         $post['kode'] = $booking->kode;
 
         BookingHelp::biayaCost($post['kode'], $post['name_cost'], $post['satuan'], $post['harga_satuan'], $post['jumlah']);
+        BookingHelp::jurnalBayarPelunasan($post['pelunasan'], $post['kode']);
         
         $booking->assign($post);
         if ($booking->save()) {
@@ -227,6 +228,11 @@ class BookingController extends \Phalcon\Mvc\Controller
     {
         $this->view->disable();
     	if ((int) $id === 1) {
+            $bentuk = $this->request->getPost('bentuk');
+            if ($bentuk == '1') {
+                $driver = Driver::findFirst($this->request->getPost('selected'));
+                return $driver->nama;
+            }
     		$driver = Driver::find(["conditions" => "active = 'Y' AND deleted = 'N'"]);
     		$result = '<option value="">Pilih Driver</option>';
             foreach ($driver as $key => $value) {
@@ -240,6 +246,11 @@ class BookingController extends \Phalcon\Mvc\Controller
                 }
             }
         } else if ((int) $id === 2) {
+            $bentuk = $this->request->getPost('bentuk');
+            if ($bentuk == '1') {
+                $driver = CoDriver::findFirst($this->request->getPost('selected'));
+                return $driver->nama;
+            }
             $driver = CoDriver::find(["conditions" => "active = 'Y' AND deleted = 'N'"]);
             $result = '<option value="">Pilih Co. Driver</option>';
             foreach ($driver as $key => $value) {

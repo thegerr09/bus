@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <title>Invoice/Kwitansi</title>
   </head>
-  <body style="font-family:arial;"  onclick="window.print()">
+  <body style="font-family:arial;"  onload="window.print()">
     <div style="float:left; padding-left:40px; width:45%;">
-      <img src="logo.jpg" alt="logo" width="100px" height="130px" style="float: left; margin-right: 10px;"/>
+      {{ image('img/logo.jpg', 'alt':'logo', 'width':'70px', 'height':'80px', 'style':'padding:10px; float: left;') }}
       <p style="color: green; font-size: 14px;"><b>GALATAMA</b></p>
       <p style="font-size: 10px;">
         <b>Kantor :</b><br>
@@ -32,7 +32,7 @@
           <tr>
             <td width="150px"><u>Recive From</u></td>
             <td width="5px" rowspan="2">:</td>
-            <td rowspan="2" colspan="2">...........................................................</td>
+            <td rowspan="2" colspan="2"> {{ invoice.nama|upper }}</td>
           </tr>
           <tr>
             <td width="150px">Telah Terima Dari</td>
@@ -41,7 +41,7 @@
           <tr>
             <td width="150px"><u>The Amount</u></td>
             <td width="5px" rowspan="2">:</td>
-            <td colspan="2"><div style="width: 200px; border:2px solid black;">Rp. </div></td>
+            <td colspan="2"><div style="width: 200px; border:2px solid black;">Rp.  {{ Helpers.number(invoice.tarif) }},-</div></td>
           </tr>
           <tr>
             <td width="150px">Uang Sejumlah</td>
@@ -51,11 +51,11 @@
           <tr>
             <td width="150px"><u>Paid For</u></td>
             <td width="5px" rowspan="2">:</td>
-            <td colspan="2">...........................................................</td>
+            <td colspan="2">Sewa bus </td>
           </tr>
           <tr>
             <td width="150px">Guna Membayar</td>
-            <td colspan="2">...........................................................</td>
+            <td colspan="2">Sewa bus</td>
           </tr>
 
           <tr>
@@ -65,7 +65,7 @@
           </tr>
           <tr>
             <td width="150px">Keterangan</td>
-            <td colspan="2">...........................................................</td>
+            <td colspan="2">{{ invoice.note }}</td>
           </tr>
           <tr>
             <td></td>
@@ -76,7 +76,7 @@
         <tfoot>
           <tr>
             <td colspan="3"></td>
-            <td><br><br>Semarang, </td>
+            <td><br><br>&nbsp;Semarang, {{ date('d F Y') }}</td>
           </tr>
 
           <tr>
@@ -100,7 +100,7 @@
     <div style="border-right:1px solid black; width:0; height:700px; float:left;margin:-20px 0 0 0;"></div>
 
     <div style="float:left; padding-left:40px; width:45%;">
-      <img src="logo.jpg" alt="logo" width="100px" height="130px" style="float: left; margin-right: 10px;"/>
+      {{ image('img/logo.jpg', 'alt':'logo', 'width':'70px', 'height':'80px', 'style':'padding:10px; float: left;') }}
       <p style="color: green; font-size: 14px;"><b>GALATAMA</b></p>
       <p style="font-size: 10px;">
         <b>Kantor :</b><br>
@@ -126,7 +126,7 @@
           <tr>
             <td width="150px"><u>Recive From</u></td>
             <td width="5px" rowspan="2">:</td>
-            <td rowspan="2" colspan="2">...........................................................</td>
+            <td rowspan="2" colspan="2"> {{ invoice.nama|upper }}</td>
           </tr>
           <tr>
             <td width="150px">Telah Terima Dari</td>
@@ -135,7 +135,7 @@
           <tr>
             <td width="150px"><u>The Amount</u></td>
             <td width="5px" rowspan="2">:</td>
-            <td colspan="2"><div style="width: 200px; border:2px solid black;">Rp. </div></td>
+            <td colspan="2"><div style="width: 200px; border:2px solid black;">Rp.  {{ Helpers.number(invoice.tarif) }},-</div></td>
           </tr>
           <tr>
             <td width="150px">Uang Sejumlah</td>
@@ -145,11 +145,11 @@
           <tr>
             <td width="150px"><u>Paid For</u></td>
             <td width="5px" rowspan="2">:</td>
-            <td colspan="2">...........................................................</td>
+            <td colspan="2">Sewa bus </td>
           </tr>
           <tr>
             <td width="150px">Guna Membayar</td>
-            <td colspan="2">...........................................................</td>
+            <td colspan="2">Sewa bus</td>
           </tr>
 
           <tr>
@@ -159,7 +159,7 @@
           </tr>
           <tr>
             <td width="150px">Keterangan</td>
-            <td colspan="2">...........................................................</td>
+            <td colspan="2">{{ invoice.note }}</td>
           </tr>
           <tr>
             <td></td>
@@ -170,7 +170,7 @@
         <tfoot>
           <tr>
             <td colspan="3"></td>
-            <td><br><br>Semarang, </td>
+            <td><br><br>&nbsp;Semarang, {{ date('d F Y') }}</td>
           </tr>
 
           <tr>

@@ -117,6 +117,45 @@ class BookingHelp
         }
     }
 
+    public function jurnalBayarPelunasan($pelunasan, $kode)
+    {
+        $parent = [
+            'tanggal' => date('Y-m-d'),
+            'kode_jurnal' => Helpers::kodeJurnal(),
+            'keterangan' => 'DP BOOKING KODE ' . $kode . ' ' . date('d F Y'),
+            'kantor' => 'GALATAMA 1',
+            'total_debet' => $pelunasan,
+            'total_kredit' => $pelunasan
+        ];
+
+        $jurnal = new Jurnal();
+        $jurnal->assign($parent);
+
+        if ($jurnal->save()) {
+            $get_parent = $jurnal->findFirst(["conditions" => "kode_jurnal = '" . $parent['kode_jurnal'] . "'"]);
+            $child_data = [
+                'debet'   => [$pelunasan, ''],
+                'kredit'  => ['', $pelunasan],
+                'account' => [4, 1]
+            ];
+
+            for ($i=0; $i < 2 ; $i++) { 
+                $child = [
+                    'id_jurnal' => $get_parent->id,
+                    'account' => $child_data['account'][$i],
+                    'debet' => $child_data['debet'][$i],
+                    'kredit' => $child_data['kredit'][$i]
+                ];
+
+                $jurnal_child = new JurnalChild();
+                $jurnal_child->assign($child);
+                if (!$jurnal_child->save()) {
+                    $get_parent->delete();
+                }
+            }
+        }
+    }
+
     /**
      * [biayaCost description]
      * @param  [type] $kode   [description]
@@ -141,6 +180,13 @@ class BookingHelp
         }
     }
 
+    /**
+     * [extraCharge description]
+     * @param  [type] $kode   [description]
+     * @param  [type] $charge [description]
+     * @param  [type] $biaya  [description]
+     * @return [type]         [description]
+     */
     public static function extraCharge($kode, $charge, $biaya)
     {
         $charge_delete = Charge::find("kode = '$kode'");
@@ -153,5 +199,6 @@ class BookingHelp
             $charge_db->save();
         }
     }
+
     
 }

@@ -55,6 +55,6 @@
   </div>
   <?= $this->tag->javascriptInclude('plugins/jQuery/jquery-2.2.3.min.js') ?>
   <?= $this->tag->javascriptInclude('js/bootstrap.min.js') ?>
-  <?= $this->tag->javascriptInclude('js/loginIP.min.js') ?>
+  <?= $this->tag->javascriptInclude('js/login.min.js') ?>
 </body>
 </html>

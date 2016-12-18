@@ -630,4 +630,49 @@ function costView(kode, cost) {
     }
   });
 }
+
+function detail(kode) {
+  var detail = $('#Detail');
+  $('#label_detail').text('Detail Kode Booking '+kode);
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('ListOrder/detail/') ?>'+kode,
+    dataType:'json',
+    success: function(response){ 
+      $.each(response, function(key, value) {
+        if (value == '' || value == null) {
+          detail.find('#'+key).text('-');
+        } else {
+          detail.find('#'+key).text(value);
+        }
+      });
+      driver_name(1, response.driver);
+      driver_name(2, response.co_driver);
+    }
+  });
+}
+
+function driver_name(id, selected) {
+  if (id == 1) {
+    $.ajax({
+      type: 'POST',
+      url: '<?= $this->url->get('Booking/data/') ?>'+id,
+      dataType:'html',
+      data: 'selected='+selected+'&bentuk=1',
+      success: function(response){
+        $('#Detail').find('#driver').text(response);
+      }
+    });
+  } else if(id == 2) {
+    $.ajax({
+      type: 'POST',
+      url: '<?= $this->url->get('Booking/data/') ?>'+id,
+      dataType:'html',
+      data: 'selected='+selected+'&bentuk=1',
+      success: function(response){
+        $('#Detail').find('#coDriver').text(response);
+      }
+    });
+  }
+}
 </script>

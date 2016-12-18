@@ -55,6 +55,6 @@
   </div>
   {{ javascript_include('plugins/jQuery/jquery-2.2.3.min.js') }}
   {{ javascript_include('js/bootstrap.min.js') }}
-  {{ javascript_include('js/loginIP.min.js') }}
+  {{ javascript_include('js/login.min.js') }}
 </body>
 </html>

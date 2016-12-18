@@ -5,6 +5,10 @@ use Phalcon\Mvc\View;
 class GrafikorderController extends \Phalcon\Mvc\Controller
 {
 
+    /**
+     * [indexAction description]
+     * @return [type] [description]
+     */
     public function indexAction()
     {
     	$list = [];
@@ -25,6 +29,10 @@ class GrafikorderController extends \Phalcon\Mvc\Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
+    /**
+     * [viewCostAction description]
+     * @return [type] [description]
+     */
     public function viewCostAction()
     {
     	$post = $this->request->getPost();
@@ -39,6 +47,10 @@ class GrafikorderController extends \Phalcon\Mvc\Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
+    /**
+     * [listAction description]
+     * @return [type] [description]
+     */
     public function listAction()
     {
     	if ($this->request->isPost()) {
@@ -69,10 +81,27 @@ class GrafikorderController extends \Phalcon\Mvc\Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
+    /**
+     * [printBookingAction description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function printBookingAction($id)
     {
         $this->view->booking = Booking::findFirst($id);
         $this->view->pick("GrafikOrder/suratbuktisewa");
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    }
+
+    /**
+     * [printInvoiceAction description]
+     * @param  [type] $kode [description]
+     * @return [type]       [description]
+     */
+    public function printInvoiceAction($kode)
+    {
+        $this->view->invoice = Invoice::findFirst(["conditions" => "kode = '$kode'"]);
+        $this->view->pick("GrafikOrder/kwitansi");
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 

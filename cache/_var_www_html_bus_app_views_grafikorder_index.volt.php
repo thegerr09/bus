@@ -557,6 +557,189 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="Detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="label_detail"></h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h5>BOOKING</h5>
+            <table>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 17px;">Kode Booking</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="kode"></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green">Tanggal Booking</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="tanggal_booking"></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 19px;">Type Booking</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="type_booking"></td>
+              </tr>
+            </table>
+            <hr>
+            <h5>TANGGAL SEWA</h5>
+            <table>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 19px;">Tanggal Mulai</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="tanggal_mulai"></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green">Tanggal Kembali</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="tanggal_kembali"></td>
+              </tr>
+            </table>
+            <hr>
+            <h5>PELANGGAN</h5>
+            <table>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green">Nama Pelanggan</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="nama"></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 18px;">Nomor Telpon</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="telpon"></td>
+              </tr>
+            </table>
+            <hr>
+            <h5>PEMBAYARAN</h5>
+            <table>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 32px;">Uang Muka</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="dp"></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 34px;">Pelunasan</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="pelunasan"></td>
+              </tr>
+            </table>
+            <hr>
+          </div>
+          <div class="col-md-6">
+            <h5>KENDARAAN</h5>
+            <table>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green">Type Kendaraan</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="type_bus"></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 22px;">Nomor Polisi</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 18px;">Kondisi Mobil</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td></td>
+              </tr>
+            </table>
+            <hr>
+            <h5>DRIVER</h5>
+            <table>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 53px;">Driver</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="driver"></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 37px;">Co Driver</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="coDriver"></td>
+              </tr>
+            </table>
+            <hr>
+            <h5>ROUTE PERJALANAN</h5>
+            <table>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 60px;">Asal</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 49px;">Tujuan</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td></td>
+              </tr>
+            </table>
+            <hr>
+            <h5>BIAYA TAMBAHAN</h5>
+            <table>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 20px;">Extra Charge</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="charge"></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 40px;">Overtime</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="biaya_overtime"></td>
+              </tr>
+            </table>
+            <hr>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- include JS -->
 <script>
@@ -1190,5 +1373,50 @@ function costView(kode, cost) {
       $('#viewCost').html(response);
     }
   });
+}
+
+function detail(kode) {
+  var detail = $('#Detail');
+  $('#label_detail').text('Detail Kode Booking '+kode);
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('ListOrder/detail/') ?>'+kode,
+    dataType:'json',
+    success: function(response){ 
+      $.each(response, function(key, value) {
+        if (value == '' || value == null) {
+          detail.find('#'+key).text('-');
+        } else {
+          detail.find('#'+key).text(value);
+        }
+      });
+      driver_name(1, response.driver);
+      driver_name(2, response.co_driver);
+    }
+  });
+}
+
+function driver_name(id, selected) {
+  if (id == 1) {
+    $.ajax({
+      type: 'POST',
+      url: '<?= $this->url->get('Booking/data/') ?>'+id,
+      dataType:'html',
+      data: 'selected='+selected+'&bentuk=1',
+      success: function(response){
+        $('#Detail').find('#driver').text(response);
+      }
+    });
+  } else if(id == 2) {
+    $.ajax({
+      type: 'POST',
+      url: '<?= $this->url->get('Booking/data/') ?>'+id,
+      dataType:'html',
+      data: 'selected='+selected+'&bentuk=1',
+      success: function(response){
+        $('#Detail').find('#coDriver').text(response);
+      }
+    });
+  }
 }
 </script>

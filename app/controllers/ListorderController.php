@@ -89,7 +89,7 @@ class ListorderController extends \Phalcon\Mvc\Controller
         $invoice = Invoice::findFirst($id);
 
         BookingHelp::extraCharge($invoice->kode, $post['name_charge'], $post['biaya_charge']);
-
+        $post['success'] = 'Y';
         $invoice->assign($post);
         if ($invoice->save()) {
             $booking = Booking::findFirst("kode = '$invoice->kode'");
