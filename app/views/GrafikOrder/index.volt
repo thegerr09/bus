@@ -105,7 +105,6 @@
 </section>
 
 <!-- include popup -->
-{% include "GrafikOrder/New.volt" %}
 {% include "GrafikOrder/Booking.volt" %}
 {% include "GrafikOrder/car_back.volt" %}
 {% include "GrafikOrder/detail.volt" %}

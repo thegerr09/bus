@@ -29,7 +29,8 @@
             </span>
             <input type="text" name="satuan[]" data-tarif class="form-control" placeholder="Satuan" onkeyup="hitungJumlah(this);hitung();">
             <span class="input-group-addon">
-              <input type="checkbox" aria-label="percent" onchange="checkboxPercent(this);hitung();"> %
+              <input type="hidden" name="persen[0]" value="0">
+              <input type="checkbox" name="persen[0]" value="%" aria-label="percent" onchange="checkboxPercent(this);hitung();"> %
             </span>
           </div>
         </div>
@@ -87,7 +88,8 @@
             </span>
             <input type="text" name="satuan[]" data-tarif class="form-control" placeholder="Satuan" onkeyup="hitungJumlah(this);hitung();">
             <span class="input-group-addon">
-              <input type="checkbox" aria-label="percent" onchange="checkboxPercent(this);hitung();"> %
+              <input type="hidden" name="persen[1]" value="0">
+              <input type="checkbox" name="persen[1]" value="%" aria-label="percent" onchange="checkboxPercent(this);hitung();"> %
             </span>
           </div>
         </div>
@@ -148,7 +150,8 @@
             </span>
             <input type="text" name="satuan[]" value="<?= $x->satuan ?>" data-tarif class="form-control" placeholder="Satuan" onkeyup="hitungJumlah(this);hitung();">
             <span class="input-group-addon">
-              <input type="checkbox" aria-label="percent" onchange="checkboxPercent(this);hitung();"> %
+              <input type="hidden" name="persen[0]" value="0">
+              <input type="checkbox" name="persen[0]" value="%" <?php if ($x->persen == '%') { ?>checked<?php } ?> aria-label="percent" onchange="checkboxPercent(this);hitung();"> %
             </span>
           </div>
         </div>
@@ -207,7 +210,8 @@
             </span>
             <input type="text" name="satuan[]" value="<?= $x->satuan ?>" data-tarif class="form-control" placeholder="Satuan" onkeyup="hitungJumlah(this);hitung();">
             <span class="input-group-addon">
-              <input type="checkbox" aria-label="percent" onchange="checkboxPercent(this);hitung();"> %
+              <input type="hidden" name="persen[1]" value="0">
+              <input type="checkbox" name="persen[1]" value="%" <?php if ($x->persen == '%') { ?>checked<?php } ?> aria-label="percent" onchange="checkboxPercent(this);hitung();"> %
             </span>
           </div>
         </div>
@@ -261,9 +265,15 @@
 </table>
 <script>
 $("#tambah_cost").click(function(){
-  var cost = $('#parent_cost').html();
-  $("#child_cost").append(cost);
-  console.log(cost);
+  var no     = $("#child_cost").find('[type="checkbox"][name^="persen"]');
+  var persen = no.length + 1;
+  var cost   = $('#parent_cost').html();
+  var child  = $("#child_cost").append(cost);
+    child.find('[type="hidden"][name="persen[0]"]').attr('name', 'persen['+persen+']').val('');
+    child.find('[type="checkbox"][name="persen[0]"]').attr('name', 'persen['+persen+']').val('%');
+
+  var clear = child.find('[name="persen['+persen+']"]').parent().parent().parent().parent().parent();
+      clear.find('[name]').not('[name^=persen]').val('');
 });
 
 function removerTrChild(that) {

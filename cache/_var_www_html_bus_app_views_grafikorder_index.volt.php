@@ -105,28 +105,6 @@
 </section>
 
 <!-- include popup -->
-<div class="modal fade" id="New" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">New Actions</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <button class="btn btn-primary btn-flat btn-lg btn-block new_action" data-toggle="modal" data-target="#Booking">
-            New Booking
-          </button>
-        </div>
-        <div class="form-group">
-          <button class="btn btn-success btn-flat btn-lg btn-block">
-            New Order
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="modal fade" id="Booking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -354,52 +332,20 @@
               <div class="col-md-12 col-xs-12" id="viewCost"></div>
             </div>
 
-            <div id="charge" style="display: none;">
+            <div id="biaya_tambahan" style="display: none;">
               <span style="padding-left: 14px; font-size: 18px;">BIAYA TAMBAHAN</span>
               <hr style="padding-bottom:10px;">
+            </div>
 
-              <div class="col-md-6 col-xs-12">
-                <label>Extra Charge</label>
-                <table>
-                  <tbody id="parent_charge">
-                    <tr>
-                      <td>
-                        <div class="form-group">
-                          <button type="button" class="btn btn-danger btn-flat btn-sm" onclick="removerTrCharge(this);hitungCharge();">
-                            <i class="fa fa-remove"></i>
-                          </button>
-                        </div>
-                      </td>
-                      <td width="5"></td>
-                      <td>
-                        <div class="form-group">
-                          <div class="input-group" >
-                            <span class="input-group-addon">
-                              <i class="fa fa-list"></i>
-                            </span>
-                            <input type="text" name="name_charge[]" class="form-control" placeholder="Uraian Charge">
-                          </div>
-                        </div>
-                      </td>
-                      <td width="5"></td>
-                      <td>
-                        <div class="form-group">
-                          <div class="input-group" >
-                            <span class="input-group-addon">
-                              <i class="fa fa-money"></i>
-                            </span>
-                            <input type="text" name="biaya_charge[]" data-tarif class="form-control" placeholder="Biaya Charge" onkeyup="hitungCharge()">
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tbody id="child_charge"></tbody>
+            <div class="col-md-6 col-xs-12" id="charge" style="display: none;">
+              <label>Extra Charge</label>
+              <table>
+                <tbody id="parent_charge">
                   <tr>
-                    <td colspan="3">
+                    <td>
                       <div class="form-group">
-                        <button type="button" class="btn btn-success btn-flat btn-sm" id="tambah_charge">
-                          <i class="fa fa-plus"></i> Tambah
+                        <button type="button" class="btn btn-danger btn-flat btn-sm" onclick="removerTrCharge(this);hitungCharge();">
+                          <i class="fa fa-remove"></i>
                         </button>
                       </div>
                     </td>
@@ -408,67 +354,99 @@
                       <div class="form-group">
                         <div class="input-group" >
                           <span class="input-group-addon">
+                            <i class="fa fa-list"></i>
+                          </span>
+                          <input type="text" name="name_charge[]" class="form-control" placeholder="Uraian Charge">
+                        </div>
+                      </div>
+                    </td>
+                    <td width="5"></td>
+                    <td>
+                      <div class="form-group">
+                        <div class="input-group" >
+                          <span class="input-group-addon">
                             <i class="fa fa-money"></i>
                           </span>
-                          <input type="text" name="charge" data-tarif class="form-control" placeholder="Total Charge">
+                          <input type="text" name="biaya_charge[]" data-tarif class="form-control" placeholder="Biaya Charge" onkeyup="hitungCharge()">
                         </div>
                       </div>
                     </td>
                   </tr>
-                </table>
-              </div>
+                </tbody>
+                <tbody id="child_charge"></tbody>
+                <tr>
+                  <td colspan="3">
+                    <div class="form-group">
+                      <button type="button" class="btn btn-success btn-flat btn-sm" id="tambah_charge">
+                        <i class="fa fa-plus"></i> Tambah
+                      </button>
+                    </div>
+                  </td>
+                  <td width="5"></td>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="charge" data-tarif class="form-control" placeholder="Total Charge">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
 
-              <div class="col-md-6 col-xs-12">
-                <label>Overtime dan Total Pengeluaran</label>
-                <table>
-                  <tr>
-                    <td>
-                      <div class="form-group">
-                        <div class="input-group" >
-                          <span class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
-                          </span>
-                          <input type="text" name="lama_overtime" data-tarif class="form-control" placeholder="Lama Overtime">
-                        </div>
+            <div class="col-md-6 col-xs-12" id="overtime" style="display: none;">
+              <label>Overtime dan Total Pengeluaran</label>
+              <table>
+                <tr>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-clock-o"></i>
+                        </span>
+                        <input type="text" name="lama_overtime" data-tarif class="form-control" placeholder="Lama Overtime">
                       </div>
-                    </td>
-                    <td width="5"></td>
-                    <td>
-                      <div class="form-group">
-                        <div class="input-group" >
-                          <span class="input-group-addon">
-                            <i class="fa fa-money"></i>
-                          </span>
-                          <input type="text" name="biaya_overtime" data-tarif class="form-control" placeholder="Biaya Overtime">
-                        </div>
+                    </div>
+                  </td>
+                  <td width="5"></td>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="biaya_overtime" data-tarif class="form-control" placeholder="Biaya Overtime">
                       </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="form-group">
-                        <div class="input-group" >
-                          <span class="input-group-addon">
-                            <i class="fa fa-money"></i>
-                          </span>
-                          <input type="text" name="total_pengeluaran" data-tarif class="form-control" placeholder="Total Pengeluatan">
-                        </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="total_pengeluaran" data-tarif class="form-control" placeholder="Total Pengeluatan">
                       </div>
-                    </td>
-                    <td width="5"></td>
-                    <td>
-                      <div class="form-group">
-                        <div class="input-group" >
-                          <span class="input-group-addon">
-                            <i class="fa fa-money"></i>
-                          </span>
-                          <input type="text" name="sisa_or_bon" data-tarif class="form-control" placeholder="Sisa / Bon">
-                        </div>
+                    </div>
+                  </td>
+                  <td width="5"></td>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="sisa_or_bon" data-tarif class="form-control" placeholder="Sisa / Bon">
                       </div>
-                    </td>
-                  </tr>
-                </table>
-              </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
             </div>
 
             <div class="col-md-12 col-xs-12">
@@ -481,7 +459,7 @@
         </div>
         <div class="modal-footer">
           <div class="form-group pull-left">
-            <table width="100%">
+            <!-- <table width="100%">
               <tr>
                 <td style="border:1px solid #ccc;" height="25" width="25"></td>
                 <td>&nbsp; stand by &nbsp; </td>
@@ -492,7 +470,7 @@
                 <td class="bg-red" width="25"></td>
                 <td>&nbsp; rusak &nbsp; </td>
               </tr>
-            </table>
+            </table> -->
           </div>
           <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>
           <button type="submit" class="btn btn-success">Save</button>
@@ -833,11 +811,12 @@ $('input[type="radio"].flat-blue').iCheck({
           text: response.text,
           type: response.type
         });
-        update_page('Booking',  'page_booking');
-        update_page('Driver',   'page_driver');
-        update_page('CoDriver', 'page_co_driver');
-        update_page('Bus',      'page_bus');
+        update_page('Booking',     'page_booking');
+        update_page('Driver',      'page_driver');
+        update_page('CoDriver',    'page_co_driver');
+        update_page('Bus',         'page_bus');
         update_page('GrafikOrder', 'page_grafik_order');
+        update_page('Jurnal',      'page_jurnal');
         clear_form(1);
         if (action == 'cencle'){
           $('#Cencle').modal('hide');
@@ -918,6 +897,9 @@ function next(id) {
   form.find('input[name="pelunasan"]').attr('required', 'required').parent().parent().show();
   form.find('input[name="cost"]').attr('required', 'required');
   $('#cost').show();
+  $('#charge').show();
+  $('#cost').show();
+  $('#biaya_tambahan').show();
   $.ajax({
     type: 'POST',
     url: '<?= $this->url->get('Booking/detail/') ?>'+id,
@@ -939,6 +921,7 @@ function next(id) {
         bus(response.type_bus, response.bus);
         routee_selected(response.route, response.lokasi);
         costView(response.kode, response.cost);
+        costCharge(response.kode);
       } else if (response.paket == 'jiarah') {
         $('#regular').collapse('hide');
         $('#jiarah').collapse('show');
@@ -948,6 +931,7 @@ function next(id) {
         lokasii(response.type_bus);
         bus(response.type_bus, response.bus);
         costView(response.kode, response.cost);
+        costCharge(response.kode);
       }
     }
   });
@@ -966,6 +950,8 @@ function carback(kode) {
   form.find('input[name="cost"]').attr('required', 'required');
   $('#cost').show();
   $('#charge').show();
+  $('#overtime').show();
+  $('#biaya_tambahan').show();
   $.ajax({
     type: 'POST',
     url: '<?= $this->url->get('ListOrder/detail/') ?>'+kode,
@@ -988,6 +974,7 @@ function carback(kode) {
         bus(response.type_bus, response.bus);
         routee_selected(response.route, response.lokasi);
         costView(response.kode, response.cost);
+        costCharge(response.kode);
       } else if (response.paket == 'jiarah') {
         $('#regular').collapse('hide');
         $('#jiarah').collapse('show');
@@ -997,6 +984,7 @@ function carback(kode) {
         lokasii(response.type_bus);
         bus(response.type_bus, response.bus);
         costView(response.kode, response.cost);
+        costCharge(response.kode);
       }
     }
   });
@@ -1216,6 +1204,10 @@ function clear_form(id) {
   pakett();
   $('#cost').hide();
   $('#charge').hide();
+  $('#overtime').hide();
+  $('#biaya_tambahan').hide();
+
+  $('#child_charge').html('');
 
   if (id == 1) {
     $('#Booking').modal('hide');
@@ -1372,6 +1364,18 @@ function costView(kode, cost) {
     data: 'kode='+kode+'&cost='+cost,
     success: function(response){ 
       $('#viewCost').html(response);
+    }
+  });
+}
+
+function costCharge(kode) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('GrafikOrder/viewCharge') ?>',
+    dataType:'html',
+    data: 'kode='+kode,
+    success: function(response){ 
+      $('#child_charge').html(response);
     }
   });
 }

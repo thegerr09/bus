@@ -73,11 +73,12 @@ $('input[type="radio"].flat-blue').iCheck({
           text: response.text,
           type: response.type
         });
-        update_page('Booking',  'page_booking');
-        update_page('Driver',   'page_driver');
-        update_page('CoDriver', 'page_co_driver');
-        update_page('Bus',      'page_bus');
+        update_page('Booking',     'page_booking');
+        update_page('Driver',      'page_driver');
+        update_page('CoDriver',    'page_co_driver');
+        update_page('Bus',         'page_bus');
         update_page('GrafikOrder', 'page_grafik_order');
+        update_page('Jurnal',      'page_jurnal');
         clear_form(1);
         if (action == 'cencle'){
           $('#Cencle').modal('hide');
@@ -158,6 +159,9 @@ function next(id) {
   form.find('input[name="pelunasan"]').attr('required', 'required').parent().parent().show();
   form.find('input[name="cost"]').attr('required', 'required');
   $('#cost').show();
+  $('#charge').show();
+  $('#cost').show();
+  $('#biaya_tambahan').show();
   $.ajax({
     type: 'POST',
     url: '{{ url('Booking/detail/') }}'+id,
@@ -179,6 +183,7 @@ function next(id) {
         bus(response.type_bus, response.bus);
         routee_selected(response.route, response.lokasi);
         costView(response.kode, response.cost);
+        costCharge(response.kode);
       } else if (response.paket == 'jiarah') {
         $('#regular').collapse('hide');
         $('#jiarah').collapse('show');
@@ -188,6 +193,7 @@ function next(id) {
         lokasii(response.type_bus);
         bus(response.type_bus, response.bus);
         costView(response.kode, response.cost);
+        costCharge(response.kode);
       }
     }
   });
@@ -206,6 +212,8 @@ function carback(kode) {
   form.find('input[name="cost"]').attr('required', 'required');
   $('#cost').show();
   $('#charge').show();
+  $('#overtime').show();
+  $('#biaya_tambahan').show();
   $.ajax({
     type: 'POST',
     url: '{{ url('ListOrder/detail/') }}'+kode,
@@ -228,6 +236,7 @@ function carback(kode) {
         bus(response.type_bus, response.bus);
         routee_selected(response.route, response.lokasi);
         costView(response.kode, response.cost);
+        costCharge(response.kode);
       } else if (response.paket == 'jiarah') {
         $('#regular').collapse('hide');
         $('#jiarah').collapse('show');
@@ -237,6 +246,7 @@ function carback(kode) {
         lokasii(response.type_bus);
         bus(response.type_bus, response.bus);
         costView(response.kode, response.cost);
+        costCharge(response.kode);
       }
     }
   });
@@ -456,6 +466,10 @@ function clear_form(id) {
   pakett();
   $('#cost').hide();
   $('#charge').hide();
+  $('#overtime').hide();
+  $('#biaya_tambahan').hide();
+
+  $('#child_charge').html('');
 
   if (id == 1) {
     $('#Booking').modal('hide');
@@ -612,6 +626,18 @@ function costView(kode, cost) {
     data: 'kode='+kode+'&cost='+cost,
     success: function(response){ 
       $('#viewCost').html(response);
+    }
+  });
+}
+
+function costCharge(kode) {
+  $.ajax({
+    type: 'POST',
+    url: '{{ url('GrafikOrder/viewCharge') }}',
+    dataType:'html',
+    data: 'kode='+kode,
+    success: function(response){ 
+      $('#child_charge').html(response);
     }
   });
 }

@@ -165,7 +165,7 @@ class BookingHelp
      * @param  [type] $jumlah [description]
      * @return [type]         [description]
      */
-    public static function biayaCost($kode, $cost, $satuan, $harga, $jumlah)
+    public static function biayaCost($kode, $cost, $satuan, $persen, $harga, $jumlah)
     {
         $cost_delete = Cost::find("kode = '$kode'");
         $cost_delete->delete();
@@ -174,6 +174,7 @@ class BookingHelp
             $cost_db->kode = $kode;
             $cost_db->cost = $cost[$i];
             $cost_db->satuan = $satuan[$i];
+            $cost_db->persen = $persen[$i];
             $cost_db->harga_satuan = $harga[$i];
             $cost_db->jumlah = $jumlah[$i];
             $cost_db->save();

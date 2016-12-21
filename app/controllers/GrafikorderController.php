@@ -47,6 +47,14 @@ class GrafikorderController extends \Phalcon\Mvc\Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
+    public function viewChargeAction()
+    {
+        $post = $this->request->getPost();
+        $this->view->charge = Charge::find(["conditions" => "kode = '" . $post['kode'] . "'"]);
+        $this->view->pick("GrafikOrder/chargeView");
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    }
+
     /**
      * [listAction description]
      * @return [type] [description]
@@ -105,6 +113,11 @@ class GrafikorderController extends \Phalcon\Mvc\Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
+    /**
+     * [printSptAction description]
+     * @param  [type] $kode [description]
+     * @return [type]       [description]
+     */
     public function printSptAction($kode)
     {
         $this->view->invoice = Invoice::findFirst(["conditions" => "kode = '$kode'"]);

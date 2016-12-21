@@ -225,52 +225,20 @@
               <div class="col-md-12 col-xs-12" id="viewCost"></div>
             </div>
 
-            <div id="charge" style="display: none;">
+            <div id="biaya_tambahan" style="display: none;">
               <span style="padding-left: 14px; font-size: 18px;">BIAYA TAMBAHAN</span>
               <hr style="padding-bottom:10px;">
+            </div>
 
-              <div class="col-md-6 col-xs-12">
-                <label>Extra Charge</label>
-                <table>
-                  <tbody id="parent_charge">
-                    <tr>
-                      <td>
-                        <div class="form-group">
-                          <button type="button" class="btn btn-danger btn-flat btn-sm" onclick="removerTrCharge(this);hitungCharge();">
-                            <i class="fa fa-remove"></i>
-                          </button>
-                        </div>
-                      </td>
-                      <td width="5"></td>
-                      <td>
-                        <div class="form-group">
-                          <div class="input-group" >
-                            <span class="input-group-addon">
-                              <i class="fa fa-list"></i>
-                            </span>
-                            <input type="text" name="name_charge[]" class="form-control" placeholder="Uraian Charge">
-                          </div>
-                        </div>
-                      </td>
-                      <td width="5"></td>
-                      <td>
-                        <div class="form-group">
-                          <div class="input-group" >
-                            <span class="input-group-addon">
-                              <i class="fa fa-money"></i>
-                            </span>
-                            <input type="text" name="biaya_charge[]" data-tarif class="form-control" placeholder="Biaya Charge" onkeyup="hitungCharge()">
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tbody id="child_charge"></tbody>
+            <div class="col-md-6 col-xs-12" id="charge" style="display: none;">
+              <label>Extra Charge</label>
+              <table>
+                <tbody id="parent_charge">
                   <tr>
-                    <td colspan="3">
+                    <td>
                       <div class="form-group">
-                        <button type="button" class="btn btn-success btn-flat btn-sm" id="tambah_charge">
-                          <i class="fa fa-plus"></i> Tambah
+                        <button type="button" class="btn btn-danger btn-flat btn-sm" onclick="removerTrCharge(this);hitungCharge();">
+                          <i class="fa fa-remove"></i>
                         </button>
                       </div>
                     </td>
@@ -279,67 +247,99 @@
                       <div class="form-group">
                         <div class="input-group" >
                           <span class="input-group-addon">
+                            <i class="fa fa-list"></i>
+                          </span>
+                          <input type="text" name="name_charge[]" class="form-control" placeholder="Uraian Charge">
+                        </div>
+                      </div>
+                    </td>
+                    <td width="5"></td>
+                    <td>
+                      <div class="form-group">
+                        <div class="input-group" >
+                          <span class="input-group-addon">
                             <i class="fa fa-money"></i>
                           </span>
-                          <input type="text" name="charge" data-tarif class="form-control" placeholder="Total Charge">
+                          <input type="text" name="biaya_charge[]" data-tarif class="form-control" placeholder="Biaya Charge" onkeyup="hitungCharge()">
                         </div>
                       </div>
                     </td>
                   </tr>
-                </table>
-              </div>
+                </tbody>
+                <tbody id="child_charge"></tbody>
+                <tr>
+                  <td colspan="3">
+                    <div class="form-group">
+                      <button type="button" class="btn btn-success btn-flat btn-sm" id="tambah_charge">
+                        <i class="fa fa-plus"></i> Tambah
+                      </button>
+                    </div>
+                  </td>
+                  <td width="5"></td>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="charge" data-tarif class="form-control" placeholder="Total Charge">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
 
-              <div class="col-md-6 col-xs-12">
-                <label>Overtime dan Total Pengeluaran</label>
-                <table>
-                  <tr>
-                    <td>
-                      <div class="form-group">
-                        <div class="input-group" >
-                          <span class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
-                          </span>
-                          <input type="text" name="lama_overtime" data-tarif class="form-control" placeholder="Lama Overtime">
-                        </div>
+            <div class="col-md-6 col-xs-12" id="overtime" style="display: none;">
+              <label>Overtime dan Total Pengeluaran</label>
+              <table>
+                <tr>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-clock-o"></i>
+                        </span>
+                        <input type="text" name="lama_overtime" data-tarif class="form-control" placeholder="Lama Overtime">
                       </div>
-                    </td>
-                    <td width="5"></td>
-                    <td>
-                      <div class="form-group">
-                        <div class="input-group" >
-                          <span class="input-group-addon">
-                            <i class="fa fa-money"></i>
-                          </span>
-                          <input type="text" name="biaya_overtime" data-tarif class="form-control" placeholder="Biaya Overtime">
-                        </div>
+                    </div>
+                  </td>
+                  <td width="5"></td>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="biaya_overtime" data-tarif class="form-control" placeholder="Biaya Overtime">
                       </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="form-group">
-                        <div class="input-group" >
-                          <span class="input-group-addon">
-                            <i class="fa fa-money"></i>
-                          </span>
-                          <input type="text" name="total_pengeluaran" data-tarif class="form-control" placeholder="Total Pengeluatan">
-                        </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="total_pengeluaran" data-tarif class="form-control" placeholder="Total Pengeluatan">
                       </div>
-                    </td>
-                    <td width="5"></td>
-                    <td>
-                      <div class="form-group">
-                        <div class="input-group" >
-                          <span class="input-group-addon">
-                            <i class="fa fa-money"></i>
-                          </span>
-                          <input type="text" name="sisa_or_bon" data-tarif class="form-control" placeholder="Sisa / Bon">
-                        </div>
+                    </div>
+                  </td>
+                  <td width="5"></td>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="sisa_or_bon" data-tarif class="form-control" placeholder="Sisa / Bon">
                       </div>
-                    </td>
-                  </tr>
-                </table>
-              </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
             </div>
 
             <div class="col-md-12 col-xs-12">
@@ -352,7 +352,7 @@
         </div>
         <div class="modal-footer">
           <div class="form-group pull-left">
-            <table width="100%">
+            <!-- <table width="100%">
               <tr>
                 <td style="border:1px solid #ccc;" height="25" width="25"></td>
                 <td>&nbsp; stand by &nbsp; </td>
@@ -363,7 +363,7 @@
                 <td class="bg-red" width="25"></td>
                 <td>&nbsp; rusak &nbsp; </td>
               </tr>
-            </table>
+            </table> -->
           </div>
           <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>
           <button type="submit" class="btn btn-success">Save</button>

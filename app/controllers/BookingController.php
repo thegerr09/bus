@@ -108,12 +108,13 @@ class BookingController extends \Phalcon\Mvc\Controller
         } else if ($post['paket'] === 'jiarah') {
             unset($post['area'], $post['route'], $post['lokasi']);
         }
-
+        
         $post['success'] = 'Y';
         $booking = Booking::findFirst($id);
         $post['kode'] = $booking->kode;
 
-        BookingHelp::biayaCost($post['kode'], $post['name_cost'], $post['satuan'], $post['harga_satuan'], $post['jumlah']);
+        BookingHelp::biayaCost($post['kode'], $post['name_cost'], $post['satuan'], $post['persen'], $post['harga_satuan'], $post['jumlah']);
+        BookingHelp::extraCharge($post['kode'], $post['name_charge'], $post['biaya_charge']);
         BookingHelp::jurnalBayarPelunasan($post['pelunasan'], $post['kode']);
         
         $booking->assign($post);
