@@ -81,13 +81,13 @@ class Helpers
 			for ($a = 0; $a < count($data[$i]); $a++) { 
 				if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id) {
 					if ($data[$i][$a]['invoice'] == 'Y') {
-						$result = 'class="bg-green"';
+						$result = 'align="center" class="bg-green"';
 					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'N' and $data[$i][$a]['dp'] > 0) {
-						$result = 'class="bg-yellow" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
+						$result = 'align="center" class="bg-yellow" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
 					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'N') {
-						$result = 'class="bg-red" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
+						$result = 'align="center" class="bg-red" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
 					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'Y') {
-						$result = 'class="bg-blue" data-toggle="modal" data-target="#Booking" onclick="carback('."'".$data[$i][$a]['kode']."'".')"';
+						$result = 'align="center" class="bg-blue" data-toggle="modal" data-target="#Booking" onclick="carback('."'".$data[$i][$a]['kode']."'".')"';
 					}
 					break;
 				}
@@ -103,18 +103,24 @@ class Helpers
 		for ($i = 0; $i < count($data); $i++) { 
 			for ($a = 0; $a < count($data[$i]); $a++) { 
 				if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id and $data[$i][$a]['invoice'] == 'Y') {
-					$result .= '<a data-toggle="modal" data-target="#Detail" onclick="detail('."'".$data[$i][$a]['kode']."'".')" class="btn btn-warning btn-xs">';
-					$result .= '<i class="fa fa-bars"></i></a> (s) ';
+					$result .= '<a data-toggle="modal" data-target="#Detail" onclick="detail('."'".$data[$i][$a]['kode']."'".')"';
+					$result .= ' class="btn btn-warning btn-xs">';
+					$result .= '<i class="fa fa-bars" data-toggle="tooltip" data-placement="top" title="Lihat Detail"></i></a><br> (s) ';
 					$result .= '<span class="cursor">'.$data[$i][$a]['nama'].'</span>';
 					break;
 				} else if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id and $data[$i][$a]['success'] == 'Y') {
-					$result .= '<a href="GrafikOrder/printInvoice/'.$data[$i][$a]['kode'].'" target="_blank" class="btn btn-default btn-xs">';
-					$result .= '<i class="fa fa-print"></i></a> (p) ';
+					$result .= '<a href="GrafikOrder/printInvoice/'.$data[$i][$a]['kode'].'" target="_blank" class="btn btn-success btn-xs"';
+					$result .= ' data-toggle="tooltip" data-placement="top" title="Print Invoice Pelunasan">';
+					$result .= '<i class="fa fa-print"></i></a>&nbsp;';
+					$result .= '<a href="GrafikOrder/printSpt/'.$data[$i][$a]['kode'].'" target="_blank" class="btn bg-teal btn-xs"';
+					$result .= ' data-toggle="tooltip" data-placement="top" title="Print SPT dan Pengeluaran">';
+					$result .= '<i class="fa fa-print"></i></a><br> (p) ';
 					$result .= '<span class="cursor">'.$data[$i][$a]['nama'].'</span>';
 					break;
 				}else if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id) {
-					$result .= '<a href="GrafikOrder/printBooking/'.$data[$i][$a]['id'].'" target="_blank" class="btn btn-default btn-xs">';
-					$result .= '<i class="fa fa-print"></i></a> (b) ';
+					$result .= '<a href="GrafikOrder/printBooking/'.$data[$i][$a]['id'].'" target="_blank" class="btn btn-default btn-xs"';
+					$result .= ' data-toggle="tooltip" data-placement="top" title="Print Nota Booking">';
+					$result .= '<i class="fa fa-print"></i></a><br> (b) ';
 					$result .= '<span class="cursor">'.$data[$i][$a]['nama'].'</span>';
 					break;
 				}

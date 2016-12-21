@@ -23,7 +23,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="input-group" >
+                <div class="input-group">
                   <span class="input-group-addon">
                     <i class="fa fa-user"></i>
                   </span>
@@ -219,14 +219,14 @@
             </div>
 
             <div id="cost" style="display: none;">
-              <span style="padding-left: 14px; font-size: 18px;">BIAYA COST</span>
+              <span style="padding-left: 14px; font-size: 18px;">BIAYA COST PENGELUARAN</span>
               <hr style="padding-bottom:10px;">
 
               <div class="col-md-12 col-xs-12" id="viewCost"></div>
             </div>
 
             <div id="charge" style="display: none;">
-              <span style="padding-left: 14px; font-size: 18px;">MOBIL KEMBALI</span>
+              <span style="padding-left: 14px; font-size: 18px;">BIAYA TAMBAHAN</span>
               <hr style="padding-bottom:10px;">
 
               <div class="col-md-6 col-xs-12">
@@ -290,7 +290,7 @@
               </div>
 
               <div class="col-md-6 col-xs-12">
-                <label>Overtime dan Pengeluaran</label>
+                <label>Overtime dan Total Pengeluaran</label>
                 <table>
                   <tr>
                     <td>

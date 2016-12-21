@@ -270,6 +270,7 @@ function pakett(that) {
     $('#regular').collapse('show');
     $('#jiarah').collapse('hide');
   } else if (val == 'jiarah') {
+    route_jiarah();
     $('#regular').collapse('hide');
     $('#jiarah').collapse('show');
   } else {
@@ -523,22 +524,6 @@ function filter_month(that) {
       TableManageButtons.init();
     }
   });
-}
-
-$("#tambah_cost").click(function(){
-  var cost = $('#parent_cost').html();
-  $("#child_cost").append(cost);
-});
-
-function removerTrChild(that) {
-  var data = $(that).parent().parent().parent();
-  var id   = data.parent().attr('id');
-
-  if (id == 'parent_cost') {
-    return false;
-  } else {
-    data.remove();
-  }
 }
 
 $("#tambah_charge").click(function(){

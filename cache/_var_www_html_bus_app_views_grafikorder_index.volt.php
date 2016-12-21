@@ -58,27 +58,43 @@
           <table>
             <tr>
               <td style="border:1px solid #ccc;" height="25" width="25"></td>
-              <td width="130">&nbsp; Belum Di Booking</td>
+              <td width="170">&nbsp; Belum Di Booking</td>
               <td class="bg-yellow" width="25"></td>
-              <td width="130">&nbsp; booking sudah dp</td>
+              <td width="170">&nbsp; booking sudah dp</td>
               <td class="bg-red" width="25"></td>
-              <td width="130">&nbsp; booking belum dp</td>
+              <td width="170">&nbsp; booking belum dp</td>
               <td class="bg-blue" width="25"></td>
-              <td width="130">&nbsp; dalam perjalanan</td>
+              <td width="170">&nbsp; dalam perjalanan</td>
               <td class="bg-green" width="25"></td>
-              <td width="130">&nbsp; Sudah Kembali</td>
+              <td width="170">&nbsp; Sudah Kembali</td>
+            </tr>
+          </table>
+          <table style="margin-top:10px;">
+            <tr>
               <td align="center" width="25">
                 <div style="border:1px solid #ccc; border-radius: 3px; height: 25px; padding-top: 3px;">
                   <i class="fa fa-print"></i>
                 </div>
               </td>
-              <td width="130">&nbsp; Tombol Print</td>
+              <td width="170">&nbsp; Print Nota Booking</td>
+              <td align="center" width="25">
+                <div style="border:1px solid #ccc; border-radius: 3px; height: 25px; padding-top: 3px;" class="bg-green">
+                  <i class="fa fa-print"></i>
+                </div>
+              </td>
+              <td width="170">&nbsp; Print SPT dan Pengeluaran</td>
+              <td align="center" width="25">
+                <div style="border:1px solid #ccc; border-radius: 3px; height: 25px; padding-top: 3px;" class="bg-teal">
+                  <i class="fa fa-print"></i>
+                </div>
+              </td>
+              <td width="170">&nbsp; Print Invoice Pelunasan</td>
               <td align="center" width="25">
                 <div style="border-radius: 4px; height: 25px; padding-top: 3px;" class="bg-yellow">
                   <i class="fa fa-bars"></i>
                 </div>
               </td>
-              <td width="130">&nbsp; Tombol Detail</td>
+              <td width="170">&nbsp; Lihat Detail</td>
             </tr>
           </table>
         </div>
@@ -136,7 +152,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="input-group" >
+                <div class="input-group">
                   <span class="input-group-addon">
                     <i class="fa fa-user"></i>
                   </span>
@@ -332,14 +348,14 @@
             </div>
 
             <div id="cost" style="display: none;">
-              <span style="padding-left: 14px; font-size: 18px;">BIAYA COST</span>
+              <span style="padding-left: 14px; font-size: 18px;">BIAYA COST PENGELUARAN</span>
               <hr style="padding-bottom:10px;">
 
               <div class="col-md-12 col-xs-12" id="viewCost"></div>
             </div>
 
             <div id="charge" style="display: none;">
-              <span style="padding-left: 14px; font-size: 18px;">MOBIL KEMBALI</span>
+              <span style="padding-left: 14px; font-size: 18px;">BIAYA TAMBAHAN</span>
               <hr style="padding-bottom:10px;">
 
               <div class="col-md-6 col-xs-12">
@@ -403,7 +419,7 @@
               </div>
 
               <div class="col-md-6 col-xs-12">
-                <label>Overtime dan Pengeluaran</label>
+                <label>Overtime dan Total Pengeluaran</label>
                 <table>
                   <tr>
                     <td>
@@ -1014,6 +1030,7 @@ function pakett(that) {
     $('#regular').collapse('show');
     $('#jiarah').collapse('hide');
   } else if (val == 'jiarah') {
+    route_jiarah();
     $('#regular').collapse('hide');
     $('#jiarah').collapse('show');
   } else {
@@ -1267,22 +1284,6 @@ function filter_month(that) {
       TableManageButtons.init();
     }
   });
-}
-
-$("#tambah_cost").click(function(){
-  var cost = $('#parent_cost').html();
-  $("#child_cost").append(cost);
-});
-
-function removerTrChild(that) {
-  var data = $(that).parent().parent().parent();
-  var id   = data.parent().attr('id');
-
-  if (id == 'parent_cost') {
-    return false;
-  } else {
-    data.remove();
-  }
 }
 
 $("#tambah_charge").click(function(){

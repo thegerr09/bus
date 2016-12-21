@@ -259,3 +259,21 @@
     </td>
   </tr>
 </table>
+<script>
+$("#tambah_cost").click(function(){
+  var cost = $('#parent_cost').html();
+  $("#child_cost").append(cost);
+  console.log(cost);
+});
+
+function removerTrChild(that) {
+  var data = $(that).parent().parent().parent();
+  var id   = data.parent().attr('id');
+
+  if (id == 'parent_cost') {
+    return false;
+  } else {
+    data.remove();
+  }
+}
+</script>

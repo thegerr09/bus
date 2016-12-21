@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <title>Surat Bukti Sewa</title>
-    <?= $this->tag->javascriptInclude('plugins/jQuery/jquery-2.2.3.min.js') ?>
   </head>
   <body style="font-family: arial;"  onload="window.print()">
     <main>
@@ -224,20 +223,5 @@
         </ul>
       </div>
     </main>
-<script type="text/javascript">
-if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1){   // Chrome Browser Detected?
-    window.PPClose = false;                                     // Clear Close Flag
-    window.onbeforeunload = function(){                         // Before Window Close Event
-        if(window.PPClose === false){                           // Close not OK?
-            return 'Leaving this page will block the parent window!\nPlease select "Stay on this Page option" and use the\nCancel button instead to close the Print Preview Window.\n';
-        }
-    }                   
-    window.print();                                             // Print preview
-    window.PPClose = true;                                      // Set Close Flag to OK.
-}
-$(document).bind("contextmenu",function(e) {
- e.preventDefault();
-});
-</script>
   </body>
 </html>

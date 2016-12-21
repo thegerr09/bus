@@ -105,5 +105,12 @@ class GrafikorderController extends \Phalcon\Mvc\Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
+    public function printSptAction($kode)
+    {
+        $this->view->invoice = Invoice::findFirst(["conditions" => "kode = '$kode'"]);
+        $this->view->pick("GrafikOrder/spt");
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    }
+
 }
 

@@ -58,27 +58,43 @@
           <table>
             <tr>
               <td style="border:1px solid #ccc;" height="25" width="25"></td>
-              <td width="130">&nbsp; Belum Di Booking</td>
+              <td width="170">&nbsp; Belum Di Booking</td>
               <td class="bg-yellow" width="25"></td>
-              <td width="130">&nbsp; booking sudah dp</td>
+              <td width="170">&nbsp; booking sudah dp</td>
               <td class="bg-red" width="25"></td>
-              <td width="130">&nbsp; booking belum dp</td>
+              <td width="170">&nbsp; booking belum dp</td>
               <td class="bg-blue" width="25"></td>
-              <td width="130">&nbsp; dalam perjalanan</td>
+              <td width="170">&nbsp; dalam perjalanan</td>
               <td class="bg-green" width="25"></td>
-              <td width="130">&nbsp; Sudah Kembali</td>
+              <td width="170">&nbsp; Sudah Kembali</td>
+            </tr>
+          </table>
+          <table style="margin-top:10px;">
+            <tr>
               <td align="center" width="25">
                 <div style="border:1px solid #ccc; border-radius: 3px; height: 25px; padding-top: 3px;">
                   <i class="fa fa-print"></i>
                 </div>
               </td>
-              <td width="130">&nbsp; Tombol Print</td>
+              <td width="170">&nbsp; Print Nota Booking</td>
+              <td align="center" width="25">
+                <div style="border:1px solid #ccc; border-radius: 3px; height: 25px; padding-top: 3px;" class="bg-green">
+                  <i class="fa fa-print"></i>
+                </div>
+              </td>
+              <td width="170">&nbsp; Print SPT dan Pengeluaran</td>
+              <td align="center" width="25">
+                <div style="border:1px solid #ccc; border-radius: 3px; height: 25px; padding-top: 3px;" class="bg-teal">
+                  <i class="fa fa-print"></i>
+                </div>
+              </td>
+              <td width="170">&nbsp; Print Invoice Pelunasan</td>
               <td align="center" width="25">
                 <div style="border-radius: 4px; height: 25px; padding-top: 3px;" class="bg-yellow">
                   <i class="fa fa-bars"></i>
                 </div>
               </td>
-              <td width="130">&nbsp; Tombol Detail</td>
+              <td width="170">&nbsp; Lihat Detail</td>
             </tr>
           </table>
         </div>

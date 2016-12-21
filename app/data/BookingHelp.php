@@ -117,12 +117,12 @@ class BookingHelp
         }
     }
 
-    public function jurnalBayarPelunasan($pelunasan, $kode)
+    public static function jurnalBayarPelunasan($pelunasan, $kode)
     {
         $parent = [
             'tanggal' => date('Y-m-d'),
             'kode_jurnal' => Helpers::kodeJurnal(),
-            'keterangan' => 'DP BOOKING KODE ' . $kode . ' ' . date('d F Y'),
+            'keterangan' => 'PELUNASAN BOOKING KODE ' . $kode . ' ' . date('d F Y'),
             'kantor' => 'GALATAMA 1',
             'total_debet' => $pelunasan,
             'total_kredit' => $pelunasan
@@ -136,7 +136,7 @@ class BookingHelp
             $child_data = [
                 'debet'   => [$pelunasan, ''],
                 'kredit'  => ['', $pelunasan],
-                'account' => [4, 1]
+                'account' => [4, 2]
             ];
 
             for ($i=0; $i < 2 ; $i++) { 
