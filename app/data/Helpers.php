@@ -18,7 +18,7 @@ class Helpers
 			return 0;
 		}
 	}
-	
+
 	public static function randomNameImage()
 	{
 	    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

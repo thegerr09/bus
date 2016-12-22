@@ -10,7 +10,7 @@ class Prints
 		$route = Route::findFirst($route_id);
 		$lokasi = LocationAndTarif::findFirst($lokasi_id);
 
-		return 'Route ' . $route->asal . '/' . $route->tujuan . ' | lokasi ' . $lokasi->location;
+		return $route->asal . '/' . $route->tujuan . ' | ' . $lokasi->location;
 	}
 
 	public static function Bus($id)

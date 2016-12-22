@@ -637,7 +637,7 @@ function costCharge(kode) {
     dataType:'html',
     data: 'kode='+kode,
     success: function(response){ 
-      $('#child_charge').html(response);
+      $('#list_charge').html(response);
     }
   });
 }

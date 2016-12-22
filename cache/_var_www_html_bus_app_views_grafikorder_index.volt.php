@@ -340,6 +340,7 @@
             <div class="col-md-6 col-xs-12" id="charge" style="display: none;">
               <label>Extra Charge</label>
               <table>
+                <tbody id="list_charge"></tbody>
                 <tbody id="parent_charge">
                   <tr>
                     <td>
@@ -1375,7 +1376,7 @@ function costCharge(kode) {
     dataType:'html',
     data: 'kode='+kode,
     success: function(response){ 
-      $('#child_charge').html(response);
+      $('#list_charge').html(response);
     }
   });
 }
