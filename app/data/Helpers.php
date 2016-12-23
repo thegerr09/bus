@@ -44,6 +44,13 @@ class Helpers
 		return $tag;
 	}
 
+	public static function setting($name)
+	{
+		$setting = Setting::findFirst("name = '$name'");
+		$result = json_decode($setting->setting);
+		return $result;
+	}
+
 	public static function area()
 	{
 		$setting = Setting::findFirst("name = 'area'");

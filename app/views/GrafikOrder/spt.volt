@@ -199,6 +199,7 @@
           <td colspan="5" style="text-align:center; width:100%; font-size:20px"><b><u>SURAT TUGAS</u><div style="margin-left:-100px; font-size:19px;">No.:</div></b></td>
         </tr>
         <!-- isian data -->
+        {% set s = Helpers.setting('spt') %}
         <tr>
           <td colspan="5">Yang bertanda tangan di bawah ini :</td>
         </tr>
@@ -206,19 +207,19 @@
           <td width="3%"></td>
           <td>Nama</td>
           <td>:</td>
-          <td colspan="2">DADANG GUMILAR</td>
+          <td colspan="2">{{ s.nama }}</td>
         </tr>
         <tr height="30">
           <td></td>
           <td>Jabatan</td>
           <td>:</td>
-          <td colspan="2">Bagian Operasional GALATAMA BUS PARIWISATA</td>
+          <td colspan="2">{{ s.jabatan }}</td>
         </tr>
         <tr height="30">
           <td></td>
           <td>Alamat</td>
           <td>:</td>
-          <td colspan="2">Jl. Pandanaran No 58. Semarang</td>
+          <td colspan="2">{{ s.alamat }}</td>
         </tr>
 
         <tr>
@@ -414,19 +415,19 @@
           <td width="3%"></td>
           <td>Nama</td>
           <td>:</td>
-          <td colspan="2">DADANG GUMILAR</td>
+          <td colspan="2">{{ s.nama }}</td>
         </tr>
         <tr height="30">
           <td></td>
           <td>Jabatan</td>
           <td>:</td>
-          <td colspan="2">Bagian Operasional GALATAMA BUS PARIWISATA</td>
+          <td colspan="2">{{ s.jabatan }}</td>
         </tr>
         <tr height="30">
           <td></td>
           <td>Alamat</td>
           <td>:</td>
-          <td colspan="2">Jl. Pandanaran No 58. Semarang</td>
+          <td colspan="2">{{ s.alamat }}</td>
         </tr>
 
         <tr>
@@ -595,5 +596,10 @@
       <div style="border-top:5px solid black;margin-bottom:-9px;" width="100%" ></div><br>
       <div style="border-top:3px solid black;" width="100%" ></div>
     </div>
+    <script>
+    // $('button[i18n-content="cancel"]').click(function() {
+    //   console.log('test');
+    // });
+    </script>
   </body>
 </html>
