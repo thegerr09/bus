@@ -440,4 +440,39 @@ function clear_form(id) {
     $('#Tambah').modal('hide');
   }
 }
+
+function detail(id) {
+  var modal = $('div#Detail');
+  $.ajax({
+    type: 'GET',
+    url: '<?= $this->url->get('Booking/detail/') ?>'+id,
+    dataType:'json',
+    success: function(response){
+      modal.find('#detail_booking').text('Detail kode booking '+response.kode);
+      $.each(response, function(key, value) {
+        if (value === '') {
+          // modal.find(key).text(value.);
+        } else {
+          if (key === 'dp' || key === 'tarif') {
+            modal.find('#'+key).text(toRp(value));
+          }else{
+            modal.find('#'+key).text(value);
+          }
+        }
+      });
+    }
+  });
+}
+
+function toRp(angka){
+    var rev     = parseInt(angka, 10).toString().split('').reverse().join('');
+    var rev2    = '';
+    for(var i = 0; i < rev.length; i++){
+        rev2  += rev[i];
+        if((i + 1) % 3 === 0 && i !== (rev.length - 1)){
+            rev2 += '.';
+        }
+    }
+    return 'Rp. ' + rev2.split('').reverse().join('') + ',-';
+}
 </script>

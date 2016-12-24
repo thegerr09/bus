@@ -39,22 +39,25 @@
                 {% for x in booking %}
                 <tr id="del{{ x.id }}" {% if x.success == 'Y' %} class="bg-success" {% elseif x.batal == 'Y' %} class="bg-danger" {% elseif x.dp > 0 %} class="bg-info" {% endif %}>
                   <td align="center">
-                    <button type="button" class="btn btn-warning btn-xs" onclick="detail()">
+                    <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#Detail" onclick="detail({{ x.id }})"
+                    {% if x.success == 'Y'  or x.batal == 'Y' %} disabled {% endif %}>
                       <i class="fa fa-list" data-toggle="tooltip" data-placement="top" title="Detail"></i>
                     </button>&nbsp;
                     <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick="edit({{ x.id }})"
                     {% if x.success == 'Y' or x.batal == 'Y' %} disabled {% endif %}>
                       <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
                     </button>&nbsp;
-                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#Delete" onclick="deleted({{ x.id }}, '{{ x.kode }}')">
+                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#Delete" onclick="deleted({{ x.id }}, '{{ x.kode }}')"
+                    {% if x.success == 'Y' %} disabled {% endif %}>
                       <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i>
                     </button>&nbsp;
-                    <button type="button" class="btn btn-default btn-xs" onclick="print()">
+                    <a class="btn btn-default btn-xs" href="GrafikOrder/printBooking/{{ x.id }}" target="_blank" 
+                    {% if x.success == 'Y' or x.batal == 'Y' %} disabled {% endif %}>
                       <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print"></i>
-                    </button>&nbsp;
+                    </a>&nbsp;
                     <hr>
                     {% if x.success == 'Y' %} 
-                      <span class="label bg-green"><i class="fa fa-check"></i> LANJUT SEWA</span>
+                      <span class="label bg-green"><i class="fa fa-check"></i> SUDAH SEWA</span>
                     {% elseif x.batal == 'Y' %}
                       <span class="label bg-red"><i class="fa fa-remove"></i> BATAL SEWA</span>
                     {% else %}
@@ -109,6 +112,7 @@
 {% include "Booking/input_edit.volt" %}
 {% include "Booking/deleted.volt" %}
 {% include "Booking/cencled.volt" %}
+{% include "Booking/detail.volt" %}
 
 <!-- include JS -->
 {% include "Booking/js.volt" %}
