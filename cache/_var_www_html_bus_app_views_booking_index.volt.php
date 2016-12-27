@@ -1045,14 +1045,10 @@ function detail(id) {
     success: function(response){
       modal.find('#detail_booking').text('Detail kode booking '+response.kode);
       $.each(response, function(key, value) {
-        if (value === '') {
-          // modal.find(key).text(value.);
-        } else {
-          if (key === 'dp' || key === 'tarif') {
-            modal.find('#'+key).text(toRp(value));
-          }else{
-            modal.find('#'+key).text(value);
-          }
+        if (key === 'dp' || key === 'tarif') {
+          modal.find('#'+key).text(toRp(value));
+        }else{
+          modal.find('#'+key).text(value);
         }
       });
     }

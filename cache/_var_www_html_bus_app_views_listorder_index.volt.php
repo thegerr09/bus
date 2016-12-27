@@ -2,10 +2,10 @@
 .clear,.dataTables_scroll{clear:both}.dataTables_wrapper{position:relative;clear:both;zoom:1}.dataTables_processing{position:absolute;top:50%;left:50%;width:250px;height:30px;margin-left:-125px;margin-top:-15px;padding:14px 0 2px;border:1px solid #ddd;text-align:center;color:#999;font-size:14px;background-color:#fff}.dataTables_length{width:40%;float:left}.dataTables_filter{width:50%;float:right;text-align:right}.dataTables_info{width:60%;float:left}.dataTables_paginate{float:right;text-align:right}table.dataTable td.focus,table.dataTable th.focus{outline:#1ABB9C solid 2px!important;outline-offset:-1px}.dataTables_scrollBody{-webkit-overflow-scrolling:touch}.top .dataTables_info{float:none}.dataTables_empty{text-align:center}.example_alt_pagination div.dataTables_info{width:40%}td {color:#555;}hr{margin-top:4px;margin-bottom:3px;}.cursor{cursor:pointer;}
 </style>
 <section class="content-header animated fadeIn">
-  <h1>List Order</h1>
+  <h1>List Invoice</h1>
   <ol class="breadcrumb">
     <li><i class="fa fa-home"></i> Home</li>
-    <li class="active">list order</li>
+    <li class="active">list Invoice</li>
   </ol>
 </section>
 
@@ -15,7 +15,7 @@
     <div class="col-md-12">
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">List Order</h3>
+          <h3 class="box-title">List Invoice</h3>
           <div class="box-tools pull-right" style="margin-top:2px;">
             <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#Tambah" onclick="clear_form()">
               <i class="fa fa-plus-circle"></i> Tambah
@@ -39,24 +39,27 @@
                 <?php foreach ($order as $x) { ?>
                 <tr id="del<?= $x->id ?>" <?php if ($x->success == 'Y') { ?> class="bg-success" <?php } elseif ($x->batal == 'Y') { ?> class="bg-danger" <?php } elseif ($x->dp > 0) { ?> class="bg-info" <?php } ?>>
                   <td align="center">
-                    <button type="button" class="btn btn-warning btn-xs" onclick="detail()">
+                    <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#Detail" onclick="detail('<?= $x->kode ?>')"
+                    <?php if ($x->success == 'Y' || $x->batal == 'Y') { ?> disabled <?php } ?>>
                       <i class="fa fa-list" data-toggle="tooltip" data-placement="top" title="Detail"></i>
                     </button>&nbsp;
-                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick="edit(<?= $x->id ?>)"
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick="edit('<?= $x->kode ?>')"
                     <?php if ($x->success == 'Y' || $x->batal == 'Y') { ?> disabled <?php } ?>>
                       <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
                     </button>&nbsp;
-                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#Delete" onclick="deleted(<?= $x->id ?>, '<?= $x->kode ?>')">
-                      <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i>
-                    </button>&nbsp;
-                    <button type="button" class="btn btn-default btn-xs" onclick="print()">
-                      <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print"></i>
-                    </button>&nbsp;
+                    <a class="btn btn-success btn-xs" href="GrafikOrder/printInvoice/<?= $x->kode ?>" target="_blank"
+                    <?php if ($x->success == 'Y' || $x->batal == 'Y') { ?> disabled <?php } ?>>
+                      <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print Invoice Pelunasan"></i>
+                    </a>&nbsp;
+                    <a class="btn btn-info btn-xs" href="GrafikOrder/printSpt/<?= $x->kode ?>" target="_blank"
+                    <?php if ($x->success == 'Y' || $x->batal == 'Y') { ?> disabled <?php } ?>>
+                      <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print SPT dan Pengeluaran"></i>
+                    </a>&nbsp;
                     <hr>
-                    <?php if ($x->success == 'Y') { ?> 
+                    <?php if ($x->success == 'Y') { ?>
                       <span class="label bg-green"><i class="fa fa-check-circle"></i> SUCCESS</span>
                     <?php } else { ?>
-                      <span class="label bg-primary cursor" data-toggle="modal" data-target="#Tambah" onclick="car_back(<?= $x->id ?>)">
+                      <span class="label bg-primary cursor" data-toggle="modal" data-target="#Tambah" onclick="carback('<?= $x->kode ?>')">
                         <span data-toggle="tooltip" data-placement="top" title="Mobil Kembali"><i class="fa fa-car"></i> MOBIL KEMBALI</span>
                       </span>
                     <?php } ?>
@@ -82,10 +85,10 @@
                     <span class="label bg-blue">nomor polisi</span> : <?= $this->Helpers->nomorPolisi($x->bus) ?>
                   </td>
                   <td>
-                    <span class="label bg-blue">tarif</span> : 
+                    <span class="label bg-blue">tarif</span> :
                     Rp. <span class="pull-right"><?= $this->Helpers->number($x->tarif) ?>,-</span>
                     <hr>
-                    <span class="label bg-blue" style="padding-right: 14px;">dp</span> : 
+                    <span class="label bg-blue" style="padding-right: 14px;">dp</span> :
                     Rp. <span class="pull-right"><?= $this->Helpers->number($x->dp) ?>,-</span>
                   </td>
                 </tr>
@@ -108,10 +111,10 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form()">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="label_booking">Input Order</h4>
+        <h4 class="modal-title" id="label_booking">Input Invoice</h4>
       </div>
 
-      <form name="booking" action="<?= $this->url->get('ListOrder/input') ?>" method="POST" data-remote="data-remote">
+      <form name="booking" action="<?= $this->url->get('Booking/input') ?>" method="POST" data-remote="data-remote">
         <div class="modal-body">
           <div class="row">
 
@@ -126,11 +129,11 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="input-group" >
+                <div class="input-group">
                   <span class="input-group-addon">
                     <i class="fa fa-user"></i>
                   </span>
-                  <input type="text" name="nama" class="form-control" placeholder="Nama"> 
+                  <input type="text" name="nama" class="form-control" placeholder="Nama">
                 </div>
               </div>
               <div class="form-group">
@@ -138,7 +141,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-phone"></i>
                   </span>
-                  <input type="text" name="telpon" data-telp class="form-control" placeholder="Nomor Telpon"> 
+                  <input type="text" name="telpon" data-telp class="form-control" placeholder="Nomor Telpon">
                 </div>
               </div>
               <div class="form-group">
@@ -146,7 +149,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </span>
-                  <input type="text" name="tanggal_mulai" id="tanggal_start" class="form-control" placeholder="Tanggal Mulai"> 
+                  <input type="text" name="tanggal_mulai" id="tanggal_start" class="form-control" placeholder="Tanggal Mulai">
                 </div>
               </div>
               <div class="form-group">
@@ -154,7 +157,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </span>
-                  <input type="text" name="tanggal_kembali" id="tanggal_back" class="form-control" placeholder="Tanggal Kembali"> 
+                  <input type="text" name="tanggal_kembali" id="tanggal_back" class="form-control" placeholder="Tanggal Kembali">
                 </div>
               </div>
               <div class="form-group">
@@ -162,7 +165,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-money"></i>
                   </span>
-                  <input type="text" name="tarif" data-tarif class="form-control" placeholder="Tarif"> 
+                  <input type="text" name="tarif" data-tarif class="form-control" placeholder="Tarif">
                 </div>
               </div>
               <div class="form-group">
@@ -170,7 +173,15 @@
                   <span class="input-group-addon">
                     <i class="fa fa-money"></i>
                   </span>
-                  <input type="text" name="dp" data-dp class="form-control" placeholder="DP / Uang Muka"> 
+                  <input type="text" name="dp" data-dp class="form-control" placeholder="DP / Uang Muka">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group" >
+                  <span class="input-group-addon">
+                    <i class="fa fa-money"></i>
+                  </span>
+                  <input type="text" name="pelunasan" data-modalDriver class="form-control" placeholder="Pelunasan">
                 </div>
               </div>
               <div class="form-group">
@@ -181,36 +192,6 @@
                   <select name="metode_pembayaran" class="form-control">
                     <?= $this->Helpers->tagSetting('pembayaran', 'Methode Pembayaran', '') ?>
                   </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="input-group" >
-                  <span class="input-group-addon">
-                    <i class="fa fa-user"></i>
-                  </span>
-                  <select name="driver" class="form-control">
-                    <option value="">Pilih Driver</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="input-group" >
-                  <span class="input-group-addon">
-                    <i class="fa fa-user"></i>
-                  </span>
-                  <select name="co_driver" class="form-control">
-                    <option value="">Pilih Co. Driver</option>
-                  </select>
-                </div>
-              </div>
-              <div class="collapse" id="modal_driver">
-                <div class="form-group">
-                  <div class="input-group" >
-                    <span class="input-group-addon">
-                      <i class="fa fa-money"></i>
-                    </span>
-                    <input type="text" name="modal" data-modalDriver class="form-control" placeholder="Modal Driver">
-                  </div>
                 </div>
               </div>
             </div>
@@ -228,7 +209,7 @@
                 </div>
               </div>
 
-              <div class="collapse in" id="regular">
+              <div class="collapse" id="regular">
                 <div class="form-group">
                   <div class="input-group" >
                     <span class="input-group-addon">
@@ -254,7 +235,7 @@
                     <span class="input-group-addon">
                       <i class="fa fa-map-marker"></i>
                     </span>
-                    <select name="lokasi" class="form-control" onchange="lokasii()">
+                    <select name="lokasi" class="form-control">
                       <option value="">Pilih Lokasi</option>
                     </select>
                   </div>
@@ -267,7 +248,7 @@
                     <span class="input-group-addon">
                       <i class="fa fa-map-marker"></i>
                     </span>
-                    <select name="route_jiarah" class="form-control" onclick="lokasii()">
+                    <select name="route_jiarah" class="form-control">
                       <option value="">Pilih Route Jiarah</option>
                     </select>
                   </div>
@@ -279,7 +260,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-map-pin"></i>
                   </span>
-                  <input type="text" name="lokasi_jemput" class="form-control" placeholder="Lokasi Penjemputan"> 
+                  <input type="text" name="lokasi_jemput" class="form-control" placeholder="Lokasi Penjemputan">
                 </div>
               </div>
               <div class="form-group">
@@ -287,7 +268,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-road"></i>
                   </span>
-                  <input type="number" name="jarak_jemput" class="form-control" placeholder="Jarak Penjemputan"> 
+                  <input type="number" name="jarak_jemput" class="form-control" placeholder="Jarak Penjemputan">
                 </div>
               </div>
               <div class="form-group">
@@ -322,22 +303,150 @@
                 </div>
               </div>
               <div class="form-group">
-                <table width="100%">
+                <div class="input-group" >
+                  <span class="input-group-addon">
+                    <i class="fa fa-user"></i>
+                  </span>
+                  <select name="driver" class="form-control">
+                    <option value="">Pilih Driver</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group" >
+                  <span class="input-group-addon">
+                    <i class="fa fa-user"></i>
+                  </span>
+                  <select name="co_driver" class="form-control">
+                    <option value="">Pilih Co. Driver</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div id="cost">
+              <span style="padding-left: 14px; font-size: 18px;">BIAYA COST PENGELUARAN</span>
+              <hr style="padding-bottom:10px;">
+
+              <div class="col-md-12 col-xs-12" id="viewCost"></div>
+            </div>
+
+            <div id="biaya_tambahan">
+              <span style="padding-left: 14px; font-size: 18px;">BIAYA TAMBAHAN</span>
+              <hr style="padding-bottom:10px;">
+            </div>
+
+            <div class="col-md-6 col-xs-12" id="charge">
+              <label>Extra Charge</label>
+              <table>
+                <tbody id="list_charge"></tbody>
+                <tbody id="parent_charge">
                   <tr>
-                    <td style="border:1px solid #ccc;" height="25" width="25"></td>
-                    <td>&nbsp; stand by</td>
-                    <td class="bg-teal" width="25"></td>
-                    <td>&nbsp; di booking</td>
-                    <td class="bg-yellow" width="25"></td>
-                    <td>&nbsp; di jalan</td>
-                    <td class="bg-red" width="25"></td>
-                    <td>&nbsp; rusak</td>
+                    <td>
+                      <div class="form-group">
+                        <button type="button" class="btn btn-danger btn-flat btn-sm" onclick="removerTrCharge(this);hitungCharge();">
+                          <i class="fa fa-remove"></i>
+                        </button>
+                      </div>
+                    </td>
+                    <td width="5"></td>
+                    <td>
+                      <div class="form-group">
+                        <div class="input-group" >
+                          <span class="input-group-addon">
+                            <i class="fa fa-list"></i>
+                          </span>
+                          <input type="text" name="name_charge[]" class="form-control" placeholder="Uraian Charge">
+                        </div>
+                      </div>
+                    </td>
+                    <td width="5"></td>
+                    <td>
+                      <div class="form-group">
+                        <div class="input-group" >
+                          <span class="input-group-addon">
+                            <i class="fa fa-money"></i>
+                          </span>
+                          <input type="text" name="biaya_charge[]" data-tarif class="form-control" placeholder="Biaya Charge" onkeyup="hitungCharge()">
+                        </div>
+                      </div>
+                    </td>
                   </tr>
-                </table>
-              </div>
-              <div class="form-group" id="note_modal" style="display:none;">
-                <i><b>NOTE : </b> Jangan lupa untuk mengisi form modal driver setelah memilih Driver dan Co Driver !!!</i>
-              </div>
+                </tbody>
+                <tbody id="child_charge"></tbody>
+                <tr>
+                  <td colspan="3">
+                    <div class="form-group">
+                      <button type="button" class="btn btn-success btn-flat btn-sm" id="tambah_charge">
+                        <i class="fa fa-plus"></i> Tambah
+                      </button>
+                    </div>
+                  </td>
+                  <td width="5"></td>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="charge" data-tarif class="form-control" placeholder="Total Charge">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="col-md-6 col-xs-12" id="overtime" style="display: none;">
+              <label>Overtime dan Total Pengeluaran</label>
+              <table>
+                <tr>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-clock-o"></i>
+                        </span>
+                        <input type="text" name="lama_overtime" data-tarif class="form-control" placeholder="Lama Overtime">
+                      </div>
+                    </div>
+                  </td>
+                  <td width="5"></td>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="biaya_overtime" data-tarif class="form-control" placeholder="Biaya Overtime">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="total_pengeluaran" data-tarif class="form-control" placeholder="Total Pengeluatan">
+                      </div>
+                    </div>
+                  </td>
+                  <td width="5"></td>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="sisa_or_bon" data-tarif class="form-control" placeholder="Sisa / Bon">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
             </div>
 
             <div class="col-md-12 col-xs-12">
@@ -349,10 +458,198 @@
           </div>
         </div>
         <div class="modal-footer">
+          <div class="form-group pull-left">
+            <!-- <table width="100%">
+              <tr>
+                <td style="border:1px solid #ccc;" height="25" width="25"></td>
+                <td>&nbsp; stand by &nbsp; </td>
+                <td class="bg-teal" width="25"></td>
+                <td>&nbsp; di booking &nbsp; </td>
+                <td class="bg-yellow" width="25"></td>
+                <td>&nbsp; di jalan &nbsp; </td>
+                <td class="bg-red" width="25"></td>
+                <td>&nbsp; rusak &nbsp; </td>
+              </tr>
+            </table> -->
+          </div>
           <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>
           <button type="submit" class="btn btn-success">Save</button>
         </div>
       </form>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="Detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="detail_booking"></h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+
+          <!-- left -->
+          <div class="col-md-6 col-xs-12">
+            <h5>BOOKING</h5>
+            <table>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 20px;">Kode Booking</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td><b id="kode"></b></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green">Tanggal Booking</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="tanggal_booking"></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 24px;">Type Booking</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="type_booking"></td>
+              </tr>
+            </table>
+            <hr>
+            <h5>TANGGAL SEWA</h5>
+            <table>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 25px;">Tanggal Mulai</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="tanggal_mulai"></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 10px;">Tanggal Kembali</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="tanggal_kembali"></td>
+              </tr>
+            </table>
+            <hr>
+            <h5>PELANGGAN</h5>
+            <table>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 7px;">Nama Pelanggan</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="nama"></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 22px;">Nomor Telpon</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="telpon"></td>
+              </tr>
+            </table>
+            <hr>
+            <h5>PEMBAYARAN</h5>
+            <table>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 38px;">Uang Muka</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="dp"></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 73px;">Tarif</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="tarif"></td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- right -->
+          <div class="col-md-6 col-xs-12">
+            <h5>KENDARAAN</h5>
+            <table>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green">Type Kendaraan</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="type_bus"></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 22px;">Nomor Polisi</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 18px;">Kondisi Mobil</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td></td>
+              </tr>
+            </table>
+            <hr>
+            <h5>DRIVER</h5>
+            <table>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 53px;">Driver</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="driver"></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 37px;">Co Driver</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td id="coDriver"></td>
+              </tr>
+            </table>
+            <hr>
+            <h5>ROUTE PERJALANAN</h5>
+            <table>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 60px;">Asal</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td height="23">
+                  <label class="label bg-green" style="padding-right: 49px;">Tujuan</label>
+                </td>
+                <td>&nbsp; : &nbsp;</td>
+                <td></td>
+              </tr>
+            </table>
+            <hr>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div class="pull-left">
+          <a class="btn btn-default" id="print"><i class="fa fa-print"></i> print</a>
+        </div>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
 
     </div>
   </div>
@@ -430,44 +727,102 @@ TableManageButtons.init();
         list();
       }
     });
- 
+
     e.preventDefault();
   });
 
 })();
 
-(function() {
-
-  $('form[data-delete]').on('submit', function(e) {
-    var form = $(this);
-    var url = form.prop('action');
-
-    $.ajax({
-      type: 'POST',
-      url: url,
-      dataType:'json',
-      data: form.serialize(),
-      success: function(response){
-        new PNotify({
-          title: response.title,
-          text: response.text,
-          type: response.type
-        });
-
-        $('#del'+response.id).fadeOut(700);
-        $('#Delete').modal('hide');
-        update_page('Booking',     'page_booking');
-        update_page('Driver',      'page_driver');
-        update_page('CoDriver',    'page_co_driver');
-        update_page('Bus',         'page_bus');
-        update_page('GrafikOrder', 'page_grafik_order');
+function edit(kode) {
+  var form = $('form[name="booking"]')
+  form.find('button[type="submit"]')
+      .removeClass('btn-success')
+      .addClass('btn-primary')
+      .text('Save Update');
+  $('#biaya_tambahan').show();
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('ListOrder/detail/') ?>'+kode,
+    dataType:'json',
+    success: function(response){
+      form.attr('action', '<?= $this->url->get('ListOrder/update/') ?>'+response.id);
+      $.each(response, function(key, value) {
+        form.find('[name="'+key+'"]').val(value);
+      });
+      $('#label_booking').text('Update Data Booking "'+response.kode+'"');
+      if (response.paket == 'regular') {
+        $('#regular').collapse('show');
+        $('#jiarah').collapse('hide');
+        areaa_selected(response.area, response.route);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+        routee_selected(response.route, response.lokasi);
+        costView(response.kode, response.cost);
+        costCharge(response.kode);
+      } else if (response.paket == 'jiarah') {
+        $('#regular').collapse('hide');
+        $('#jiarah').collapse('show');
+        route_jiarah(response.route_jiarah);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+        costView(response.kode, response.cost);
+        costCharge(response.kode);
       }
-    });
-
-    e.preventDefault();
+    }
   });
+}
 
-})();
+function carback(kode) {
+  var form = $('form[name="booking"]');
+  form.find('button[type="submit"]')
+      .removeClass('btn-success')
+      .removeClass('btn-danger')
+      .addClass('btn-primary')
+      .text('Mobil Kembali');
+
+  $('#overtime').show();
+  $('#biaya_tambahan').show();
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('ListOrder/detail/') ?>'+kode,
+    dataType:'json',
+    success: function(response){
+      form.attr('action', '<?= $this->url->get('ListOrder/carBack/') ?>'+response.id);
+      $.each(response, function(key, value) {
+        form.find('[name="'+key+'"]')
+        .not('[name="modal"]')
+        .val(value);
+      });
+      $('#label_booking').text('Mobil kembali kode booking "'+response.kode+'" ?');
+      if (response.paket == 'regular') {
+        $('#regular').collapse('show');
+        $('#jiarah').collapse('hide');
+        areaa_selected(response.area, response.route);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+        routee_selected(response.route, response.lokasi);
+        costView(response.kode, response.cost);
+        costCharge(response.kode);
+      } else if (response.paket == 'jiarah') {
+        $('#regular').collapse('hide');
+        $('#jiarah').collapse('show');
+        route_jiarah(response.route_jiarah);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+        costView(response.kode, response.cost);
+        costCharge(response.kode);
+      }
+    }
+  });
+}
 
 function list() {
   $.ajax({
@@ -478,11 +833,6 @@ function list() {
       $('#list_view').html(response);
     }
   });
-}
-
-function deleted(id, kode) {
-  $('form[name="delete"]').find('#delete_booking').text(kode);
-  $('form[name="delete"]').find('input[name="id"]').val(id);
 }
 
 $('#tanggal_booking').datetimepicker({
@@ -504,7 +854,7 @@ $("[data-dp]").inputmask({mask: "9999999999", placeholder: "",});
 $("[data-modalDriver]").inputmask({mask: "9999999999", placeholder: "",});
 
 function pakett(that) {
-  var val = $(that).val(); 
+  var val = $(that).val();
   if (val == 'regular') {
     $('#regular').collapse('show');
     $('#jiarah').collapse('hide');
@@ -680,12 +1030,17 @@ function modal_driver() {
 }
 
 function clear_form(id) {
-  $('#label_booking').text('Input Order');
+  $('#label_booking').text('Input Invoice');
 
   var form = $('form[name="booking"]');
 
-  $('#modal_driver').collapse('hide');
-  $('#note_modal').hide();
+  $('#modal_driver').collapse('show');
+  $('#note_modal').show();
+  $('#overtime').hide();
+  $('#biaya_tambahan').show();
+  costView('', '');
+  costCharge('');
+  $('#regular').collapse('show');
 
   form.find('[name]').val('');
 
@@ -704,4 +1059,60 @@ function clear_form(id) {
     $('#Tambah').modal('hide');
   }
 }
+
+function detail(id) {
+  var modal = $('div#Detail');
+  $.ajax({
+    type: 'GET',
+    url: '<?= $this->url->get('ListOrder/detail/') ?>'+id,
+    dataType:'json',
+    success: function(response){
+      modal.find('#detail_booking').text('Detail kode booking '+response.kode);
+      $.each(response, function(key, value) {
+        if (key === 'dp' || key === 'tarif') {
+          modal.find('#'+key).text(toRp(value));
+        }else{
+          modal.find('#'+key).text(value);
+        }
+      });
+    }
+  });
+}
+
+function toRp(angka){
+    var rev     = parseInt(angka, 10).toString().split('').reverse().join('');
+    var rev2    = '';
+    for(var i = 0; i < rev.length; i++){
+        rev2  += rev[i];
+        if((i + 1) % 3 === 0 && i !== (rev.length - 1)){
+            rev2 += '.';
+        }
+    }
+    return 'Rp. ' + rev2.split('').reverse().join('') + ',-';
+}
+
+function costView(kode, cost) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('GrafikOrder/viewCost') ?>',
+    dataType:'html',
+    data: 'kode='+kode+'&cost='+cost,
+    success: function(response){
+      $('#viewCost').html(response);
+    }
+  });
+}
+
+function costCharge(kode) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('GrafikOrder/viewCharge') ?>',
+    dataType:'html',
+    data: 'kode='+kode,
+    success: function(response){
+      $('#list_charge').html(response);
+    }
+  });
+}
 </script>
+

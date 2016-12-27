@@ -1,7 +1,9 @@
 <script>
-$("#table").DataTable({
-  ordering: false
-});
+// $("#table").DataTable({
+//   ordering: false,
+//   filter: false,
+//   pagination: false,
+// });
 
 (function() {
 
@@ -25,7 +27,7 @@ $("#table").DataTable({
         list();
       }
     });
- 
+
     e.preventDefault();
   });
 
@@ -106,6 +108,19 @@ function isNumberKey_kredit(evt){
 $('#tanggal').datetimepicker({
   viewMode: 'days',
   format: 'YYYY-MM-DD'
+});
+
+$('#reservation').daterangepicker();
+$('#reservation').on('apply.daterangepicker', function(ev, picker) {
+  $.ajax({
+    type: 'POST',
+    url: '{{ url('Jurnal/list') }}',
+    dataType:'html',
+    data: 'start='+picker.startDate.format('YYYY-MM-DD')+'&end='+picker.endDate.format('YYYY-MM-DD'),
+    success: function(response){
+      $('#list_view').html(response);
+    }
+  });
 });
 
 function clear_form() {

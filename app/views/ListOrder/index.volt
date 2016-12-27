@@ -2,10 +2,10 @@
 .clear,.dataTables_scroll{clear:both}.dataTables_wrapper{position:relative;clear:both;zoom:1}.dataTables_processing{position:absolute;top:50%;left:50%;width:250px;height:30px;margin-left:-125px;margin-top:-15px;padding:14px 0 2px;border:1px solid #ddd;text-align:center;color:#999;font-size:14px;background-color:#fff}.dataTables_length{width:40%;float:left}.dataTables_filter{width:50%;float:right;text-align:right}.dataTables_info{width:60%;float:left}.dataTables_paginate{float:right;text-align:right}table.dataTable td.focus,table.dataTable th.focus{outline:#1ABB9C solid 2px!important;outline-offset:-1px}.dataTables_scrollBody{-webkit-overflow-scrolling:touch}.top .dataTables_info{float:none}.dataTables_empty{text-align:center}.example_alt_pagination div.dataTables_info{width:40%}td {color:#555;}hr{margin-top:4px;margin-bottom:3px;}.cursor{cursor:pointer;}
 </style>
 <section class="content-header animated fadeIn">
-  <h1>List Order</h1>
+  <h1>List Invoice</h1>
   <ol class="breadcrumb">
     <li><i class="fa fa-home"></i> Home</li>
-    <li class="active">list order</li>
+    <li class="active">list Invoice</li>
   </ol>
 </section>
 
@@ -15,7 +15,7 @@
     <div class="col-md-12">
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">List Order</h3>
+          <h3 class="box-title">List Invoice</h3>
           <div class="box-tools pull-right" style="margin-top:2px;">
             <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#Tambah" onclick="clear_form()">
               <i class="fa fa-plus-circle"></i> Tambah
@@ -39,24 +39,27 @@
                 {% for x in order %}
                 <tr id="del{{ x.id }}" {% if x.success == 'Y' %} class="bg-success" {% elseif x.batal == 'Y' %} class="bg-danger" {% elseif x.dp > 0 %} class="bg-info" {% endif %}>
                   <td align="center">
-                    <button type="button" class="btn btn-warning btn-xs" onclick="detail()">
+                    <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#Detail" onclick="detail('{{ x.kode }}')"
+                    {% if x.success == 'Y' or x.batal == 'Y' %} disabled {% endif %}>
                       <i class="fa fa-list" data-toggle="tooltip" data-placement="top" title="Detail"></i>
                     </button>&nbsp;
-                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick="edit({{ x.id }})"
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick="edit('{{ x.kode }}')"
                     {% if x.success == 'Y' or x.batal == 'Y' %} disabled {% endif %}>
                       <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
                     </button>&nbsp;
-                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#Delete" onclick="deleted({{ x.id }}, '{{ x.kode }}')">
-                      <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i>
-                    </button>&nbsp;
-                    <button type="button" class="btn btn-default btn-xs" onclick="print()">
-                      <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print"></i>
-                    </button>&nbsp;
+                    <a class="btn btn-success btn-xs" href="GrafikOrder/printInvoice/{{ x.kode }}" target="_blank"
+                    {% if x.success == 'Y' or x.batal == 'Y' %} disabled {% endif %}>
+                      <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print Invoice Pelunasan"></i>
+                    </a>&nbsp;
+                    <a class="btn btn-info btn-xs" href="GrafikOrder/printSpt/{{ x.kode }}" target="_blank"
+                    {% if x.success == 'Y' or x.batal == 'Y' %} disabled {% endif %}>
+                      <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print SPT dan Pengeluaran"></i>
+                    </a>&nbsp;
                     <hr>
-                    {% if x.success == 'Y' %} 
+                    {% if x.success == 'Y' %}
                       <span class="label bg-green"><i class="fa fa-check-circle"></i> SUCCESS</span>
                     {% else %}
-                      <span class="label bg-primary cursor" data-toggle="modal" data-target="#Tambah" onclick="car_back({{ x.id }})">
+                      <span class="label bg-primary cursor" data-toggle="modal" data-target="#Tambah" onclick="carback('{{ x.kode }}')">
                         <span data-toggle="tooltip" data-placement="top" title="Mobil Kembali"><i class="fa fa-car"></i> MOBIL KEMBALI</span>
                       </span>
                     {% endif %}
@@ -82,10 +85,10 @@
                     <span class="label bg-blue">nomor polisi</span> : {{ Helpers.nomorPolisi(x.bus) }}
                   </td>
                   <td>
-                    <span class="label bg-blue">tarif</span> : 
+                    <span class="label bg-blue">tarif</span> :
                     Rp. <span class="pull-right">{{ Helpers.number(x.tarif) }},-</span>
                     <hr>
-                    <span class="label bg-blue" style="padding-right: 14px;">dp</span> : 
+                    <span class="label bg-blue" style="padding-right: 14px;">dp</span> :
                     Rp. <span class="pull-right">{{ Helpers.number(x.dp) }},-</span>
                   </td>
                 </tr>
@@ -102,6 +105,7 @@
 
 <!-- include popup -->
 {% include "ListOrder/input_edit.volt" %}
+{% include "ListOrder/detail.volt" %}
 
 <!-- include JS -->
 {% include "ListOrder/js.volt" %}

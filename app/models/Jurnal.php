@@ -55,6 +55,21 @@ class Jurnal extends \Phalcon\Mvc\Model
     public $total_kredit;
 
     /**
+     *
+     * @var string
+     * @Column(type="string", nullable=false)
+     */
+    public $deleted;
+
+    /**
+     * Initialize method for model.
+     */
+    public function initialize()
+    {
+        $this->setSchema("galatama");
+    }
+
+    /**
      * Returns table name mapped in the model.
      *
      * @return string
@@ -68,7 +83,7 @@ class Jurnal extends \Phalcon\Mvc\Model
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Jurnal[]
+     * @return Jurnal[]|Jurnal
      */
     public static function find($parameters = null)
     {

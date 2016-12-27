@@ -23,7 +23,7 @@
 
   <!-- ChartJs -->
   <?= $this->tag->javascriptInclude('plugins/chartjs/Chart.min.js') ?>
-  
+
   <!-- iCheck -->
   <?= $this->tag->stylesheetLink('plugins/iCheck/all.css') ?>
   <?= $this->tag->javascriptInclude('plugins/iCheck/icheck.min.js') ?>
@@ -59,10 +59,12 @@
   <?= $this->tag->javascriptInclude('plugins/datatables/dataTables.fixedColumns.min.js') ?>
 
   <!-- datetimepiker -->
+  <?= $this->tag->stylesheetLink('plugins/daterangepicker/daterangepicker.css') ?>
   <?= $this->tag->stylesheetLink('plugins/datetimepicker/build/css/bootstrap-datetimepicker.min.css') ?>
   <?= $this->tag->javascriptInclude('plugins/moment/min/moment.min.js') ?>
   <?= $this->tag->javascriptInclude('plugins/moment/locale/id.js') ?>
   <?= $this->tag->javascriptInclude('plugins/datetimepicker/build/js/bootstrap-datetimepicker.min.js') ?>
+  <?= $this->tag->javascriptInclude('plugins/daterangepicker/daterangepicker.js') ?>
 
   <!-- all -->
   <?= $this->tag->javascriptInclude('plugins/slimScroll/jquery.slimscroll.min.js') ?>
@@ -72,6 +74,7 @@
   <?= $this->tag->javascriptInclude('js/demo.js') ?>
   <?= $this->tag->javascriptInclude('js/router.js') ?>
 </head>
+
 
 <body class="hold-transition skin-blue fixed sidebar-mini">
 <!-- Site wrapper -->
@@ -222,7 +225,7 @@
       </li>
       <li>
         <a href="#Dashboard" onclick="return load_page('page_order','ListOrder','page_order')">
-          <i class="fa fa-credit-card"></i> <span>Order</span>
+          <i class="fa fa-credit-card"></i> <span>Invoice</span>
         </a>
       </li>
       <li>

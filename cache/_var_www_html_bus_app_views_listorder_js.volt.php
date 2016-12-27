@@ -69,44 +69,102 @@ TableManageButtons.init();
         list();
       }
     });
- 
+
     e.preventDefault();
   });
 
 })();
 
-(function() {
-
-  $('form[data-delete]').on('submit', function(e) {
-    var form = $(this);
-    var url = form.prop('action');
-
-    $.ajax({
-      type: 'POST',
-      url: url,
-      dataType:'json',
-      data: form.serialize(),
-      success: function(response){
-        new PNotify({
-          title: response.title,
-          text: response.text,
-          type: response.type
-        });
-
-        $('#del'+response.id).fadeOut(700);
-        $('#Delete').modal('hide');
-        update_page('Booking',     'page_booking');
-        update_page('Driver',      'page_driver');
-        update_page('CoDriver',    'page_co_driver');
-        update_page('Bus',         'page_bus');
-        update_page('GrafikOrder', 'page_grafik_order');
+function edit(kode) {
+  var form = $('form[name="booking"]')
+  form.find('button[type="submit"]')
+      .removeClass('btn-success')
+      .addClass('btn-primary')
+      .text('Save Update');
+  $('#biaya_tambahan').show();
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('ListOrder/detail/') ?>'+kode,
+    dataType:'json',
+    success: function(response){
+      form.attr('action', '<?= $this->url->get('ListOrder/update/') ?>'+response.id);
+      $.each(response, function(key, value) {
+        form.find('[name="'+key+'"]').val(value);
+      });
+      $('#label_booking').text('Update Data Booking "'+response.kode+'"');
+      if (response.paket == 'regular') {
+        $('#regular').collapse('show');
+        $('#jiarah').collapse('hide');
+        areaa_selected(response.area, response.route);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+        routee_selected(response.route, response.lokasi);
+        costView(response.kode, response.cost);
+        costCharge(response.kode);
+      } else if (response.paket == 'jiarah') {
+        $('#regular').collapse('hide');
+        $('#jiarah').collapse('show');
+        route_jiarah(response.route_jiarah);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+        costView(response.kode, response.cost);
+        costCharge(response.kode);
       }
-    });
-
-    e.preventDefault();
+    }
   });
+}
 
-})();
+function carback(kode) {
+  var form = $('form[name="booking"]');
+  form.find('button[type="submit"]')
+      .removeClass('btn-success')
+      .removeClass('btn-danger')
+      .addClass('btn-primary')
+      .text('Mobil Kembali');
+
+  $('#overtime').show();
+  $('#biaya_tambahan').show();
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('ListOrder/detail/') ?>'+kode,
+    dataType:'json',
+    success: function(response){
+      form.attr('action', '<?= $this->url->get('ListOrder/carBack/') ?>'+response.id);
+      $.each(response, function(key, value) {
+        form.find('[name="'+key+'"]')
+        .not('[name="modal"]')
+        .val(value);
+      });
+      $('#label_booking').text('Mobil kembali kode booking "'+response.kode+'" ?');
+      if (response.paket == 'regular') {
+        $('#regular').collapse('show');
+        $('#jiarah').collapse('hide');
+        areaa_selected(response.area, response.route);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+        routee_selected(response.route, response.lokasi);
+        costView(response.kode, response.cost);
+        costCharge(response.kode);
+      } else if (response.paket == 'jiarah') {
+        $('#regular').collapse('hide');
+        $('#jiarah').collapse('show');
+        route_jiarah(response.route_jiarah);
+        driver(1, response.driver);
+        driver(2, response.co_driver);
+        lokasii(response.type_bus);
+        bus(response.type_bus, response.bus);
+        costView(response.kode, response.cost);
+        costCharge(response.kode);
+      }
+    }
+  });
+}
 
 function list() {
   $.ajax({
@@ -117,11 +175,6 @@ function list() {
       $('#list_view').html(response);
     }
   });
-}
-
-function deleted(id, kode) {
-  $('form[name="delete"]').find('#delete_booking').text(kode);
-  $('form[name="delete"]').find('input[name="id"]').val(id);
 }
 
 $('#tanggal_booking').datetimepicker({
@@ -143,7 +196,7 @@ $("[data-dp]").inputmask({mask: "9999999999", placeholder: "",});
 $("[data-modalDriver]").inputmask({mask: "9999999999", placeholder: "",});
 
 function pakett(that) {
-  var val = $(that).val(); 
+  var val = $(that).val();
   if (val == 'regular') {
     $('#regular').collapse('show');
     $('#jiarah').collapse('hide');
@@ -319,12 +372,17 @@ function modal_driver() {
 }
 
 function clear_form(id) {
-  $('#label_booking').text('Input Order');
+  $('#label_booking').text('Input Invoice');
 
   var form = $('form[name="booking"]');
 
-  $('#modal_driver').collapse('hide');
-  $('#note_modal').hide();
+  $('#modal_driver').collapse('show');
+  $('#note_modal').show();
+  $('#overtime').hide();
+  $('#biaya_tambahan').show();
+  costView('', '');
+  costCharge('');
+  $('#regular').collapse('show');
 
   form.find('[name]').val('');
 
@@ -342,5 +400,60 @@ function clear_form(id) {
   if (id == 1) {
     $('#Tambah').modal('hide');
   }
+}
+
+function detail(id) {
+  var modal = $('div#Detail');
+  $.ajax({
+    type: 'GET',
+    url: '<?= $this->url->get('ListOrder/detail/') ?>'+id,
+    dataType:'json',
+    success: function(response){
+      modal.find('#detail_booking').text('Detail kode booking '+response.kode);
+      $.each(response, function(key, value) {
+        if (key === 'dp' || key === 'tarif') {
+          modal.find('#'+key).text(toRp(value));
+        }else{
+          modal.find('#'+key).text(value);
+        }
+      });
+    }
+  });
+}
+
+function toRp(angka){
+    var rev     = parseInt(angka, 10).toString().split('').reverse().join('');
+    var rev2    = '';
+    for(var i = 0; i < rev.length; i++){
+        rev2  += rev[i];
+        if((i + 1) % 3 === 0 && i !== (rev.length - 1)){
+            rev2 += '.';
+        }
+    }
+    return 'Rp. ' + rev2.split('').reverse().join('') + ',-';
+}
+
+function costView(kode, cost) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('GrafikOrder/viewCost') ?>',
+    dataType:'html',
+    data: 'kode='+kode+'&cost='+cost,
+    success: function(response){
+      $('#viewCost').html(response);
+    }
+  });
+}
+
+function costCharge(kode) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('GrafikOrder/viewCharge') ?>',
+    dataType:'html',
+    data: 'kode='+kode,
+    success: function(response){
+      $('#list_charge').html(response);
+    }
+  });
 }
 </script>

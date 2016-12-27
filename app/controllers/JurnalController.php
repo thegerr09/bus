@@ -7,14 +7,33 @@ class JurnalController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-    	$this->view->jurnal = Jurnal::find();
+        $this->view->jurnal = Jurnal::find(["conditions" => "deleted = 'N' AND tanggal BETWEEN :start_date: AND :end_date:",
+    			"bind" => [
+    				"start_date" => date('Y-m-1'),
+    				"end_date"   => date('Y-m-d')
+    			]
+        ]);
         $this->view->pick("Jurnal/index");
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
     public function listAction()
     {
-    	$this->view->jurnal = Jurnal::find();
+        if ($this->request->isPost()) {
+            $this->view->jurnal = Jurnal::find(["conditions" => "deleted = 'N' AND tanggal BETWEEN :start_date: AND :end_date:",
+        			"bind" => [
+        				"start_date" => $this->request->getPost('start'),
+        				"end_date"   => $this->request->getPost('end')
+        			]
+            ]);
+        } else {
+            $this->view->jurnal = Jurnal::find(["conditions" => "deleted = 'N' AND tanggal BETWEEN :start_date: AND :end_date:",
+        			"bind" => [
+        				"start_date" => date('Y-m-1'),
+        				"end_date"   => date('Y-m-d')
+        			]
+            ]);
+        }
         $this->view->pick("Jurnal/list");
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
@@ -49,7 +68,7 @@ class JurnalController extends \Phalcon\Mvc\Controller
     	if ($jurnal->save()) {
     		$get_parent = $jurnal->findFirst(["conditions" => "kode_jurnal = '" . $jurnal_parent['kode_jurnal'] . "'"]);
 
-    		for ($i = 0; $i < count($post['debet']); $i++) { 
+    		for ($i = 0; $i < count($post['debet']); $i++) {
 	    		$jurnal_child = [
 	    			'id_jurnal' => $get_parent->id,
 	    			'account' => $post['account'][$i],
@@ -79,7 +98,7 @@ class JurnalController extends \Phalcon\Mvc\Controller
 		            ];
 	    		}
     		}
-    		
+
     	} else {
             $messages = $jurnal->getMessages();
             $m = '';
@@ -97,4 +116,3 @@ class JurnalController extends \Phalcon\Mvc\Controller
     }
 
 }
-

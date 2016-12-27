@@ -730,7 +730,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success">Save</button>
       </div>
     </div>
   </div>
@@ -825,7 +824,7 @@ $('input[type="radio"].flat-blue').iCheck({
         list();
       }
     });
- 
+
     e.preventDefault();
   });
 
@@ -899,7 +898,6 @@ function next(id) {
   form.find('input[name="cost"]').attr('required', 'required');
   $('#cost').show();
   $('#charge').show();
-  $('#cost').show();
   $('#biaya_tambahan').show();
   $.ajax({
     type: 'POST',
@@ -1004,7 +1002,7 @@ $('#tanggal_back').datetimepicker({
   format: 'YYYY-MM-DD'
 });
 
-$('[data-filter]').datetimepicker({ 
+$('[data-filter]').datetimepicker({
   viewMode: 'months',
   format: 'YYYY-MM'
 });
@@ -1014,7 +1012,7 @@ $("[data-tarif]").inputmask({mask: "9999999999", placeholder: "",});
 $("[data-dp]").inputmask({mask: "9999999999", placeholder: "",});
 
 function pakett(that) {
-  var val = $(that).val(); 
+  var val = $(that).val();
   if (val == 'regular') {
     $('#regular').collapse('show');
     $('#jiarah').collapse('hide');
@@ -1300,7 +1298,7 @@ function checkboxPercent(that) {
   var satuan = data.find('input[name="satuan[]"]').val();
   var percent = data.find('input[type="checkbox"]');
   var harga_satuan = data.find('input[name="harga_satuan[]"]').val();
-  
+
   if (satuan != null && harga_satuan != null) {
     if(percent.is(':checked')) {
       var result = satuan / 100 * harga_satuan;
@@ -1317,7 +1315,7 @@ function hitungJumlah(that) {
   var satuan = data.find('input[name="satuan[]"]').val();
   var percent = data.find('input[type="checkbox"]');
   var harga_satuan = data.find('input[name="harga_satuan[]"]').val();
-  
+
   if (satuan != null && harga_satuan != null) {
     if(percent.is(':checked')) {
       var result = satuan / 100 * harga_satuan;
@@ -1363,7 +1361,7 @@ function costView(kode, cost) {
     url: '<?= $this->url->get('GrafikOrder/viewCost') ?>',
     dataType:'html',
     data: 'kode='+kode+'&cost='+cost,
-    success: function(response){ 
+    success: function(response){
       $('#viewCost').html(response);
     }
   });
@@ -1375,7 +1373,7 @@ function costCharge(kode) {
     url: '<?= $this->url->get('GrafikOrder/viewCharge') ?>',
     dataType:'html',
     data: 'kode='+kode,
-    success: function(response){ 
+    success: function(response){
       $('#list_charge').html(response);
     }
   });
@@ -1388,7 +1386,7 @@ function detail(kode) {
     type: 'POST',
     url: '<?= $this->url->get('ListOrder/detail/') ?>'+kode,
     dataType:'json',
-    success: function(response){ 
+    success: function(response){
       $.each(response, function(key, value) {
         if (value == '' || value == null) {
           detail.find('#'+key).text('-');

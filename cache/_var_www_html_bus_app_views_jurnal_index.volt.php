@@ -26,54 +26,70 @@ td {
           </div>
         </div>
         <div class="box-body">
-          <div class="table-responsive">
-            <table id="table" class="table table-bordered">
-              <thead class="bg-blue">
-                <tr>
-                  <td align="center" width="30">NO</td>
-                  <td align="center" width="120">ACTION</td>
-                  <td align="center" width="120">TANGGAL</td>
-                  <td align="center" width="80">NO. JURNAL</td>
-                  <td align="center">KETERANGAN</td>
-                  <td align="center" width="100">KANTOR</td>
-                </tr>
-              </thead>
-              <tbody id="list_view">
-                <?php $no = 1; ?>
-                <?php foreach ($jurnal as $x) { ?>
-                <tr>
-                  <td align="center"><?= $no ?></td>
-                  <td align="center">
-                    <button type="button" class="btn btn-warning btn-xs">
-                      <i class="fa fa-bars" data-toggle="tooltip" data-placement="top" title="Detail"></i>
-                    </button>&nbsp;
-                    <button type="button" class="btn btn-primary btn-xs">
-                      <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
-                    </button>&nbsp;
-                    <button type="button" class="btn btn-danger btn-xs">
-                      <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Hapus"></i>
-                    </button>&nbsp;
-                    <button type="button" class="btn btn-default btn-xs">
-                      <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print"></i>
-                    </button>
-                  </td>
-                  <td align="center">
-                    <?= $this->Helpers->dateChange($x->tanggal) ?>
-                  </td>
-                  <td align="center">
-                    <?= $x->kode_jurnal ?>
-                  </td>
-                  <td>
-                    <?= Phalcon\Text::upper($x->keterangan) ?>
-                  </td>
-                  <td align="center">
-                    <?= $x->kantor ?>
-                  </td>
-                </tr>
-                <?php $no = $no + 1; ?>
-                <?php } ?>
-              </tbody>
-            </table>
+          <div class="row">
+            <div class="col-md-3" style="margin-bottom:10px;">
+              <div class="form-group-sm">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control pull-right" id="reservation"><?= $date ?>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table id="table" class="table table-bordered">
+                  <thead class="bg-blue">
+                    <tr>
+                      <td align="center" width="40">NO</td>
+                      <td align="center" width="140">ACTION</td>
+                      <td align="center" width="120">TANGGAL</td>
+                      <td align="center" width="80">NO. JURNAL</td>
+                      <td align="center">KETERANGAN</td>
+                      <td align="center" width="100">KANTOR</td>
+                    </tr>
+                  </thead>
+                  <tbody id="list_view">
+                    <?php $no = 1; ?>
+                    <?php foreach ($jurnal as $x) { ?>
+                    <tr>
+                      <td align="center"><?= $no ?></td>
+                      <td align="center">
+                        <button type="button" class="btn btn-warning btn-xs">
+                          <i class="fa fa-bars" data-toggle="tooltip" data-placement="top" title="Detail"></i>
+                        </button>&nbsp;
+                        <button type="button" class="btn btn-primary btn-xs">
+                          <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
+                        </button>&nbsp;
+                        <button type="button" class="btn btn-danger btn-xs">
+                          <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Hapus"></i>
+                        </button>&nbsp;
+                        <button type="button" class="btn btn-default btn-xs">
+                          <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print"></i>
+                        </button>
+                      </td>
+                      <td align="center">
+                        <?= $this->Helpers->dateChange($x->tanggal) ?>
+                      </td>
+                      <td align="center">
+                        <?= $x->kode_jurnal ?>
+                      </td>
+                      <td>
+                        <?= Phalcon\Text::upper($x->keterangan) ?>
+                      </td>
+                      <td align="center">
+                        <?= $x->kantor ?>
+                      </td>
+                    </tr>
+                    <?php $no = $no + 1; ?>
+                    <?php } ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -189,9 +205,11 @@ td {
 
 <!-- Include JS -->
 <script>
-$("#table").DataTable({
-  ordering: false
-});
+// $("#table").DataTable({
+//   ordering: false,
+//   filter: false,
+//   pagination: false,
+// });
 
 (function() {
 
@@ -215,7 +233,7 @@ $("#table").DataTable({
         list();
       }
     });
- 
+
     e.preventDefault();
   });
 
@@ -298,8 +316,22 @@ $('#tanggal').datetimepicker({
   format: 'YYYY-MM-DD'
 });
 
+$('#reservation').daterangepicker();
+$('#reservation').on('apply.daterangepicker', function(ev, picker) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Jurnal/list') ?>',
+    dataType:'html',
+    data: 'start='+picker.startDate.format('YYYY-MM-DD')+'&end='+picker.endDate.format('YYYY-MM-DD'),
+    success: function(response){
+      $('#list_view').html(response);
+    }
+  });
+});
+
 function clear_form() {
   $('form[name="jurnal"]').find('[name]').val('');
   $('form[name="jurnal"]').attr('action', '<?= $this->url->get('Jurnal/input') ?>');
 }
 </script>
+
