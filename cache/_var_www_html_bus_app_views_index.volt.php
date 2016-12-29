@@ -251,14 +251,34 @@
               <i class="fa fa-circle-o"></i> Jurnal
             </a>
           </li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-paste"></i> <span>Laporan Akuntansi</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
           <li style="cursor: pointer;">
             <a onclick="return load_page('#','#','#')">
-              <i class="fa fa-circle-o"></i> Tutup Buku
+              <i class="fa fa-circle-o"></i> Buku Besar
             </a>
           </li>
           <li style="cursor: pointer;">
             <a onclick="return load_page('#','#','#')">
-              <i class="fa fa-circle-o"></i> Buku Besar
+              <i class="fa fa-circle-o"></i> Laba Rugi
+            </a>
+          </li>
+          <li style="cursor: pointer;">
+            <a onclick="return load_page('#','#','#')">
+              <i class="fa fa-circle-o"></i> Neraca
+            </a>
+          </li>
+          <li style="cursor: pointer;">
+            <a onclick="return load_page('#','#','#')">
+              <i class="fa fa-circle-o"></i> Neraca Detail
             </a>
           </li>
         </ul>

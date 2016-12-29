@@ -1,10 +1,4 @@
 <script>
-// $("#table").DataTable({
-//   ordering: false,
-//   filter: false,
-//   pagination: false,
-// });
-
 (function() {
 
   $('form[data-remote]').on('submit', function(e) {
@@ -25,6 +19,36 @@
         update_page('Jurnal',  'page_jurnal');
         clear_form(response.close);
         list();
+      }
+    });
+
+    e.preventDefault();
+  });
+
+})();
+
+(function() {
+
+  $('form[data-delete]').on('submit', function(e) {
+    var form = $(this);
+    var url = form.prop('action');
+
+    // console.log(action);
+    $.ajax({
+      type: 'POST',
+      url: url,
+      dataType:'json',
+      data: form.serialize(),
+      success: function(response){
+        new PNotify({
+          title: response.title,
+          text: response.text,
+          type: response.type
+        });
+
+        update_page('Jurnal',  'page_jurnal');
+        $('#del'+response.id).fadeOut(700);
+        $('#Deleted').modal('hide');
       }
     });
 
@@ -119,12 +143,133 @@ $('#reservation').on('apply.daterangepicker', function(ev, picker) {
     data: 'start='+picker.startDate.format('YYYY-MM-DD')+'&end='+picker.endDate.format('YYYY-MM-DD'),
     success: function(response){
       $('#list_view').html(response);
+      $('#date_title b').html(picker.startDate.format('DD MMMM YYYY')+' - '+picker.endDate.format('DD MMMM YYYY'));
+      $('#PrintAll').find('#print').attr('href', 'Jurnal/printAll/'+picker.startDate.format('YYYY-MM-DD')+'/'+picker.endDate.format('YYYY-MM-DD'));
     }
   });
 });
 
-function clear_form() {
-  $('form[name="jurnal"]').find('[name]').val('');
-  $('form[name="jurnal"]').attr('action', '<?= $this->url->get('Jurnal/input') ?>');
+function clear_form(id) {
+  $('#Tambah').find('#label_jurnal').text('Input Jurnal');
+  var form = $('form[name="jurnal"]');
+  form.find('[name]').val('');
+  form.attr('action', '<?= $this->url->get('Jurnal/input') ?>');
+  viewJurnal();
+  if (id == 1) {
+    $('#Tambah').modal('hide');
+    $('#TutupBuku').modal('hide');
+  }
+}
+
+function detail(id) {
+  var popup = $('#Detail');
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Jurnal/detail/master') ?>',
+    dataType:'json',
+    data: 'id='+id,
+    success: function(response){
+      $.each(response, function (key, value) {
+        if (key == 'total_debet' || key == 'total_kredit') {
+          popup.find('.'+key).text('Rp. '+toRp(value));
+        } else {
+          popup.find('.'+key).text(value);
+        }
+      });
+
+      var child = detailChild(response.id);
+      var htmlChild = '';
+      var no = 1;
+      $.each(child, function (key, value) {
+        htmlChild += '<tr><td>'+no+'</td>'+
+                     '<td>'+listAccount(value.account)+'</td>'+
+                     '<td>Rp. <span class="pull-right">'+toRp(value.debet)+'</span></td>'+
+                     '<td>Rp. <span class="pull-right">'+toRp(value.kredit)+'</span></td></tr>';
+        no++;
+      });
+      popup.find('#listChildDetail').html(htmlChild);
+    }
+  });
+}
+
+function detailChild(id) {
+  var result = $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Jurnal/detail/child') ?>',
+    dataType:'json',
+    data: 'id='+id,
+    async: false
+  });
+  return result.responseJSON;
+}
+
+function toRp(angka){
+  if (angka == '') {
+    angka = 0;
+  }  
+  var rev     = parseInt(angka, 10).toString().split('').reverse().join('');
+  var rev2    = '';
+  for(var i = 0; i < rev.length; i++){
+      rev2  += rev[i];
+      if((i + 1) % 3 === 0 && i !== (rev.length - 1)){
+          rev2 += '.';
+      }
+  }
+  return rev2.split('').reverse().join('') + ',-';
+}
+
+function listAccount(id) {
+  var json = <?= $this->Prints->listAccount() ?>;
+  $.each(json, function (key, value) {
+    if (id == value.id) {
+      result = value.account;
+    }
+  });
+  return result;
+}
+
+function edit(id) {
+  var modal = $('#Tambah');
+  var form  = modal.find('form[name="jurnal"]');
+  form.attr('action', 'Jurnal/update/'+id);
+  modal.find('#label_jurnal').text('Update Jurnal');
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Jurnal/detail') ?>',
+    dataType:'json',
+    data: 'id='+id,
+    success: function(response){
+      $.each(response, function (key, value) {
+        form.find('[name="'+key+'"]').val(value);
+      });
+      viewJurnal(id);
+    }
+  });
+}
+
+function viewJurnal(id) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('Jurnal/viewJurnal') ?>',
+    dataType:'html',
+    data: 'id='+id,
+    success: function(response){
+      $('#jurnal_child').html(response);
+    }
+  });
+}
+
+function deleted_jurnal(id, kode) {
+  $('form[name="deleted"]').attr('action', 'Jurnal/deleted/'+id);
+  $('#Deleted').find('#label_deleted').text('Deleted '+kode);
+}
+
+$('[data-jurnal]').datetimepicker({
+  viewMode: 'months',
+  format: 'YYYY-MM'
+});
+
+function clearTutupBuku() {
+  $('form[name="tutupBuku"]').find('input[name="tutup_bulan"]').val('');
 }
 </script>

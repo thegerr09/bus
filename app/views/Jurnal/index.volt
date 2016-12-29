@@ -19,7 +19,7 @@ td {
       <div class="box box-primary">
         <div class="box-header with-border">
           <h3 class="box-title">List Jurnal</h3>
-          <div class="box-tools pull-right" style="margin-top:2px;">
+          <div class="box-tools pull-right">
             <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#Tambah" onclick="clear_form()">
               <i class="fa fa-plus-circle"></i> Tambah
             </button>
@@ -27,14 +27,28 @@ td {
         </div>
         <div class="box-body">
           <div class="row">
+            <div class="col-md-3" style="margin-bottom:0px;">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#TutupBuku">
+                <i class="fa fa-book"></i> Tutup Buku
+              </button>
+              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#PrintAll">
+                <i class="fa fa-print"></i> Print
+              </button>
+            </div>
+            <div class="col-md-6" align="center">
+              <p id="date_title">
+                <b>{{ date('01 F Y') }} - {{ date('d F Y') }}</b><br>
+                <!-- <small class="text-danger">Jurnal dari range di atas ada yang belum di tutup buku</small> -->
+              </p>
+            </div>
             <div class="col-md-3" style="margin-bottom:10px;">
-              <div class="form-group-sm">
+              <div class="form-group">
                 <div class="form-group">
                   <div class="input-group">
                     <div class="input-group-addon">
                       <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" class="form-control pull-right" id="reservation">{{ date }}
+                    <input type="text" value="{{ date('m/01/Y') }} - {{ date('m/d/Y') }}" class="form-control pull-right" id="reservation">
                   </div>
                 </div>
               </div>
@@ -55,21 +69,21 @@ td {
                   <tbody id="list_view">
                     {% set no = 1 %}
                     {% for x in jurnal %}
-                    <tr>
+                    <tr id="del{{ x.id }}">
                       <td align="center">{{ no }}</td>
                       <td align="center">
-                        <button type="button" class="btn btn-warning btn-xs">
+                        <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#Detail" onclick="detail({{ x.id }})">
                           <i class="fa fa-bars" data-toggle="tooltip" data-placement="top" title="Detail"></i>
                         </button>&nbsp;
-                        <button type="button" class="btn btn-primary btn-xs">
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick="edit({{ x.id }})">
                           <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
                         </button>&nbsp;
-                        <button type="button" class="btn btn-danger btn-xs">
+                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#Deleted" onclick="deleted_jurnal('{{ x.id }}', '{{ x.kode_jurnal }}')">
                           <i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Hapus"></i>
                         </button>&nbsp;
-                        <button type="button" class="btn btn-default btn-xs">
+                        <a href="Jurnal/printOne/{{ x.id }}" class="btn btn-default btn-xs" target="_blank">
                           <i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Print"></i>
-                        </button>
+                        </a>
                       </td>
                       <td align="center">
                         {{ Helpers.dateChange(x.tanggal) }}
@@ -100,6 +114,9 @@ td {
 
 <!-- Include popup -->
 {% include "Jurnal/input_edit.volt" %}
+{% include "Jurnal/deleted.volt" %}
+{% include "Jurnal/detail.volt" %}
+{% include "Jurnal/TutupBuku.volt" %}
 
 <!-- Include JS -->
 {% include "Jurnal/js.volt" %}

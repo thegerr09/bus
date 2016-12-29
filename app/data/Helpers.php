@@ -10,7 +10,7 @@ class Helpers
 		return date("d F Y", strtotime($date));
 	}
 
-	public function number($number)
+	public static function number($number)
 	{
 		if (!empty($number)) {
 			return number_format($number, 0, '.', '.');
@@ -146,12 +146,16 @@ class Helpers
         return $tag;
    	}
 
-	public static function tagAccount()
+	public static function tagAccount($selected = null)
 	{
    		$header = Account::find(["conditions" => "deleted = 'N'"]);
 		$tag 	= '<option value="">Pilih account</option>';
    		foreach ($header as $key => $value) {
-			$tag .= '<option value="' . $value->id . '">' . $value->account . '</option>';
+   			if ($selected == $value->id) {
+				$tag .= '<option value="' . $value->id . '" selected>' . $value->account . '</option>';
+   			}else{
+				$tag .= '<option value="' . $value->id . '">' . $value->account . '</option>';
+   			}
    		}
         return $tag;
 	}

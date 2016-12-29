@@ -26,71 +26,7 @@
             <label>Keterangan</label>
             <textarea class="form-control" name="keterangan" placeholder="Keterangan Jurnal ..."></textarea>
           </div>
-          <table>
-            <tbody id="parent_jurnal">
-              <tr>
-                <td width="50%" height="40">
-                  <select class="form-control" name="account[]">
-                    {{ Helpers.tagAccount() }}
-                  </select>
-                </td>
-                <td width="1%"></td>
-                <td width="21%">
-                  <input type="text" name="debet[]" class="form-control" data-debetKredit placeholder="Debet" onkeyup="hitung_debet();" onkeypress="isNumberKey_debet(event)">
-                </td>
-                <td width="1%"></td>
-                <td width="21%">
-                  <input type="text" name="kredit[]" class="form-control" data-debetKredit placeholder="Kredit" onkeyup="hitung_kredit();" onkeypress="isNumberKey_kredit(event)">
-                </td>
-                <td width="1%"></td>
-                <td width="5%" align="right">
-                  <button type="button" class="btn btn-danger btn-sm btn-flat" onclick="removerTrChild(this)">
-                    <i class="fa fa-remove" data-toggle="tooltip" data-placement="top" title="Remove"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-            <tbody id="child_jurnal">
-              <tr>
-                <td width="50%" height="40">
-                  <select class="form-control" name="account[]">
-                    {{ Helpers.tagAccount() }}
-                  </select>
-                </td>
-                <td width="1%"></td>
-                <td width="21%">
-                  <input type="text" name="debet[]" class="form-control" data-debetKredit placeholder="Debet" onkeyup="hitung_debet();" onkeypress="isNumberKey_debet(event)">
-                </td>
-                <td width="1%"></td>
-                <td width="21%">
-                  <input type="text" name="kredit[]" class="form-control" data-debetKredit placeholder="Kredit" onkeyup="hitung_kredit();" onkeypress="isNumberKey_kredit(event)">
-                </td>
-                <td width="1%"></td>
-                <td width="5%" align="right">
-                  <button type="button" class="btn btn-danger btn-sm btn-flat" onclick="removerTrChild(this)">
-                    <i class="fa fa-remove" data-toggle="tooltip" data-placement="top" title="Remove"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-            <tr>
-              <td width="50%" height="40">
-                <button type="button" class="btn btn-success btn-sm btn-flat" id="tambah_jurnal">
-                  <i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Tambah"></i> Tambah
-                </button>
-              </td>
-              <td width="1%"></td>
-              <td width="21%">
-                <input type="text" name="total_debet" data-debetKredit class="form-control" placeholder="Total Debet">
-              </td>
-              <td width="1%"></td>
-              <td width="21%">
-                <input type="text" name="total_kredit" data-debetKredit class="form-control" placeholder="Total Kredit">
-              </td>
-              <td width="1%"></td>
-              <td width="5%" align="right"></td>
-            </tr>
-          </table>
+          <table id="jurnal_child"></table>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>

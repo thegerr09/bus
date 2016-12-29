@@ -10,6 +10,9 @@
   <?= $this->tag->stylesheetLink('plugins/font-awesome/css/font-awesome.min.css') ?>
   <?= $this->tag->stylesheetLink('css/AdminLTE.min.css') ?>
   <?= $this->tag->stylesheetLink('plugins/iCheck/square/blue.css') ?>
+  
+  <!-- favicon -->
+  <?= $this->tag->stylesheetLink(['rel' => 'icon', 'href' => 'img/bus.png', 'type' => 'image/x-icon']) ?>
 </head>
 
 <body class="hold-transition login-page">

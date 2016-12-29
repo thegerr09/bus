@@ -10,6 +10,9 @@
   {{ stylesheet_link('plugins/font-awesome/css/font-awesome.min.css') }}
   {{ stylesheet_link('css/AdminLTE.min.css') }}
   {{ stylesheet_link('plugins/iCheck/square/blue.css') }}
+  
+  <!-- favicon -->
+  {{ stylesheet_link(["rel":"icon", "href":"img/bus.png", "type":"image/x-icon"]) }}
 </head>
 
 <body class="hold-transition login-page">

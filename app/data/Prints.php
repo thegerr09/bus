@@ -70,4 +70,15 @@ class Prints
 		return $cost;
 	}
 
+	public static function account($id)
+	{
+		$result = Account::findFirst($id);
+		return $result;
+	}
+
+	public static function listAccount()
+	{
+		$result = Account::find(["conditions" => "deleted = 'N'"]);
+		return json_encode($result);
+	}
 }
