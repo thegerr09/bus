@@ -21,6 +21,13 @@ class JurnalChild extends \Phalcon\Mvc\Model
 
     /**
      *
+     * @var string
+     * @Column(type="string", nullable=false)
+     */
+    public $tanggal;
+
+    /**
+     *
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
@@ -41,6 +48,14 @@ class JurnalChild extends \Phalcon\Mvc\Model
     public $kredit;
 
     /**
+     * Initialize method for model.
+     */
+    public function initialize()
+    {
+        $this->setSchema("galatama");
+    }
+
+    /**
      * Returns table name mapped in the model.
      *
      * @return string
@@ -54,7 +69,7 @@ class JurnalChild extends \Phalcon\Mvc\Model
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return JurnalChild[]
+     * @return JurnalChild[]|JurnalChild
      */
     public static function find($parameters = null)
     {

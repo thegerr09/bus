@@ -125,7 +125,7 @@
         </a>
         <ul class="treeview-menu">
           <li style="cursor: pointer;">
-            <a onclick="return load_page('#','#','#')">
+            <a onclick="return load_page('page_buku_besar','Laporan/BukuBesar','page_buku_besar')">
               <i class="fa fa-circle-o"></i> Buku Besar
             </a>
           </li>

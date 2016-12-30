@@ -68,23 +68,6 @@ function list() {
   });
 }
 
-var no = 1;
-$("#tambah_jurnal").click(function(){
-  var charge = $('#parent_jurnal').html();
-  $("#child_jurnal").append(charge);
-});
-
-function removerTrChild(that) {
-	var data = $(that).parent().parent();
-	var id   = data.parent().attr('id');
-
-	if (id == 'parent_jurnal') {
-		return false;
-	} else {
-		data.remove();
-	}
-}
-
 $("[data-debetKredit]").inputmask({mask: "9999999999", placeholder: "",});
 
 function hitung_debet() {

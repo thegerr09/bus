@@ -15,6 +15,13 @@ class TutupBuku extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
+     * @Column(type="string", length=12, nullable=false)
+     */
+    public $id_jurnal;
+
+    /**
+     *
+     * @var string
      * @Column(type="string", nullable=false)
      */
     public $tanggal;

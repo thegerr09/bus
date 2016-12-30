@@ -134,3 +134,21 @@
   <td width="5%" align="right"></td>
 </tr>
 {% endif %}
+<script>
+var no = 1;
+$("#tambah_jurnal").click(function(){
+  var charge = $('#parent_jurnal').html();
+  $("#child_jurnal").append(charge);
+});
+
+function removerTrChild(that) {
+  var data = $(that).parent().parent();
+  var id   = data.parent().attr('id');
+
+  if (id == 'parent_jurnal') {
+    return false;
+  } else {
+    data.remove();
+  }
+}
+</script>

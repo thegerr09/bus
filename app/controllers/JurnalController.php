@@ -70,7 +70,8 @@ class JurnalController extends \Phalcon\Mvc\Controller
 
     		for ($i = 0; $i < count($post['debet']); $i++) {
 	    		$jurnal_child = [
-	    			'id_jurnal' => $get_parent->id,
+                    'id_jurnal' => $get_parent->id,
+	    			'tanggal' => $post['tanggal'],
 	    			'account' => $post['account'][$i],
 	    			'debet' => $post['debet'][$i],
 	    			'kredit' => $post['kredit'][$i]
@@ -148,6 +149,7 @@ class JurnalController extends \Phalcon\Mvc\Controller
             for ($i = 0; $i < count($post['debet']); $i++) {
                 $jurnal_child = [
                     'id_jurnal' => $id_jurnal,
+                    'tanggal'   => $post['tanggal'],
                     'account'   => $post['account'][$i],
                     'debet'     => $post['debet'][$i],
                     'kredit'    => $post['kredit'][$i]
@@ -280,6 +282,7 @@ class JurnalController extends \Phalcon\Mvc\Controller
         foreach ($jurnal as $key => $value) {
             $tutup_buku = new TutupBuku();
             $jurnal_parent = [
+                'id_jurnal'    => $value->id,
                 'tanggal'      => $value->tanggal,
                 'kode_jurnal'  => $value->kode_jurnal,
                 'keterangan'   => $value->keterangan,

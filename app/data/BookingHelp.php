@@ -103,6 +103,7 @@ class BookingHelp
             for ($i=0; $i < 2 ; $i++) { 
                 $child = [
                     'id_jurnal' => $get_parent->id,
+                    'tanggal' => date('Y-m-d'),
                     'account' => $child_data['account'][$i],
                     'debet' => $child_data['debet'][$i],
                     'kredit' => $child_data['kredit'][$i]
@@ -117,6 +118,12 @@ class BookingHelp
         }
     }
 
+    /**
+     * [jurnalBayarPelunasan description]
+     * @param  [type] $pelunasan [description]
+     * @param  [type] $kode      [description]
+     * @return [type]            [description]
+     */
     public static function jurnalBayarPelunasan($pelunasan, $kode)
     {
         $parent = [
@@ -142,6 +149,7 @@ class BookingHelp
             for ($i=0; $i < 2 ; $i++) { 
                 $child = [
                     'id_jurnal' => $get_parent->id,
+                    'tanggal' => date('Y-m-d'),
                     'account' => $child_data['account'][$i],
                     'debet' => $child_data['debet'][$i],
                     'kredit' => $child_data['kredit'][$i]
