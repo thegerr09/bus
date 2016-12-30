@@ -20,7 +20,7 @@
             <div class="input-group-addon">
               <i class="fa fa-calendar"></i>
             </div>
-            <input type="text" name="tanggal" class="form-control" placeholder="Tanggal" data-jurnal>
+            <input type="text" name="tanggal" value="<?= date('Y-m-01') ?> - <?= date('Y-m-d') ?>" class="form-control" placeholder="Tanggal" data-jurnal>
           </div>
         </div>
         <div class="form-group">
@@ -40,5 +40,9 @@
   </div>
 </section>
 <script>
-$('[data-jurnal]').daterangepicker();
+$('[data-jurnal]').daterangepicker({
+  locale: {
+    format: 'YYYY-MM-DD'
+  }
+});
 </script>

@@ -14,10 +14,17 @@ class LaporanController extends \Phalcon\Mvc\Controller
     public function CetakBukuBesarAction()
     {
     	$post = $this->request->getPost();
-        // echo '<pre>'.print_r($post,1).'</pre>';
-        // die();
-        $this->view->bukuBesar   = TutupBuku::find(["conditions" => "tanggal LIKE '%$post[tanggal]%'"]);
-        $this->view->jurnalChild = JurnalChild::find(["conditions" => "account = '$post[account]' AND tanggal LIKE '%$post[tanggal]%'"]);
+        $date = explode(' - ', $post['tanggal']);
+        $this->view->bukuBesar   = TutupBuku::find(["conditions" => "tanggal BETWEEN :start_date: AND :end_date:",
+    			"bind" => [
+    				"start_date" => $date[0],
+    				"end_date"   => $date[1]
+    			]]);
+        $this->view->jurnalChild = JurnalChild::find(["conditions" => "account = '$post[account]' AND tanggal BETWEEN :start_date: AND :end_date:",
+    			"bind" => [
+    				"start_date" => $date[0],
+    				"end_date"   => $date[1]
+    			]]);
         $this->view->pick("Laporan/CetakBukuBesar");
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
