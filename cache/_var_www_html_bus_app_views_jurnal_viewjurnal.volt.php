@@ -79,7 +79,7 @@
     </td>
     <td width="1%"></td>
     <td width="21%">
-      <input type="text" name="debet[]" class="form-control" data-debetKredit placeholder="Debet" onkeyup="hitung_debet();" onkeypress="isNumberKey_debet(event)" value="tambah">
+      <input type="text" name="debet[]" class="form-control" data-debetKredit placeholder="Debet" onkeyup="hitung_debet();" onkeypress="isNumberKey_debet(event)">
     </td>
     <td width="1%"></td>
     <td width="21%">

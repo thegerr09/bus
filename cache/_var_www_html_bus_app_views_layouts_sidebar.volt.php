@@ -105,8 +105,13 @@
         </a>
         <ul class="treeview-menu">
           <li style="cursor: pointer;">
-            <a onclick="return load_page('page_header_account','HeaderAccount','page_header_account')">
-              <i class="fa fa-circle-o"></i> Header & Account
+            <a onclick="return load_page('page_header','HeaderAccount/view/header','page_header')">
+              <i class="fa fa-circle-o"></i> Header
+            </a>
+          </li>
+          <li style="cursor: pointer;">
+            <a onclick="return load_page('page_account','HeaderAccount/view/account','page_account')">
+              <i class="fa fa-circle-o"></i> Account
             </a>
           </li>
           <li style="cursor: pointer;">
@@ -130,7 +135,7 @@
             </a>
           </li>
           <li style="cursor: pointer;">
-            <a onclick="return load_page('#','#','#')">
+            <a onclick="return load_page('page_laba_rugi','Laporan/LabaRugi','page_laba_rugi')">
               <i class="fa fa-circle-o"></i> Laba Rugi
             </a>
           </li>

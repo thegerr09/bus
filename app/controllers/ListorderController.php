@@ -36,6 +36,9 @@ class ListorderController extends \Phalcon\Mvc\Controller
         $booking->assign($post);
  
         if ($booking->save()) {
+            BookingHelp::biayaCost($post['kode'], $post['name_cost'], $post['satuan'], $post['persen'], $post['harga_satuan'], $post['jumlah']);
+            BookingHelp::extraCharge($post['kode'], $post['name_charge'], $post['biaya_charge']);
+            BookingHelp::jurnalBayarPelunasan($post['pelunasan'], $post['kode']);
             $post['success'] = 'Y';
             $post['invoice'] = 'Y';
             $invoice = new Booking();

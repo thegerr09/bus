@@ -83,12 +83,13 @@ class BookingHelp
         $parent = [
             'tanggal' => date('Y-m-d'),
             'kode_jurnal' => Helpers::kodeJurnal(),
-            'keterangan' => 'DP BOOKING KODE ' . $kode . ' ' . date('d F Y'),
+            'keterangan' => 'DP BOOKING KODE ' . $kode,
             'kantor' => 'GALATAMA 1',
             'total_debet' => $dp,
             'total_kredit' => $dp
         ];
-
+        $remove = Jurnal::find(["conditions" => "keterangan = 'DP BOOKING KODE $kode'"]);
+        $remove->delete();
         $jurnal = new Jurnal();
         $jurnal->assign($parent);
 
@@ -97,8 +98,54 @@ class BookingHelp
             $child_data = [
                 'debet'   => [$dp, ''],
                 'kredit'  => ['', $dp],
-                'account' => [4, 1]
+                'account' => [5, 1]
             ];
+
+            for ($i=0; $i < 2 ; $i++) { 
+                $child = [
+                    'id_jurnal' => $get_parent->id,
+                    'tanggal' => date('Y-m-d'),
+                    'account' => $child_data['account'][$i],
+                    'debet' => $child_data['debet'][$i],
+                    'kredit' => $child_data['kredit'][$i]
+                ];
+
+                $jurnal_child = new JurnalChild();
+                $jurnal_child->assign($child);
+                if (!$jurnal_child->save()) {
+                    $get_parent->delete();
+                }
+            }
+        }
+    }
+
+    /**
+     * [jurnalBayarDp description]
+     * @param  [type] $dp   [description]
+     * @param  [type] $kode [description]
+     * @return [type]       [description]
+     */
+    public static function jurnalBayarDpChange($dp, $kode)
+    {
+        $parent = [
+            'tanggal' => date('Y-m-d'),
+            'kantor' => 'GALATAMA 1',
+            'total_debet' => $dp,
+            'total_kredit' => $dp
+        ];
+        $jurnal = Jurnal::findFirst(["conditions" => "keterangan = 'DP BOOKING KODE $kode'"]);
+        $jurnal->assign($parent);
+
+        if ($jurnal->save()) {
+            $get_parent = Jurnal::findFirst(["conditions" => "keterangan = 'DP BOOKING KODE $kode'"]);
+            $child_data = [
+                'debet'   => [$dp, ''],
+                'kredit'  => ['', $dp],
+                'account' => [5, 1]
+            ];
+
+            $remove = JurnalChild::find(["conditions" => "id_jurnal = '$get_parent->id'"]);
+            $remove->delete();
 
             for ($i=0; $i < 2 ; $i++) { 
                 $child = [
@@ -129,7 +176,7 @@ class BookingHelp
         $parent = [
             'tanggal' => date('Y-m-d'),
             'kode_jurnal' => Helpers::kodeJurnal(),
-            'keterangan' => 'PELUNASAN BOOKING KODE ' . $kode . ' ' . date('d F Y'),
+            'keterangan' => 'PELUNASAN BOOKING KODE ' . $kode,
             'kantor' => 'GALATAMA 1',
             'total_debet' => $pelunasan,
             'total_kredit' => $pelunasan
@@ -143,7 +190,7 @@ class BookingHelp
             $child_data = [
                 'debet'   => [$pelunasan, ''],
                 'kredit'  => ['', $pelunasan],
-                'account' => [4, 2]
+                'account' => [5, 2]
             ];
 
             for ($i=0; $i < 2 ; $i++) { 

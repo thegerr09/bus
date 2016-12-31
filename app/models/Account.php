@@ -38,7 +38,22 @@ class Account extends \Phalcon\Mvc\Model
      * @var string
      * @Column(type="string", nullable=false)
      */
+    public $tipe;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", nullable=false)
+     */
     public $deleted;
+
+    /**
+     * Initialize method for model.
+     */
+    public function initialize()
+    {
+        $this->setSchema("galatama");
+    }
 
     /**
      * Returns table name mapped in the model.
@@ -54,7 +69,7 @@ class Account extends \Phalcon\Mvc\Model
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Account[]
+     * @return Account[]|Account
      */
     public static function find($parameters = null)
     {

@@ -1,8 +1,7 @@
 <script>
 $(function () {
 	$("#header").DataTable({
-		dom: '<"pull-left"f><"pull-right"s>tp',
-	    ordering: false
+		ordering: false
 	});
 	$("#account").DataTable({
 	    ordering: false
@@ -26,7 +25,8 @@ $(function () {
           text: response.text,
           type: response.type
         });
-        update_page('HeaderAccount', 'page_header_account');
+        update_page('HeaderAccount/view/header', 'page_header');
+        update_page('HeaderAccount/view/account', 'page_account');
         update_page('Jurnal', 'page_jurnal');
         clear_form();
         $('#Tambah'+response.close).modal('hide');
@@ -59,7 +59,8 @@ $(function () {
         });
         $('#Delete'+response.check).modal('hide');
         $('#del'+response.check+response.id).fadeOut(700);
-        update_page('HeaderAccount', 'page_header_account');
+        update_page('HeaderAccount/view/header', 'page_header');
+        update_page('HeaderAccount/view/account', 'page_account');
         update_page('Jurnal', 'page_jurnal');
       }
     });
@@ -79,21 +80,23 @@ function deleted(id, val, check) {
   }
 }
 
-function update(id, header, jenis, check, name_header) {
-  if (check == 'header') {
-    $('#label_header').val('Update Header');
-    $('form[name="header"]').attr('action', '<?= $this->url->get('HeaderAccount/update/header') ?>');
-    $('input[name="id"]').val(id);
-    $('input[name="header"]').val(header);
-    $('select[name="jenis"]').val(jenis);
-  } else if (check == 'account') {
-    $('#label_header').val('Update Account');
-    $('form[name="account"]').attr('action', '<?= $this->url->get('HeaderAccount/update/account') ?>');
-    $('form[name="account"]').find('input[name="id"]').val(id);
-    $('input[name="account"]').val(header);
-    $('select[name="id_header"]').val(jenis);
-    $('input[name="name_header"]').val(name_header);
-  }
+function update_header(id, header, group, jenis) {
+  $('#label_header').val('Update Header');
+  $('form[name="header"]').attr('action', '<?= $this->url->get('HeaderAccount/update/header') ?>');
+  $('input[name="id"]').val(id);
+  $('input[name="header"]').val(header);
+  $('select[name="group"]').val(group);
+  $('select[name="jenis"]').val(jenis);
+}
+
+function update_account(id, account, id_header, header, tipe) {
+  $('#label_header').val('Update Account');
+  $('form[name="account"]').attr('action', '<?= $this->url->get('HeaderAccount/update/account') ?>');
+  $('form[name="account"]').find('input[name="id"]').val(id);
+  $('input[name="account"]').val(account);
+  $('select[name="id_header"]').val(id_header);
+  $('input[name="name_header"]').val(header);
+  $('select[name="tipe"]').val(tipe);
 }
 
 function list(check) {

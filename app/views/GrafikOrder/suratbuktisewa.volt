@@ -223,5 +223,8 @@
         </ul>
       </div>
     </main>
+  <script>
+    setTimeout(window.close, 0);
+  </script>
   </body>
 </html>

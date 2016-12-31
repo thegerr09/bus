@@ -11,6 +11,7 @@
     </button>
   </td>
   <td><?= $h->header ?></td>
+  <td><?= $h->group ?></td>
   <td><?= $h->jenis ?></td>
 </tr>
 <?php $no = $no + 1; ?>

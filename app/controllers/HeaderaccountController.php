@@ -5,12 +5,17 @@ use Phalcon\Mvc\View;
 class HeaderAccountController extends \Phalcon\Mvc\Controller
 {
 
-    public function indexAction()
+    public function viewAction($check)
     {
-    	$this->view->header  = Header::find(["conditions" => "deleted = 'N'"]);
-    	$this->view->account = Account::find(["conditions" => "deleted = 'N'"]);
-        $this->view->pick("HeaderAccount/index");
-        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    	if ($check === 'header') {
+	    	$this->view->header  = Header::find(["conditions" => "deleted = 'N'"]);
+	        $this->view->pick("HeaderAccount/viewHeader");
+	        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    	} else if ($check === 'account') {
+	    	$this->view->account = Account::find(["conditions" => "deleted = 'N'"]);
+	        $this->view->pick("HeaderAccount/viewAccount");
+	        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    	}
     }
 
     public function listAction($check)

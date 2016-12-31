@@ -22,6 +22,14 @@
             </select>
             <input type="hidden" name="name_header">
           </div>
+          <div class="form-group">
+            <label>Tipe Account</label>
+            <select name="tipe" class="form-control">
+              <option value="">Pilih Tipe</option>
+              <option value="debet">Debet</option>
+              <option value="kredit">Kredit</option>
+            </select>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>

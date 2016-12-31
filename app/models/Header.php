@@ -22,7 +22,14 @@ class Header extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
-     * @Column(type="string", nullable=true)
+     * @Column(type="string", length=255, nullable=false)
+     */
+    public $group;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", nullable=false)
      */
     public $jenis;
 
@@ -32,6 +39,14 @@ class Header extends \Phalcon\Mvc\Model
      * @Column(type="string", nullable=false)
      */
     public $deleted;
+
+    /**
+     * Initialize method for model.
+     */
+    public function initialize()
+    {
+        $this->setSchema("galatama");
+    }
 
     /**
      * Returns table name mapped in the model.
@@ -47,7 +62,7 @@ class Header extends \Phalcon\Mvc\Model
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Header[]
+     * @return Header[]|Header
      */
     public static function find($parameters = null)
     {

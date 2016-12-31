@@ -18,8 +18,7 @@
           <div class="form-group">
             <label>Kantor</label>
             <select name="kantor" class="form-control">
-              <option value="">Pilih Kantor</option>
-              <option value="GALATAMA 1" selected="true">Galatama 1</option>
+              {{ Helpers.tagSetting('kantor', 'Pilih Kantor', '') }}
             </select>
           </div>
           <div class="form-group">

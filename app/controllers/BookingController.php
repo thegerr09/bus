@@ -71,11 +71,11 @@ class BookingController extends \Phalcon\Mvc\Controller
         }
 
         $booking = Booking::findFirst($id);
-
+        $kode = $booking->kode;
         $booking->assign($post);
         if ($booking->save()) {
             if (isset($post['dp'])) {
-                BookingHelp::jurnalBayarDp($post['dp'], $post['kode']);
+                BookingHelp::jurnalBayarDpChange($post['dp'], $kode);
             }
             $notify = [
                 'title' => 'Success',

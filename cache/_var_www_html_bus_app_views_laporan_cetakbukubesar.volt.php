@@ -40,9 +40,9 @@
     </table>
     <table style="border-collapse: collapse;" width="100%" id="table" cellpadding="5">
       <tr>
-        <td height="18" width="30" align="center">NO.</td>
-        <td align="center">Tanggal</td>
-        <td align="center">No. Jurnal</td>
+        <td height="18" width="25" align="center">NO.</td>
+        <td align="center" width="70">Tanggal</td>
+        <td align="center" width="75">No. Jurnal</td>
         <td align="center">Keterangan</td>
         <td align="center" width="90">Debet</td>
         <td align="center" width="90">Kredit</td>
@@ -55,8 +55,8 @@
           <?php if ($x->id_jurnal == $j->id_jurnal) { ?>
           <tr>
             <td height="18" align="center"><?= $no ?></td>
-            <td><?= $x->tanggal ?></td>
-            <td><?= $x->kode_jurnal ?></td>
+            <td align="center"><?= $x->tanggal ?></td>
+            <td align="center"><?= $x->kode_jurnal ?></td>
             <td><?= $x->keterangan ?></td>
               <td>Rp.<span style="float:right;"><?= $this->Helpers->number($j->debet) ?> ,-</span></td>
               <td>Rp.<span style="float:right;"><?= $this->Helpers->number($j->kredit) ?> ,-</span></td>
@@ -75,5 +75,8 @@
     </table>
   </div>
 
+  <script>
+    setTimeout(window.close, 0);
+  </script>
 </body>
 </html>

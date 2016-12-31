@@ -43,7 +43,7 @@
                     <?php if ($x->success == 'Y' || $x->batal == 'Y') { ?> disabled <?php } ?>>
                       <i class="fa fa-list" data-toggle="tooltip" data-placement="top" title="Detail"></i>
                     </button>&nbsp;
-                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick="edit(<?= $x->id ?>)"
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick=" clear_form(); edit(<?= $x->id ?>);"
                     <?php if ($x->success == 'Y' || $x->batal == 'Y') { ?> disabled <?php } ?>>
                       <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
                     </button>&nbsp;
@@ -134,11 +134,11 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="input-group" >
+                <div class="input-group">
                   <span class="input-group-addon">
                     <i class="fa fa-user"></i>
                   </span>
-                  <input type="text" name="nama" class="form-control" placeholder="Nama"> 
+                  <input type="text" name="nama" class="form-control" placeholder="Nama">
                 </div>
               </div>
               <div class="form-group">
@@ -146,7 +146,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-phone"></i>
                   </span>
-                  <input type="text" name="telpon" data-telp class="form-control" placeholder="Nomor Telpon"> 
+                  <input type="text" name="telpon" data-telp class="form-control" placeholder="Nomor Telpon">
                 </div>
               </div>
               <div class="form-group">
@@ -154,7 +154,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </span>
-                  <input type="text" name="tanggal_mulai" id="tanggal_start" class="form-control" placeholder="Tanggal Mulai"> 
+                  <input type="text" name="tanggal_mulai" id="tanggal_start" class="form-control" placeholder="Tanggal Mulai">
                 </div>
               </div>
               <div class="form-group">
@@ -162,7 +162,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </span>
-                  <input type="text" name="tanggal_kembali" id="tanggal_back" class="form-control" placeholder="Tanggal Kembali"> 
+                  <input type="text" name="tanggal_kembali" id="tanggal_back" class="form-control" placeholder="Tanggal Kembali">
                 </div>
               </div>
               <div class="form-group">
@@ -170,7 +170,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-money"></i>
                   </span>
-                  <input type="text" name="tarif" data-tarif class="form-control" placeholder="Tarif"> 
+                  <input type="text" name="tarif" data-tarif class="form-control" placeholder="Tarif">
                 </div>
               </div>
               <div class="form-group">
@@ -178,7 +178,15 @@
                   <span class="input-group-addon">
                     <i class="fa fa-money"></i>
                   </span>
-                  <input type="text" name="dp" data-dp class="form-control" placeholder="DP / Uang Muka"> 
+                  <input type="text" name="dp" data-dp class="form-control" placeholder="DP / Uang Muka">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group" >
+                  <span class="input-group-addon">
+                    <i class="fa fa-money"></i>
+                  </span>
+                  <input type="text" name="pelunasan" data-modalDriver class="form-control" placeholder="Pelunasan">
                 </div>
               </div>
               <div class="form-group">
@@ -189,36 +197,6 @@
                   <select name="metode_pembayaran" class="form-control">
                     <?= $this->Helpers->tagSetting('pembayaran', 'Methode Pembayaran', '') ?>
                   </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="input-group" >
-                  <span class="input-group-addon">
-                    <i class="fa fa-user"></i>
-                  </span>
-                  <select name="driver" class="form-control">
-                    <option value="">Pilih Driver</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="input-group" >
-                  <span class="input-group-addon">
-                    <i class="fa fa-user"></i>
-                  </span>
-                  <select name="co_driver" class="form-control">
-                    <option value="">Pilih Co. Driver</option>
-                  </select>
-                </div>
-              </div>
-              <div class="collapse" id="modal_driver">
-                <div class="form-group">
-                  <div class="input-group" >
-                    <span class="input-group-addon">
-                      <i class="fa fa-money"></i>
-                    </span>
-                    <input type="text" name="modal" data-modalDriver class="form-control" placeholder="Modal Driver">
-                  </div>
                 </div>
               </div>
             </div>
@@ -236,7 +214,7 @@
                 </div>
               </div>
 
-              <div class="collapse in" id="regular">
+              <div class="collapse" id="regular">
                 <div class="form-group">
                   <div class="input-group" >
                     <span class="input-group-addon">
@@ -262,7 +240,7 @@
                     <span class="input-group-addon">
                       <i class="fa fa-map-marker"></i>
                     </span>
-                    <select name="lokasi" class="form-control" onchange="lokasii()">
+                    <select name="lokasi" class="form-control">
                       <option value="">Pilih Lokasi</option>
                     </select>
                   </div>
@@ -275,7 +253,7 @@
                     <span class="input-group-addon">
                       <i class="fa fa-map-marker"></i>
                     </span>
-                    <select name="route_jiarah" class="form-control" onclick="lokasii()">
+                    <select name="route_jiarah" class="form-control">
                       <option value="">Pilih Route Jiarah</option>
                     </select>
                   </div>
@@ -287,7 +265,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-map-pin"></i>
                   </span>
-                  <input type="text" name="lokasi_jemput" class="form-control" placeholder="Lokasi Penjemputan"> 
+                  <input type="text" name="lokasi_jemput" class="form-control" placeholder="Lokasi Penjemputan">
                 </div>
               </div>
               <div class="form-group">
@@ -295,7 +273,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-road"></i>
                   </span>
-                  <input type="number" name="jarak_jemput" class="form-control" placeholder="Jarak Penjemputan"> 
+                  <input type="number" name="jarak_jemput" class="form-control" placeholder="Jarak Penjemputan">
                 </div>
               </div>
               <div class="form-group">
@@ -324,28 +302,155 @@
                     <i class="fa fa-book"></i>
                   </span>
                   <select name="type_booking" class="form-control" onchange="get_harga(this)">
-                    <option value="">Booking Dari</option>
                     <?= $this->Helpers->tagSetting('Booking', 'Booking Dari', '') ?>
                   </select>
                 </div>
               </div>
               <div class="form-group">
-                <table width="100%">
+                <div class="input-group" >
+                  <span class="input-group-addon">
+                    <i class="fa fa-user"></i>
+                  </span>
+                  <select name="driver" class="form-control">
+                    <option value="">Pilih Driver</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group" >
+                  <span class="input-group-addon">
+                    <i class="fa fa-user"></i>
+                  </span>
+                  <select name="co_driver" class="form-control">
+                    <option value="">Pilih Co. Driver</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div id="cost">
+              <span style="padding-left: 14px; font-size: 18px;">BIAYA COST PENGELUARAN</span>
+              <hr style="padding-bottom:10px;">
+
+              <div class="col-md-12 col-xs-12" id="viewCost"></div>
+            </div>
+
+            <div id="biaya_tambahan">
+              <span style="padding-left: 14px; font-size: 18px;">BIAYA TAMBAHAN</span>
+              <hr style="padding-bottom:10px;">
+            </div>
+
+            <div class="col-md-6 col-xs-12" id="charge">
+              <label>Extra Charge</label>
+              <table>
+                <tbody id="list_charge"></tbody>
+                <tbody id="parent_charge">
                   <tr>
-                    <td style="border:1px solid #ccc;" height="25" width="25"></td>
-                    <td>&nbsp; stand by</td>
-                    <td class="bg-teal" width="25"></td>
-                    <td>&nbsp; di booking</td>
-                    <td class="bg-yellow" width="25"></td>
-                    <td>&nbsp; di jalan</td>
-                    <td class="bg-red" width="25"></td>
-                    <td>&nbsp; rusak</td>
+                    <td>
+                      <div class="form-group">
+                        <button type="button" class="btn btn-danger btn-flat btn-sm" onclick="removerTrCharge(this);hitungCharge();">
+                          <i class="fa fa-remove"></i>
+                        </button>
+                      </div>
+                    </td>
+                    <td width="5"></td>
+                    <td>
+                      <div class="form-group">
+                        <div class="input-group" >
+                          <span class="input-group-addon">
+                            <i class="fa fa-list"></i>
+                          </span>
+                          <input type="text" name="name_charge[]" class="form-control" placeholder="Uraian Charge">
+                        </div>
+                      </div>
+                    </td>
+                    <td width="5"></td>
+                    <td>
+                      <div class="form-group">
+                        <div class="input-group" >
+                          <span class="input-group-addon">
+                            <i class="fa fa-money"></i>
+                          </span>
+                          <input type="text" name="biaya_charge[]" data-tarif class="form-control" placeholder="Biaya Charge" onkeyup="hitungCharge()">
+                        </div>
+                      </div>
+                    </td>
                   </tr>
-                </table>
-              </div>
-              <div class="form-group" id="note_modal" style="display:none;">
-                <i><b>NOTE : </b> Jangan lupa untuk mengisi form modal driver setelah memilih Driver dan Co Driver !!!</i>
-              </div>
+                </tbody>
+                <tbody id="child_charge"></tbody>
+                <tr>
+                  <td colspan="3">
+                    <div class="form-group">
+                      <button type="button" class="btn btn-success btn-flat btn-sm" id="tambah_charge">
+                        <i class="fa fa-plus"></i> Tambah
+                      </button>
+                    </div>
+                  </td>
+                  <td width="5"></td>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="charge" data-tarif class="form-control" placeholder="Total Charge">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="col-md-6 col-xs-12" id="overtime" style="display: none;">
+              <label>Overtime dan Total Pengeluaran</label>
+              <table>
+                <tr>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-clock-o"></i>
+                        </span>
+                        <input type="text" name="lama_overtime" data-tarif class="form-control" placeholder="Lama Overtime">
+                      </div>
+                    </div>
+                  </td>
+                  <td width="5"></td>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="biaya_overtime" data-tarif class="form-control" placeholder="Biaya Overtime">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="total_pengeluaran" data-tarif class="form-control" placeholder="Total Pengeluatan">
+                      </div>
+                    </div>
+                  </td>
+                  <td width="5"></td>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group" >
+                        <span class="input-group-addon">
+                          <i class="fa fa-money"></i>
+                        </span>
+                        <input type="text" name="sisa_or_bon" data-tarif class="form-control" placeholder="Sisa / Bon">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
             </div>
 
             <div class="col-md-12 col-xs-12">
@@ -357,6 +462,20 @@
           </div>
         </div>
         <div class="modal-footer">
+          <div class="form-group pull-left">
+            <!-- <table width="100%">
+              <tr>
+                <td style="border:1px solid #ccc;" height="25" width="25"></td>
+                <td>&nbsp; stand by &nbsp; </td>
+                <td class="bg-teal" width="25"></td>
+                <td>&nbsp; di booking &nbsp; </td>
+                <td class="bg-yellow" width="25"></td>
+                <td>&nbsp; di jalan &nbsp; </td>
+                <td class="bg-red" width="25"></td>
+                <td>&nbsp; rusak &nbsp; </td>
+              </tr>
+            </table> -->
+          </div>
           <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>
           <button type="submit" class="btn btn-success">Save</button>
         </div>
@@ -365,6 +484,7 @@
     </div>
   </div>
 </div>
+
 <div class="modal fade" id="Delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
@@ -659,9 +779,8 @@ TableManageButtons.init();
           type: response.type
         });
         update_page('Booking',  'page_booking');
-        update_page('Driver',   'page_driver');
-        update_page('CoDriver', 'page_co_driver');
-        update_page('Bus',      'page_bus');
+        update_page('ListOrder',   'page_order');
+        update_page('Jurnal',      'page_jurnal');
         update_page('GrafikOrder', 'page_grafik_order');
         clear_form(response.close);
         if (action == 'cencle'){
@@ -698,9 +817,8 @@ TableManageButtons.init();
         $('#del'+response.id).fadeOut(700);
         $('#Delete').modal('hide');
         update_page('Booking',  'page_booking');
-        update_page('Driver',   'page_driver');
-        update_page('CoDriver', 'page_co_driver');
-        update_page('Bus',      'page_bus');
+        update_page('ListOrder',   'page_order');
+        update_page('Jurnal',      'page_jurnal');
         update_page('GrafikOrder', 'page_grafik_order');
       }
     });
@@ -760,13 +878,20 @@ function edit(id) {
 }
 
 function next(id) {
-  var form = $('form[name="booking"]')
+  var form = $('form[name="booking"]');
   form.attr('action', '<?= $this->url->get('Booking/next/') ?>'+id);
   form.find('button[type="submit"]')
       .removeClass('btn-success')
       .removeClass('btn-primary')
       .addClass('btn-danger')
       .text('Lanjut Sewa');
+  form.find('select[name="driver"]').attr('required', 'required').parent().parent().show();
+  form.find('select[name="co_driver"]').attr('required', 'required').parent().parent().show();
+  form.find('input[name="pelunasan"]').attr('required', 'required').parent().parent().show();
+  form.find('input[name="cost"]').attr('required', 'required');
+  $('#cost').show();
+  $('#charge').show();
+  $('#biaya_tambahan').show();
   $.ajax({
     type: 'POST',
     url: '<?= $this->url->get('Booking/detail/') ?>'+id,
@@ -787,9 +912,8 @@ function next(id) {
         lokasii(response.type_bus);
         bus(response.type_bus, response.bus);
         routee_selected(response.route, response.lokasi);
-        $('select[name="driver"]').attr('onchange', 'modal_driver()');
-        $('select[name="co_driver"]').attr('onchange', 'modal_driver()');
-        modal_driver();
+        costView(response.kode, response.cost);
+        costCharge(response.kode);
       } else if (response.paket == 'jiarah') {
         $('#regular').collapse('hide');
         $('#jiarah').collapse('show');
@@ -798,9 +922,8 @@ function next(id) {
         driver(2, response.co_driver);
         lokasii(response.type_bus);
         bus(response.type_bus, response.bus);
-        $('select[name="driver"]').attr('onchange', 'modal_driver()');
-        $('select[name="co_driver"]').attr('onchange', 'modal_driver()');
-        modal_driver();
+        costView(response.kode, response.cost);
+        costCharge(response.kode);
       }
     }
   });
@@ -834,8 +957,9 @@ $("[data-tarif]").inputmask({mask: "9999999999", placeholder: "",});
 $("[data-dp]").inputmask({mask: "9999999999", placeholder: "",});
 $("[data-modalDriver]").inputmask({mask: "9999999999", placeholder: "",});
 
+
 function pakett(that) {
-  var val = $(that).val(); 
+  var val = $(that).val();
   if (val == 'regular') {
     $('#regular').collapse('show');
     $('#jiarah').collapse('hide');
@@ -846,6 +970,7 @@ function pakett(that) {
   } else {
     $('#regular').collapse('hide');
     $('#jiarah').collapse('hide');
+    $('#overland').collapse('hide');
   }
 }
 
@@ -861,9 +986,8 @@ function areaa(that) {
         data: 'area='+val,
         success: function(response){
           $('select[name="route"]').html(response);
-          $('select[name="type_bus"]').html('<option value="">Pilih Type Bus</option>');
-          $('select[name="bus"]').html('<option value="">Pilih Bus</option>');
-          $('select[name="lokasi"]').html('<option value="">Pilih Lokasi</option>');
+          var html = '<option value="">Booking Dari</option><option value="agen">Agen</option><option value="umum">Umum</option>';
+          $('select[name="type_booking"]').html(html);
         }
       });
       break;
@@ -892,8 +1016,8 @@ function routee(that) {
     data: 'lokasi='+val+'&selected=not&paket=regular',
     success: function(response){
       $('select[name="lokasi"]').html(response);
-      $('select[name="type_bus"]').html('<option value="">Pilih Type Bus</option>');
-      $('select[name="bus"]').html('<option value="">Pilih Bus</option>');
+      var html = '<option value="">Booking Dari</option><option value="agen">Agen</option><option value="umum">Umum</option>';
+      $('select[name="type_booking"]').html(html);
     }
   });
 }
@@ -999,41 +1123,144 @@ function driver(id, selected) {
   }
 }
 
-function modal_driver() {
-  var driver    = $('select[name="driver"]').val();
-  var co_driver = $('select[name="co_driver"]').val();
-  $('#note_modal').show();
-  if (driver != '' && co_driver != '') {
-    $('#modal_driver').collapse('show');
-  } else {
-    $('#modal_driver').collapse('hide');
-  }
-}
+// function clear_form(id) {
+//   $('#label_booking').text('Tambah Booking');
 
+//   var form = $('form[name="booking"]');
+
+//   $('#modal_driver').collapse('hide');
+//   $('#note_modal').hide();
+
+//   form.find('[name]').val('');
+
+//   form.attr('action', '<?= $this->url->get('Booking/input') ?>');
+
+//   form.find('button[type="submit"]')
+//       .removeClass('btn-primary')
+//       .addClass('btn-success')
+//       .text('Save');
+
+//   driver(1);
+//   driver(2);
+//   lokasii();
+
+//   if (id == 1) {
+//     $('#Tambah').modal('hide');
+//   }
+// }
 function clear_form(id) {
   $('#label_booking').text('Tambah Booking');
 
   var form = $('form[name="booking"]');
 
   $('#modal_driver').collapse('hide');
-  $('#note_modal').hide();
+  form.find('select[name="driver"]').removeAttr('required').parent().parent().hide();
+  form.find('select[name="co_driver"]').removeAttr('required').parent().parent().hide();
+  form.find('input[name="pelunasan"]').removeAttr('required').parent().parent().hide();
 
   form.find('[name]').val('');
+  form.find('input[name="cost"]').removeAttr('required');
 
   form.attr('action', '<?= $this->url->get('Booking/input') ?>');
 
   form.find('button[type="submit"]')
       .removeClass('btn-primary')
+      .removeClass('btn-danger')
       .addClass('btn-success')
       .text('Save');
 
   driver(1);
   driver(2);
   lokasii();
+  pakett();
+  $('#cost').hide();
+  $('#charge').hide();
+  $('#overtime').hide();
+  $('#biaya_tambahan').hide();
+
+  $('#child_charge').html('');
 
   if (id == 1) {
     $('#Tambah').modal('hide');
   }
+}
+
+$("#tambah_charge").click(function(){
+  var cost = $('#parent_charge').html();
+  $("#child_charge").append(cost);
+});
+
+function removerTrCharge(that) {
+  var data = $(that).parent().parent().parent();
+  var id   = data.parent().attr('id');
+
+  if (id == 'parent_charge') {
+    return false;
+  } else {
+    data.remove();
+  }
+}
+
+function checkboxPercent(that) {
+  var data = $(that).parent().parent().parent().parent().parent();
+  var satuan = data.find('input[name="satuan[]"]').val();
+  var percent = data.find('input[type="checkbox"]');
+  var harga_satuan = data.find('input[name="harga_satuan[]"]').val();
+
+  if (satuan != null && harga_satuan != null) {
+    if(percent.is(':checked')) {
+      var result = satuan / 100 * harga_satuan;
+      data.find('input[name="jumlah[]"]').val(result);
+    } else {
+      var result = satuan * harga_satuan;
+      data.find('input[name="jumlah[]"]').val(result);
+    }
+  }
+}
+
+function hitungJumlah(that) {
+  var data = $(that).parent().parent().parent().parent();
+  var satuan = data.find('input[name="satuan[]"]').val();
+  var percent = data.find('input[type="checkbox"]');
+  var harga_satuan = data.find('input[name="harga_satuan[]"]').val();
+
+  if (satuan != null && harga_satuan != null) {
+    if(percent.is(':checked')) {
+      var result = satuan / 100 * harga_satuan;
+      data.find('input[name="jumlah[]"]').val(result);
+    } else {
+      var result = satuan * harga_satuan;
+      data.find('input[name="jumlah[]"]').val(result);
+    }
+  }
+}
+
+function hitung() {
+  var values = [];
+  $("input[name='jumlah[]']").each(function() {
+      values.push($(this).val());
+  });
+
+  n   = values.length,
+  sum = 0;
+  while(n--)
+  sum += parseFloat(values[n]) || 0;
+
+  $("input[name='cost']").val(sum);
+}
+
+function hitungCharge() {
+  var values = [];
+  $("input[name='biaya_charge[]']").each(function() {
+      values.push($(this).val());
+  });
+
+  n   = values.length,
+  sum = 0;
+  while(n--)
+  sum += parseFloat(values[n]) || 0;
+
+  $("input[name='charge']").val(sum);
 }
 
 function detail(id) {
@@ -1065,5 +1292,29 @@ function toRp(angka){
         }
     }
     return 'Rp. ' + rev2.split('').reverse().join('') + ',-';
+}
+
+function costView(kode, cost) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('GrafikOrder/viewCost') ?>',
+    dataType:'html',
+    data: 'kode='+kode+'&cost='+cost,
+    success: function(response){
+      $('#viewCost').html(response);
+    }
+  });
+}
+
+function costCharge(kode) {
+  $.ajax({
+    type: 'POST',
+    url: '<?= $this->url->get('GrafikOrder/viewCharge') ?>',
+    dataType:'html',
+    data: 'kode='+kode,
+    success: function(response){
+      $('#list_charge').html(response);
+    }
+  });
 }
 </script>

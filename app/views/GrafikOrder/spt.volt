@@ -596,10 +596,9 @@
       <div style="border-top:5px solid black;margin-bottom:-9px;" width="100%" ></div><br>
       <div style="border-top:3px solid black;" width="100%" ></div>
     </div>
-    <script>
-    // $('button[i18n-content="cancel"]').click(function() {
-    //   console.log('test');
-    // });
-    </script>
+    
+  <script>
+    setTimeout(window.close, 0);
+  </script>
   </body>
 </html>

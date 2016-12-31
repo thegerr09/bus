@@ -29,5 +29,11 @@ class LaporanController extends \Phalcon\Mvc\Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
+    public function LabaRugiAction()
+    {
+        $this->view->pick("Laporan/LabaRugi");
+        $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+    }
+
 }
 

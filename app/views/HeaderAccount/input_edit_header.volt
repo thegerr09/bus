@@ -16,11 +16,17 @@
             <input type="text" name="header" class="form-control" placeholder="Nama Header">
           </div>
           <div class="form-group">
+            <label>Group</label>
+            <select name="group" class="form-control">
+              {{ Helpers.tagSetting('group_header', 'Pilih Group', '') }}
+            </select>
+          </div>
+          <div class="form-group">
             <label>Jenis</label>
             <select name="jenis" class="form-control">
               <option value="">Pilih Jenis</option>
-              <option value="debet">Debet</option>
-              <option value="kredit">Kredit</option>
+              <option value="kas">Kas</option>
+              <option value="bank">Bank</option>
             </select>
           </div>
         </div>

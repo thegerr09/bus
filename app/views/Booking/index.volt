@@ -43,7 +43,7 @@
                     {% if x.success == 'Y'  or x.batal == 'Y' %} disabled {% endif %}>
                       <i class="fa fa-list" data-toggle="tooltip" data-placement="top" title="Detail"></i>
                     </button>&nbsp;
-                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick="edit({{ x.id }})"
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Tambah" onclick=" clear_form(); edit({{ x.id }});"
                     {% if x.success == 'Y' or x.batal == 'Y' %} disabled {% endif %}>
                       <i class="fa fa-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i>
                     </button>&nbsp;

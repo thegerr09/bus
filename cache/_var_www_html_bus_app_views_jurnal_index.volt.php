@@ -58,12 +58,12 @@ td {
                 <table id="table" class="table table-bordered">
                   <thead class="bg-blue">
                     <tr>
-                      <td align="center" width="40">NO</td>
-                      <td align="center" width="140">ACTION</td>
-                      <td align="center" width="120">TANGGAL</td>
-                      <td align="center" width="80">NO. JURNAL</td>
-                      <td align="center">KETERANGAN</td>
-                      <td align="center" width="100">KANTOR</td>
+                      <td style="vertical-align: middle;" align="center" width="40">NO</td>
+                      <td style="vertical-align: middle;" align="center" width="140">ACTION</td>
+                      <td style="vertical-align: middle;" align="center" width="120">TANGGAL</td>
+                      <td style="vertical-align: middle;" align="center" width="100">NO. JURNAL</td>
+                      <td style="vertical-align: middle;" align="center">KETERANGAN</td>
+                      <td style="vertical-align: middle;" align="center" width="100">KANTOR</td>
                     </tr>
                   </thead>
                   <tbody id="list_view">
@@ -133,8 +133,7 @@ td {
           <div class="form-group">
             <label>Kantor</label>
             <select name="kantor" class="form-control">
-              <option value="">Pilih Kantor</option>
-              <option value="GALATAMA 1" selected="true">Galatama 1</option>
+              <?= $this->Helpers->tagSetting('kantor', 'Pilih Kantor', '') ?>
             </select>
           </div>
           <div class="form-group">

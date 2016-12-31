@@ -64,9 +64,8 @@ TableManageButtons.init();
           type: response.type
         });
         update_page('Booking',  'page_booking');
-        update_page('Driver',   'page_driver');
-        update_page('CoDriver', 'page_co_driver');
-        update_page('Bus',      'page_bus');
+        update_page('ListOrder',   'page_order');
+        update_page('Jurnal',      'page_jurnal');
         update_page('GrafikOrder', 'page_grafik_order');
         clear_form(response.close);
         if (action == 'cencle'){
@@ -103,9 +102,8 @@ TableManageButtons.init();
         $('#del'+response.id).fadeOut(700);
         $('#Delete').modal('hide');
         update_page('Booking',  'page_booking');
-        update_page('Driver',   'page_driver');
-        update_page('CoDriver', 'page_co_driver');
-        update_page('Bus',      'page_bus');
+        update_page('ListOrder',   'page_order');
+        update_page('Jurnal',      'page_jurnal');
         update_page('GrafikOrder', 'page_grafik_order');
       }
     });
@@ -165,13 +163,20 @@ function edit(id) {
 }
 
 function next(id) {
-  var form = $('form[name="booking"]')
+  var form = $('form[name="booking"]');
   form.attr('action', '{{ url('Booking/next/') }}'+id);
   form.find('button[type="submit"]')
       .removeClass('btn-success')
       .removeClass('btn-primary')
       .addClass('btn-danger')
       .text('Lanjut Sewa');
+  form.find('select[name="driver"]').attr('required', 'required').parent().parent().show();
+  form.find('select[name="co_driver"]').attr('required', 'required').parent().parent().show();
+  form.find('input[name="pelunasan"]').attr('required', 'required').parent().parent().show();
+  form.find('input[name="cost"]').attr('required', 'required');
+  $('#cost').show();
+  $('#charge').show();
+  $('#biaya_tambahan').show();
   $.ajax({
     type: 'POST',
     url: '{{ url('Booking/detail/') }}'+id,
@@ -192,9 +197,8 @@ function next(id) {
         lokasii(response.type_bus);
         bus(response.type_bus, response.bus);
         routee_selected(response.route, response.lokasi);
-        $('select[name="driver"]').attr('onchange', 'modal_driver()');
-        $('select[name="co_driver"]').attr('onchange', 'modal_driver()');
-        modal_driver();
+        costView(response.kode, response.cost);
+        costCharge(response.kode);
       } else if (response.paket == 'jiarah') {
         $('#regular').collapse('hide');
         $('#jiarah').collapse('show');
@@ -203,9 +207,8 @@ function next(id) {
         driver(2, response.co_driver);
         lokasii(response.type_bus);
         bus(response.type_bus, response.bus);
-        $('select[name="driver"]').attr('onchange', 'modal_driver()');
-        $('select[name="co_driver"]').attr('onchange', 'modal_driver()');
-        modal_driver();
+        costView(response.kode, response.cost);
+        costCharge(response.kode);
       }
     }
   });
@@ -239,8 +242,9 @@ $("[data-tarif]").inputmask({mask: "9999999999", placeholder: "",});
 $("[data-dp]").inputmask({mask: "9999999999", placeholder: "",});
 $("[data-modalDriver]").inputmask({mask: "9999999999", placeholder: "",});
 
+
 function pakett(that) {
-  var val = $(that).val(); 
+  var val = $(that).val();
   if (val == 'regular') {
     $('#regular').collapse('show');
     $('#jiarah').collapse('hide');
@@ -251,6 +255,7 @@ function pakett(that) {
   } else {
     $('#regular').collapse('hide');
     $('#jiarah').collapse('hide');
+    $('#overland').collapse('hide');
   }
 }
 
@@ -266,9 +271,8 @@ function areaa(that) {
         data: 'area='+val,
         success: function(response){
           $('select[name="route"]').html(response);
-          $('select[name="type_bus"]').html('<option value="">Pilih Type Bus</option>');
-          $('select[name="bus"]').html('<option value="">Pilih Bus</option>');
-          $('select[name="lokasi"]').html('<option value="">Pilih Lokasi</option>');
+          var html = '<option value="">Booking Dari</option><option value="agen">Agen</option><option value="umum">Umum</option>';
+          $('select[name="type_booking"]').html(html);
         }
       });
       break;
@@ -297,8 +301,8 @@ function routee(that) {
     data: 'lokasi='+val+'&selected=not&paket=regular',
     success: function(response){
       $('select[name="lokasi"]').html(response);
-      $('select[name="type_bus"]').html('<option value="">Pilih Type Bus</option>');
-      $('select[name="bus"]').html('<option value="">Pilih Bus</option>');
+      var html = '<option value="">Booking Dari</option><option value="agen">Agen</option><option value="umum">Umum</option>';
+      $('select[name="type_booking"]').html(html);
     }
   });
 }
@@ -404,41 +408,144 @@ function driver(id, selected) {
   }
 }
 
-function modal_driver() {
-  var driver    = $('select[name="driver"]').val();
-  var co_driver = $('select[name="co_driver"]').val();
-  $('#note_modal').show();
-  if (driver != '' && co_driver != '') {
-    $('#modal_driver').collapse('show');
-  } else {
-    $('#modal_driver').collapse('hide');
-  }
-}
+// function clear_form(id) {
+//   $('#label_booking').text('Tambah Booking');
 
+//   var form = $('form[name="booking"]');
+
+//   $('#modal_driver').collapse('hide');
+//   $('#note_modal').hide();
+
+//   form.find('[name]').val('');
+
+//   form.attr('action', '{{ url('Booking/input') }}');
+
+//   form.find('button[type="submit"]')
+//       .removeClass('btn-primary')
+//       .addClass('btn-success')
+//       .text('Save');
+
+//   driver(1);
+//   driver(2);
+//   lokasii();
+
+//   if (id == 1) {
+//     $('#Tambah').modal('hide');
+//   }
+// }
 function clear_form(id) {
   $('#label_booking').text('Tambah Booking');
 
   var form = $('form[name="booking"]');
 
   $('#modal_driver').collapse('hide');
-  $('#note_modal').hide();
+  form.find('select[name="driver"]').removeAttr('required').parent().parent().hide();
+  form.find('select[name="co_driver"]').removeAttr('required').parent().parent().hide();
+  form.find('input[name="pelunasan"]').removeAttr('required').parent().parent().hide();
 
   form.find('[name]').val('');
+  form.find('input[name="cost"]').removeAttr('required');
 
   form.attr('action', '{{ url('Booking/input') }}');
 
   form.find('button[type="submit"]')
       .removeClass('btn-primary')
+      .removeClass('btn-danger')
       .addClass('btn-success')
       .text('Save');
 
   driver(1);
   driver(2);
   lokasii();
+  pakett();
+  $('#cost').hide();
+  $('#charge').hide();
+  $('#overtime').hide();
+  $('#biaya_tambahan').hide();
+
+  $('#child_charge').html('');
 
   if (id == 1) {
     $('#Tambah').modal('hide');
   }
+}
+
+$("#tambah_charge").click(function(){
+  var cost = $('#parent_charge').html();
+  $("#child_charge").append(cost);
+});
+
+function removerTrCharge(that) {
+  var data = $(that).parent().parent().parent();
+  var id   = data.parent().attr('id');
+
+  if (id == 'parent_charge') {
+    return false;
+  } else {
+    data.remove();
+  }
+}
+
+function checkboxPercent(that) {
+  var data = $(that).parent().parent().parent().parent().parent();
+  var satuan = data.find('input[name="satuan[]"]').val();
+  var percent = data.find('input[type="checkbox"]');
+  var harga_satuan = data.find('input[name="harga_satuan[]"]').val();
+
+  if (satuan != null && harga_satuan != null) {
+    if(percent.is(':checked')) {
+      var result = satuan / 100 * harga_satuan;
+      data.find('input[name="jumlah[]"]').val(result);
+    } else {
+      var result = satuan * harga_satuan;
+      data.find('input[name="jumlah[]"]').val(result);
+    }
+  }
+}
+
+function hitungJumlah(that) {
+  var data = $(that).parent().parent().parent().parent();
+  var satuan = data.find('input[name="satuan[]"]').val();
+  var percent = data.find('input[type="checkbox"]');
+  var harga_satuan = data.find('input[name="harga_satuan[]"]').val();
+
+  if (satuan != null && harga_satuan != null) {
+    if(percent.is(':checked')) {
+      var result = satuan / 100 * harga_satuan;
+      data.find('input[name="jumlah[]"]').val(result);
+    } else {
+      var result = satuan * harga_satuan;
+      data.find('input[name="jumlah[]"]').val(result);
+    }
+  }
+}
+
+function hitung() {
+  var values = [];
+  $("input[name='jumlah[]']").each(function() {
+      values.push($(this).val());
+  });
+
+  n   = values.length,
+  sum = 0;
+  while(n--)
+  sum += parseFloat(values[n]) || 0;
+
+  $("input[name='cost']").val(sum);
+}
+
+function hitungCharge() {
+  var values = [];
+  $("input[name='biaya_charge[]']").each(function() {
+      values.push($(this).val());
+  });
+
+  n   = values.length,
+  sum = 0;
+  while(n--)
+  sum += parseFloat(values[n]) || 0;
+
+  $("input[name='charge']").val(sum);
 }
 
 function detail(id) {
@@ -470,5 +577,29 @@ function toRp(angka){
         }
     }
     return 'Rp. ' + rev2.split('').reverse().join('') + ',-';
+}
+
+function costView(kode, cost) {
+  $.ajax({
+    type: 'POST',
+    url: '{{ url('GrafikOrder/viewCost') }}',
+    dataType:'html',
+    data: 'kode='+kode+'&cost='+cost,
+    success: function(response){
+      $('#viewCost').html(response);
+    }
+  });
+}
+
+function costCharge(kode) {
+  $.ajax({
+    type: 'POST',
+    url: '{{ url('GrafikOrder/viewCharge') }}',
+    dataType:'html',
+    data: 'kode='+kode,
+    success: function(response){
+      $('#list_charge').html(response);
+    }
+  });
 }
 </script>

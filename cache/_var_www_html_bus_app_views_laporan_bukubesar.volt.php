@@ -11,11 +11,12 @@
   <div class="row">
 
     <div class="col-md-4"></div>
-    <div class="col-md-4" align="center">
-      <h3>BUKU BESAR</h3>
+    <div class="col-md-4">
+      <h3 align="center">BUKU BESAR</h3>
       <br>
       <form action="Laporan/CetakBukuBesar" method="POST" target="_blank">
         <div class="form-group">
+          <label>Masukan Range Tanggal</label>
           <div class="input-group">
             <div class="input-group-addon">
               <i class="fa fa-calendar"></i>
@@ -24,6 +25,7 @@
           </div>
         </div>
         <div class="form-group">
+          <label>Pilih Account</label>
           <select name="account" class="form-control">
             <?= $this->Helpers->tagAccount() ?>
           </select>

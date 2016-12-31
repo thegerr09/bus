@@ -12,6 +12,7 @@
   </td>
   <td><?= $a->account ?></td>
   <td><?= $a->name_header ?></td>
+  <td><?= $a->tipe ?></td>
 </tr>
 <?php $no = $no + 1; ?>
 <?php } ?>

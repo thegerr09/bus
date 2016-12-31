@@ -69,18 +69,19 @@ class GrafikorderController extends \Phalcon\Mvc\Controller
     		$bulan = date('m');
     		$tahun = date('Y');
     	}
-    	
-    	$list = [];
-    	$dayInMonth = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
-		for($d = 1; $d <= $dayInMonth; $d++)
-		{
-		    $time = mktime(12, 0, 0, $bulan, $d, $tahun);
-		    if (date('m', $time) == $bulan)
-		        $list[] = date('d M Y', $time);
-		        $date[] = date('Y-m-d', $time);
-		}
+
+        
+        $list = [];
+        $dayInMonth = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
+        for($d = 1; $d <= $dayInMonth; $d++)
+        {
+            $time = mktime(12, 0, 0, $bulan, $d, $tahun);
+            if (date('m', $time) == $bulan)
+                $list[] = date('d M Y', $time);
+                $date2[] = date('Y-m-d', $time);
+        }
 		$this->view->listDate   = $list;
-		$this->view->filterDate = $date;
+		$this->view->filterDate = $date2;
 		$this->view->dayInMonth = $dayInMonth - 1;
 
 		// $this->view->data = BookingHelp::grafikOrder();
