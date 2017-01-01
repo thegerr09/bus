@@ -62,14 +62,6 @@ class Jurnal extends \Phalcon\Mvc\Model
     public $deleted;
 
     /**
-     * Initialize method for model.
-     */
-    public function initialize()
-    {
-        $this->setSchema("galatama");
-    }
-
-    /**
      * Returns table name mapped in the model.
      *
      * @return string

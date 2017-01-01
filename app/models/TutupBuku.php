@@ -62,14 +62,6 @@ class TutupBuku extends \Phalcon\Mvc\Model
     public $total_kredit;
 
     /**
-     * Initialize method for model.
-     */
-    public function initialize()
-    {
-        $this->setSchema("galatama");
-    }
-
-    /**
      * Returns table name mapped in the model.
      *
      * @return string
