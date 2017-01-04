@@ -11,13 +11,23 @@ class GrafikorderController extends \Phalcon\Mvc\Controller
      */
     public function indexAction()
     {
+
+        $hari = [
+            'Sun' => 'Mingggu',
+            'Mon' => 'Senin',
+            'Tue' => 'Selasa',
+            'Wed' => 'Rabu',
+            'Thu' => 'Kamis',
+            'Fri' => 'Jum`at',
+            'Sat' => 'Sabtu'
+        ];
     	$list = [];
     	$dayInMonth = cal_days_in_month(CAL_GREGORIAN, date('m'), date('Y'));
 		for($d = 1; $d <= $dayInMonth; $d++)
 		{
 		    $time = mktime(12, 0, 0, date('m'), $d, date('Y'));
 		    if (date('m', $time) == date('m'))
-		        $list[] = date('d M Y', $time);
+		        $list[] = $hari[date('D', $time)] . date(', d M Y', $time);
 		        $date[] = date('Y-m-d', $time);
 		}
 		$this->view->listDate   = $list;
