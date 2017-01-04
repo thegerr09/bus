@@ -15,6 +15,8 @@
       <h3 align="center">BUKU BESAR</h3>
       <br>
       <form action="Laporan/CetakBukuBesar" method="POST" target="_blank">
+        <input type="hidden" name="label_account">
+        <input type="hidden" name="nomor_account">
         <div class="form-group">
           <label>Masukan Range Tanggal</label>
           <div class="input-group">
@@ -26,7 +28,7 @@
         </div>
         <div class="form-group">
           <label>Pilih Account</label>
-          <select name="account" class="form-control">
+          <select name="account" class="form-control" onchange="change_account(this)">
             {{ Helpers.tagAccount() }}
           </select>
         </div>
@@ -47,4 +49,11 @@ $('[data-jurnal]').daterangepicker({
     format: 'YYYY-MM-DD'
   }
 });
+
+function change_account(that) {
+  var val = $(that).val();
+  var text = $(that).find('option[value="'+val+'"]').text();
+  $('form').find('input[name="label_account"]').val(text);
+  $('form').find('input[name="nomor_account"]').val(val);
+}
 </script>

@@ -24,7 +24,7 @@ class Header extends \Phalcon\Mvc\Model
      * @var string
      * @Column(type="string", length=255, nullable=false)
      */
-    public $group;
+    public $group_header;
 
     /**
      *

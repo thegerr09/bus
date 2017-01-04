@@ -30,12 +30,12 @@
       <tr>
         <td>Tanggal</td>
         <td>:</td>
-        <td>01 December 2016 s/d 30 December 2016</td>
+        <td>{{ date }}</td>
       </tr>
       <tr>
         <td>No. Account</td>
         <td>:</td>
-        <td>01 / KAS</td>
+        <td>{{ account }}</td>
       </tr>
     </table>
     <table style="border-collapse: collapse;" width="100%" id="table" cellpadding="5">

@@ -98,7 +98,7 @@ class BookingHelp
             $child_data = [
                 'debet'   => [$dp, ''],
                 'kredit'  => ['', $dp],
-                'account' => [5, 1]
+                'account' => [3, 1]
             ];
 
             for ($i=0; $i < 2 ; $i++) { 
@@ -141,7 +141,7 @@ class BookingHelp
             $child_data = [
                 'debet'   => [$dp, ''],
                 'kredit'  => ['', $dp],
-                'account' => [5, 1]
+                'account' => [3, 1]
             ];
 
             $remove = JurnalChild::find(["conditions" => "id_jurnal = '$get_parent->id'"]);
@@ -190,7 +190,7 @@ class BookingHelp
             $child_data = [
                 'debet'   => [$pelunasan, ''],
                 'kredit'  => ['', $pelunasan],
-                'account' => [5, 2]
+                'account' => [3, 2]
             ];
 
             for ($i=0; $i < 2 ; $i++) { 
