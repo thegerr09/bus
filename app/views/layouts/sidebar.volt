@@ -55,6 +55,11 @@
             </a>
           </li>
           <li style="cursor: pointer;">
+            <a onclick="return load_page('page_pelanggan','Pelanggan','page_pelanggan')">
+              <i class="fa fa-circle-o"></i> Pelanggan
+            </a>
+          </li>
+          <li style="cursor: pointer;">
             <a onclick="return load_page('page_driver','Driver','page_driver')">
               <i class="fa fa-circle-o"></i> Driver
             </a>
