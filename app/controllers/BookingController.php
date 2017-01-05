@@ -36,6 +36,12 @@ class BookingController extends \Phalcon\Mvc\Controller
         $booking->assign($post);
  
         if ($booking->save()) {
+            $arrayPelanggan = [
+                'nama' => $post['nama'],
+                'telp' => $post['telpon'],
+                'tipe_pelanggan' => $post['type_booking']
+            ];
+            BookingHelp::pelanggan($arrayPelanggan);
             if (isset($post['dp'])) {
                 BookingHelp::jurnalBayarDp($post['dp'], $post['kode']);
             }

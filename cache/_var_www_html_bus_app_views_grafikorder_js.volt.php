@@ -1,49 +1,75 @@
 <script>
 $(document).ready(function() {
-var handleDataTableButtons = function() {
-  if ($("#example").length) {
-    $("#example").DataTable({
-      dom: "Bfrtip",
-	  paging:       false,
-  	  lengthChange: false,
-      ordering: 	false,
-      buttons: [
-        {
-          extend: "copy",
-          className: "btn-sm"
-        },
-        {
-          extend: "csv",
-          className: "btn-sm"
-        },
-        {
-          extend: "excel",
-          className: "btn-sm"
-        },
-        {
-          extend: "pdfHtml5",
-          className: "btn-sm"
-        },
-        {
-          extend: "print",
-          className: "btn-sm"
-        },
-      ],
-      responsive: true
-    });
-  }
-};
-
-TableManageButtons = function() {
-  "use strict";
-  return {
-    init: function() {
-      handleDataTableButtons();
-    }
-  };
-}();
-TableManageButtons.init();
+  var table = $('#example').DataTable( {
+    scrollY:        "400px",
+    dom:            't',
+    scrollX:        true,
+    scrollCollapse: true,
+    paging:         false,
+    lengthChange:   false,
+    ordering:       false,
+    columnDefs: [
+          { "width": "160px", "targets": [0] },
+          { "width": "200px", "targets": [1] },
+          { "width": "200px", "targets": [2] },
+          { "width": "200px", "targets": [3] },
+          { "width": "200px", "targets": [4] },
+          { "width": "200px", "targets": [5] },
+          { "width": "200px", "targets": [6] },
+          { "width": "200px", "targets": [7] },
+          { "width": "200px", "targets": [8] },
+          { "width": "200px", "targets": [9] }
+      ]
+  });
+  new $.fn.dataTable.FixedColumns( table, {
+    leftColumns: 1,
+  });
 });
+// $(document).ready(function() {
+// var handleDataTableButtons = function() {
+//   if ($("#example").length) {
+//     $("#example").DataTable({
+//       dom:          "Bfrtip",
+// 	    paging:       false,
+//   	  lengthChange: false,
+//       ordering: 	  false,
+//       buttons: [
+//         {
+//           extend: "copy",
+//           className: "btn-sm"
+//         },
+//         {
+//           extend: "csv",
+//           className: "btn-sm"
+//         },
+//         {
+//           extend: "excel",
+//           className: "btn-sm"
+//         },
+//         {
+//           extend: "pdfHtml5",
+//           className: "btn-sm"
+//         },
+//         {
+//           extend: "print",
+//           className: "btn-sm"
+//         },
+//       ],
+//       responsive: true
+//     });
+//   }
+// };
+
+// TableManageButtons = function() {
+//   "use strict";
+//   return {
+//     init: function() {
+//       handleDataTableButtons();
+//     }
+//   };
+// }();
+// TableManageButtons.init();
+// });
 
 $('input[type="radio"].flat-blue').iCheck({
   radioClass: 'iradio_flat-blue'

@@ -27,9 +27,15 @@ class GrafikorderController extends \Phalcon\Mvc\Controller
 		{
 		    $time = mktime(12, 0, 0, date('m'), $d, date('Y'));
 		    if (date('m', $time) == date('m'))
-		        $list[] = $hari[date('D', $time)] . date(', d M Y', $time);
+                if (date('D', $time) == 'Sun') {
+                    $color[] = 'background-color:#dd4b39; color:#ffffff;';
+                } else {
+                    $color[] = 'background-color:#ffffff;';
+                }
+		        $list[] = $hari[date('D', $time)] . date(', d F Y', $time);
 		        $date[] = date('Y-m-d', $time);
 		}
+        $this->view->colored    = $color;
 		$this->view->listDate   = $list;
 		$this->view->filterDate = $date;
 		$this->view->dayInMonth = $dayInMonth - 1;

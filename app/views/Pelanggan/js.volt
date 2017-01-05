@@ -74,10 +74,41 @@ function list() {
   });
 }
 
-$("[data-debetKredit]").inputmask({mask: "9999999999", placeholder: "",});
+$("[data-mask]").inputmask({mask: "999999999999999", placeholder: "",});
+
+function edit(id) {
+  var modal = $('#Tambah');
+  modal.find('form[name="pelanggan"]').attr('action', 'Pelanggan/update/'+id);
+  var btn = modal.find('button[type="submit"]');
+  btn.attr('class', 'btn btn-primary').text('Save Update');
+  modal.find('#label_pelanggan').text('Update pelanggan');
+  $.ajax({
+    type: 'GET',
+    url: '{{ url('Pelanggan/detail/') }}'+id,
+    dataType:'json',
+    success: function(response){
+      $.each(response, function (key, value) {
+        modal.find('form[name="pelanggan"] [name="'+key+'"]').val(value);
+      });
+    }
+  });
+}
+
+function dlt(id, nama) {
+  $('#Deleted').find('form[name="deleted"]').attr('action', 'Pelanggan/deleted/'+id);
+  $('#Deleted').find('#nama').text(nama );
+}
 
 function clear_form(id) {
 	var modal = $('#Tambah');
-  modal.find('form').attr('action', '{{ url('Pelanggan/input') }}');
+  var btn = modal.find('button[type="submit"]');
+  btn.attr('class', 'btn btn-success').text('Save');
+  modal.find('#label_pelanggan').text('Input pelanggan');
+
+  modal.find('form[name="pelanggan"]').attr('action', '{{ url('Pelanggan/input') }}');
+  modal.find('form[name="pelanggan"] [name]').val('');
+  if (id == 1) {
+    $('#Tambah').modal('hide');
+  }
 }
 </script>

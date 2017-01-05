@@ -256,5 +256,17 @@ class BookingHelp
         }
     }
 
+    public static function pelanggan($data)
+    {
+        $pelanggan = Pelanggan::findFirst(["conditions" => "nama = '$data[nama]'"]);
+        if (isset($pelanggan->nama)) {
+        } else {
+            $pelangganClass = new Pelanggan();
+            $pelangganClass->nama = $data['nama'];
+            $pelangganClass->telp = $data['telp'];
+            $pelangganClass->tipe_pelanggan = $data['tipe_pelanggan'];
+            $pelangganClass->save();
+        }
+    }
     
 }
