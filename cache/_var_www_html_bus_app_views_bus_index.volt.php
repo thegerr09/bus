@@ -167,6 +167,10 @@
                 <label>Type</label>
                 <input type="text" name="type" class="form-control" placeholder="Type">
               </div>
+              <div class="form-group">
+                <label>Warna</label>
+                <input type="text" name="warna" data-nominal class="form-control" placeholder="Warna">
+              </div>
             </div>
             <div class="col-md-4">
               <div class="form-group">
@@ -193,11 +197,38 @@
                 <label>Nomor BPKB</label>
                 <input type="text" name="nomor_bpkb" class="form-control" placeholder="Nomor BPKB">
               </div>
+              <div class="form-group">
+                <label>Nominal Pajak</label>
+                <input type="number" name="nominal_pajak" data-nominal class="form-control" placeholder="Nominal Pajak">
+              </div>
             </div>
             <div class="col-md-4">
               <div class="form-group">
-                <label>Warna</label>
-                <input type="text" name="warna" class="form-control" placeholder="Warna">
+                <label>Tanggal Kir</label>
+                <div class="input-group date" data-pajak >
+                  <input type="text" name="tanggal_kir" class="form-control" placeholder="Tanggal Kir">
+                  <span class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Tanggal Ijin Kps</label>
+                <div class="input-group date" data-pajak >
+                  <input type="text" name="tanggal_ijin_kps" class="form-control" placeholder="Tanggal Ijin Kps">
+                  <span class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Tanggal Asuransi</label>
+                <div class="input-group date" data-pajak >
+                  <input type="text" name="tanggal_asuransi" class="form-control" placeholder="Tanggal Asuransi">
+                  <span class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                </div>
               </div>
               <div class="form-group">
                 <label>Tanggal Pajak STNK</label>
@@ -207,10 +238,6 @@
                     <i class="fa fa-calendar"></i>
                   </span>
                 </div>
-              </div>
-              <div class="form-group">
-                <label>Nominal Pajak</label>
-                <input type="number" name="nominal_pajak" data-nominal class="form-control" placeholder="Nominal Pajak">
               </div>
               <div class="form-group">
                 <label>Upload Foto</label>

@@ -30,8 +30,7 @@
             <table id="example" class="table table-bordered">
               <thead>
                 <tr>
-                  <td align="center" style="vertical-align: middle; background-color: #ffffff; z-index: 1000;" width="100"><b>TANGGAl</b></td>
-                  {% set lenght = bus|length %}
+                  <td align="center" style="vertical-align: middle; background-color: #ffffff; z-index: 1000;"><b>TANGGAl</b></td>
                   {% for head in bus %}
                   <td align="center"><b>{{ head.ukuran|upper }}<br>{{ head.nomor_polisi|upper }}</b></td>
                   {% endfor %}
@@ -42,7 +41,7 @@
                 <tr>
                   <td align="right" style="{{ colored[i] }} z-index: 1000; vertical-align: middle;" height="40">{{ listDate[i] }}</td>
                   {% for body in bus %}
-                  <td {{ Helpers.viewGrafik(filterDate[i], body.id, body.ukuran) }}>{{ Helpers.viewGrafikName(filterDate[i], body.id) }}</td>
+                  <td {{ Helpers.viewGrafik(filterDate[i], body.id, body.ukuran) }}></td>
                   {% endfor %}
                 </tr>
                 {% endfor %}
@@ -104,6 +103,7 @@
 {% include "GrafikOrder/Booking.volt" %}
 {% include "GrafikOrder/car_back.volt" %}
 {% include "GrafikOrder/detail.volt" %}
+{% include "GrafikOrder/check.volt" %}
 
 <!-- include JS -->
 {% include "GrafikOrder/js.volt" %}

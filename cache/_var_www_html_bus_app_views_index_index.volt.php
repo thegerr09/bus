@@ -131,8 +131,60 @@
       </div>
       <!-- /.box -->
     </div>
+    <div class="col-md-6">
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">List member</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding" style="height: 362px; overflow: scroll;">
+          <ul class="users-list clearfix">
+            <?php foreach ($bus as $b) { ?>
+            <li>
+              <?php $cekTglPajak = $this->Helpers->tglPenting($b->tanggal_pajak); ?>
+              <a class="users-list-name" href="#">PAJAK<?= $cekTglPajak ?></a>
+              <?= $this->tag->image(['img/' . $cekTglPajak, 'alt' => 'User Image']) ?>
+              <a class="users-list-name" href="#"><?= $b->nomor_polisi ?></a>
+              <span class="users-list-date"><?= $this->Helpers->dateChange($b->tanggal_pajak) ?></span>
+            </li>
+            <li>
+              <?php $cekTglKir = $this->Helpers->tglPenting($b->tanggal_kir); ?>
+              <a class="users-list-name" href="#">KIR<?= $cekTglKir ?></a>
+              <?= $this->tag->image(['img/' . $cekTglKir, 'alt' => 'User Image']) ?>
+              <a class="users-list-name" href="#"><?= $b->nomor_polisi ?></a>
+              <span class="users-list-date"><?= $this->Helpers->dateChange($b->tanggal_kir) ?></span>
+            </li>
+            <li>
+              <?php $cekTglKps = $this->Helpers->tglPenting($b->tanggal_ijin_kps); ?>
+              <a class="users-list-name" href="#">IJIN KPS<?= $cekTglKps ?></a>
+              <?= $this->tag->image(['img/' . $cekTglKps, 'alt' => 'User Image']) ?>
+              <a class="users-list-name" href="#"><?= $b->nomor_polisi ?></a>
+              <span class="users-list-date"><?= $this->Helpers->dateChange($b->tanggal_ijin_kps) ?></span>
+            </li>
+            <li>
+              <?php $cekTglAsuransi = $this->Helpers->tglPenting($b->tanggal_asuransi); ?>
+              <a class="users-list-name" href="#">ASURANSI<?= $cekTglAsuransi ?></a>
+              <?= $this->tag->image(['img/' . $cekTglAsuransi, 'alt' => 'User Image']) ?>
+              <a class="users-list-name" href="#"><?= $b->nomor_polisi ?></a>
+              <span class="users-list-date"><?= $this->Helpers->dateChange($b->tanggal_asuransi) ?></span>
+            </li>
+            <?php } ?>
+          </ul>
+          <!-- /.users-list -->
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!--/.box -->
+    </div>
     <!-- /.col -->
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="box box-default">
         <div class="box-header with-border">
           <h3 class="box-title">Pendapatan Mobil</h3>
@@ -146,29 +198,17 @@
         <!-- /.box-header -->
         <div class="box-body">
           <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-12">
               <div class="chart-responsive">
                 <canvas id="pieChart" height="150"></canvas>
               </div>
               <!-- ./chart-responsive -->
             </div>
-            <!-- /.col -->
-            <div class="col-md-5">
-              <ul class="chart-legend clearfix">
-                <li><i class="fa fa-circle-o text-red"></i> AB 9878 SD</li>
-                <li><i class="fa fa-circle-o text-green"></i> RT 4355 GH</li>
-                <li><i class="fa fa-circle-o text-yellow"></i> DF 4567 GH</li>
-                <li><i class="fa fa-circle-o text-aqua"></i> BG 7567 UJ</li>
-                <li><i class="fa fa-circle-o text-light-blue"></i> AB 9875 GH</li>
-                <li><i class="fa fa-circle-o text-gray"></i> AA 3454 BN</li>
-              </ul>
-            </div>
-            <!-- /.col -->
           </div>
           <!-- /.row -->
         </div>
         <!-- /.box-body -->
-        <div class="box-footer no-padding">
+        <div class="box-footer no-padding" style="height: 182px; overflow: scroll;">
           <ul class="nav nav-pills nav-stacked">
             <li><a href="#">AB 9878 SD
               <span class="pull-right text-red"><i class="fa fa-angle-down"></i> 12%</span></a></li>
@@ -182,93 +222,7 @@
       </div>
       <!-- /.box -->
     </div>
-    <div class="col-md-4">
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">List member</h3>
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-            </button>
-          </div>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body no-padding">
-          <ul class="users-list clearfix">
-            <li>
-              <?= $this->tag->image(['img/bus.png', 'alt' => 'User Image']) ?>
-              <a class="users-list-name" href="#">Alexander Pierce</a>
-              <span class="users-list-date">Today</span>
-            </li>
-            <li>
-              <?= $this->tag->image(['img/bus.png', 'alt' => 'User Image']) ?>
-              <a class="users-list-name" href="#">Norman</a>
-              <span class="users-list-date">Yesterday</span>
-            </li>
-            <li>
-              <?= $this->tag->image(['img/bus.png', 'alt' => 'User Image']) ?>
-              <a class="users-list-name" href="#">Jane</a>
-              <span class="users-list-date">12 Jan</span>
-            </li>
-            <li>
-              <?= $this->tag->image(['img/bus.png', 'alt' => 'User Image']) ?>
-              <a class="users-list-name" href="#">John</a>
-              <span class="users-list-date">12 Jan</span>
-            </li>
-            <li>
-              <?= $this->tag->image(['img/bus.png', 'alt' => 'User Image']) ?>
-              <a class="users-list-name" href="#">Alexander</a>
-              <span class="users-list-date">13 Jan</span>
-            </li>
-            <li>
-              <?= $this->tag->image(['img/bus.png', 'alt' => 'User Image']) ?>
-              <a class="users-list-name" href="#">Sarah</a>
-              <span class="users-list-date">14 Jan</span>
-            </li>
-            <li>
-              <?= $this->tag->image(['img/bus.png', 'alt' => 'User Image']) ?>
-              <a class="users-list-name" href="#">Nora</a>
-              <span class="users-list-date">15 Jan</span>
-            </li>
-            <li>
-              <?= $this->tag->image(['img/bus.png', 'alt' => 'User Image']) ?>
-              <a class="users-list-name" href="#">Nadia</a>
-              <span class="users-list-date">15 Jan</span>
-            </li>
-            <li>
-              <?= $this->tag->image(['img/bus.png', 'alt' => 'User Image']) ?>
-              <a class="users-list-name" href="#">Sarah</a>
-              <span class="users-list-date">14 Jan</span>
-            </li>
-            <li>
-              <?= $this->tag->image(['img/bus.png', 'alt' => 'User Image']) ?>
-              <a class="users-list-name" href="#">Nora</a>
-              <span class="users-list-date">15 Jan</span>
-            </li>
-            <li>
-              <?= $this->tag->image(['img/bus.png', 'alt' => 'User Image']) ?>
-              <a class="users-list-name" href="#">Nadia</a>
-              <span class="users-list-date">15 Jan</span>
-            </li>
-            <li>
-              <?= $this->tag->image(['img/bus.png', 'alt' => 'User Image']) ?>
-              <a class="users-list-name" href="#">Nadia</a>
-              <span class="users-list-date">15 Jan</span>
-            </li>
-          </ul>
-          <!-- /.users-list -->
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer text-center">
-          <a href="javascript:void(0)" class="uppercase">View All Users</a>
-        </div>
-        <!-- /.box-footer -->
-      </div>
-      <!--/.box -->
-    </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <!-- Info Boxes Style 2 -->
       <div class="info-box bg-yellow">
         <span class="info-box-icon"><i class="fa fa-cubes"></i></span>

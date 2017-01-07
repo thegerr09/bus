@@ -30,8 +30,7 @@
             <table id="example" class="table table-bordered">
               <thead>
                 <tr>
-                  <td align="center" style="vertical-align: middle; background-color: #ffffff; z-index: 1000;" width="100"><b>TANGGAl</b></td>
-                  <?php $lenght = $this->length($bus); ?>
+                  <td align="center" style="vertical-align: middle; background-color: #ffffff; z-index: 1000;"><b>TANGGAl</b></td>
                   <?php foreach ($bus as $head) { ?>
                   <td align="center"><b><?= Phalcon\Text::upper($head->ukuran) ?><br><?= Phalcon\Text::upper($head->nomor_polisi) ?></b></td>
                   <?php } ?>
@@ -42,7 +41,7 @@
                 <tr>
                   <td align="right" style="<?= $colored[$i] ?> z-index: 1000; vertical-align: middle;" height="40"><?= $listDate[$i] ?></td>
                   <?php foreach ($bus as $body) { ?>
-                  <td <?= $this->Helpers->viewGrafik($filterDate[$i], $body->id, $body->ukuran) ?>><?= $this->Helpers->viewGrafikName($filterDate[$i], $body->id) ?></td>
+                  <td <?= $this->Helpers->viewGrafik($filterDate[$i], $body->id, $body->ukuran) ?>></td>
                   <?php } ?>
                 </tr>
                 <?php } ?>
@@ -456,18 +455,7 @@
         </div>
         <div class="modal-footer">
           <div class="form-group pull-left">
-            <!-- <table width="100%">
-              <tr>
-                <td style="border:1px solid #ccc;" height="25" width="25"></td>
-                <td>&nbsp; stand by &nbsp; </td>
-                <td class="bg-teal" width="25"></td>
-                <td>&nbsp; di booking &nbsp; </td>
-                <td class="bg-yellow" width="25"></td>
-                <td>&nbsp; di jalan &nbsp; </td>
-                <td class="bg-red" width="25"></td>
-                <td>&nbsp; rusak &nbsp; </td>
-              </tr>
-            </table> -->
+            <a href=""></a>
           </div>
           <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>
           <button type="submit" class="btn btn-success">Save</button>
@@ -730,6 +718,75 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="ChechBooking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clear_form()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="label_check">List Booking</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <button class="btn btn-primary">
+              <i class="fa fa-plus"></i> Tambah Booking
+            </button>
+            <p><br></p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <td align="center">
+                    <b>NO</b>
+                  </td>
+                  <td align="center">
+                    <b>KODE BOOKING</b>
+                  </td>
+                  <td align="center">
+                    <b>NAMA PEMBOOKING</b>
+                  </td>
+                  <td align="center">
+                    <b>TANGGAL MULAI</b>
+                  </td>
+                  <td align="center">
+                    <b>TANGGAL KEMBALI</b>
+                  </td>
+                  <td align="center">
+                    <b>ACTION</b>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <button class="btn btn-success btn-sm">
+                      <i class="fa fa-check-circle"></i> Lanjut Sewa
+                    </button>
+                    <button class="btn btn-danger btn-sm">
+                      <i class="fa fa-times-circle"></i> Cencle
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+
+      </div>
+    
+    </div>
+  </div>
+</div>
 
 <!-- include JS -->
 <script>
@@ -743,75 +800,33 @@ $(document).ready(function() {
     lengthChange:   false,
     ordering:       false,
     columnDefs: [
-          { "width": "160px", "targets": [0] },
-          { "width": "200px", "targets": [1] },
-          { "width": "200px", "targets": [2] },
-          { "width": "200px", "targets": [3] },
-          { "width": "200px", "targets": [4] },
-          { "width": "200px", "targets": [5] },
-          { "width": "200px", "targets": [6] },
-          { "width": "200px", "targets": [7] },
-          { "width": "200px", "targets": [8] },
-          { "width": "200px", "targets": [9] }
+          { "width": "160px", "targets": [0]  },
+          <?php $lenght = $this->length($bus); ?>
+          <?php foreach (range(1, $lenght) as $table) { ?>
+          { "width": "200px", "targets": [<?= $table ?>]  },
+          <?php } ?>
       ]
   });
   new $.fn.dataTable.FixedColumns( table, {
     leftColumns: 1,
   });
 });
-// $(document).ready(function() {
-// var handleDataTableButtons = function() {
-//   if ($("#example").length) {
-//     $("#example").DataTable({
-//       dom:          "Bfrtip",
-// 	    paging:       false,
-//   	  lengthChange: false,
-//       ordering: 	  false,
-//       buttons: [
-//         {
-//           extend: "copy",
-//           className: "btn-sm"
-//         },
-//         {
-//           extend: "csv",
-//           className: "btn-sm"
-//         },
-//         {
-//           extend: "excel",
-//           className: "btn-sm"
-//         },
-//         {
-//           extend: "pdfHtml5",
-//           className: "btn-sm"
-//         },
-//         {
-//           extend: "print",
-//           className: "btn-sm"
-//         },
-//       ],
-//       responsive: true
-//     });
-//   }
-// };
-
-// TableManageButtons = function() {
-//   "use strict";
-//   return {
-//     init: function() {
-//       handleDataTableButtons();
-//     }
-//   };
-// }();
-// TableManageButtons.init();
-// });
 
 $('input[type="radio"].flat-blue').iCheck({
   radioClass: 'iradio_flat-blue'
 });
 
-// function new_action(tgl, id, ukuran) {
-//   $('.new_action').attr('onclick', 'close_action("'+tgl+'", "'+id+'", "'+ukuran+'")');
-// }
+function checkBooking(tglm, tglk) {
+  $.ajax({
+    type: 'POST',
+    url: 'GrafikOrder/checkBooking/',
+    dataType:'json',
+    data: 'start='+tglm+'&back='+tglk,
+    success: function(response){
+      console.log(response);
+    }
+  });
+}
 
 (function() {
 

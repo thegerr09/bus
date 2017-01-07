@@ -89,10 +89,8 @@ class Helpers
 				if ($data[$i][$a]['date'] == $tgl and $data[$i][$a]['bus'] == $id) {
 					if ($data[$i][$a]['invoice'] == 'Y') {
 						$result = 'align="center" class="bg-green"';
-					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'N' and $data[$i][$a]['dp'] > 0) {
-						$result = 'align="center" class="bg-yellow" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
 					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'N') {
-						$result = 'align="center" class="bg-red" data-toggle="modal" data-target="#Booking" onclick="next('.$data[$i][$a]['id'].')"';
+						$result = 'align="center" class="bg-teal" data-toggle="modal" data-target="#ChechBooking" onclick="checkBooking('."'".$data[$i][$a]['tanggal_mulai']."'".', '."'".$data[$i][$a]['tanggal_kembali']."'".')"';
 					} else if ($data[$i][$a]['batal'] == 'N' and $data[$i][$a]['success'] == 'Y') {
 						$result = 'align="center" class="bg-blue" data-toggle="modal" data-target="#Booking" onclick="carback('."'".$data[$i][$a]['kode']."'".')"';
 					}
@@ -169,5 +167,32 @@ class Helpers
             $kode .= $char[rand(0, $lengthChar - 1)];
         }
         return $kode . date('dmy');
+	}
+
+	public static function tglPenting($tgl)
+	{
+		$begin = new DateTime( date('Y-m-d') );
+		$end = new DateTime( $tgl );
+		$end = $end->modify( '+1 day' ); 
+
+		$interval = new DateInterval('P1D');
+		$daterange = new DatePeriod($begin, $interval ,$end);
+
+		$no = 0;
+		foreach($daterange as $date){
+		    $no = $no + 1;
+		}
+
+		if ($no <= 30 && $no > 1) {
+			$result = 'bus2.jpg';
+		} else if ($no === 1) {
+			$result = 'bus3.jpg';
+		} else if ($no === 0) {
+			$result = 'bus4.jpg';
+		} else {
+			$result = 'bus.png';
+		}
+
+		return $result;
 	}
 }

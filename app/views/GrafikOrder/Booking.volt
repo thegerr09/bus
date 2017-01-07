@@ -353,18 +353,7 @@
         </div>
         <div class="modal-footer">
           <div class="form-group pull-left">
-            <!-- <table width="100%">
-              <tr>
-                <td style="border:1px solid #ccc;" height="25" width="25"></td>
-                <td>&nbsp; stand by &nbsp; </td>
-                <td class="bg-teal" width="25"></td>
-                <td>&nbsp; di booking &nbsp; </td>
-                <td class="bg-yellow" width="25"></td>
-                <td>&nbsp; di jalan &nbsp; </td>
-                <td class="bg-red" width="25"></td>
-                <td>&nbsp; rusak &nbsp; </td>
-              </tr>
-            </table> -->
+            <a href=""></a>
           </div>
           <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_form()">Close</button>
           <button type="submit" class="btn btn-success">Save</button>

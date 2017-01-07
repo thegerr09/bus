@@ -10,7 +10,7 @@ class CekController extends \Phalcon\Mvc\Controller
         $this->view->disable();
         $dateBooking = BookingHelp::grafikOrder();
 
-        return $dateBooking;
+        return '<pre>'.print_r($dateBooking,1).'</pre>';;
     }
 
 }

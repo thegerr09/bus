@@ -142,5 +142,28 @@ class GrafikorderController extends \Phalcon\Mvc\Controller
         $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
     }
 
+    public function checkBookingAction()
+    {
+        $post = $this->request->getPost();
+        $this->view->disable();
+
+        $start    = new DateTime($post['start']);
+        $end      = new DateTime($post['back']);
+        $end->modify('+1 day');
+        $end->format('Y-m-d');
+        $interval = new DateInterval('P1D');
+        $period   = new DatePeriod($start, $interval, $end);
+
+        foreach ($period as $day) {
+            $data = Booking::find([
+                "columns" => "id, nama, kode, tanggal_mulai, tanggal_kembali, bus, success, invoice, dp, batal",
+                "conditions" => "tanggal_mulai = '".$day->format('Y-m-d')."' AND deleted = 'N' AND success = 'N' AND invoice = 'N' AND batal = 'N'"
+            ]);
+            $result[] = $data;
+        }
+
+        return json_encode($result);
+    }
+
 }
 

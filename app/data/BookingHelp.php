@@ -56,15 +56,17 @@ class BookingHelp
             $data = [];
             foreach ($period as $day) {
                 $data[] = [
-                    'id'      => $value->id,
-                    'bus'     => $value->bus,
-                    'kode'    => $value->kode,
-                    'nama'    => $value->nama,
-                    'dp'      => $value->dp,
-                    'batal'   => $value->batal,
-                    'success' => $value->success,
-                    'invoice' => $value->invoice,
-                    'date'    => $day->format('Y-m-d')
+                    'id'              => $value->id,
+                    'bus'             => $value->bus,
+                    'kode'            => $value->kode,
+                    'tanggal_mulai'   => $value->tanggal_mulai,
+                    'tanggal_kembali' => $value->tanggal_kembali,
+                    'nama'            => $value->nama,
+                    'dp'              => $value->dp,
+                    'batal'           => $value->batal,
+                    'success'         => $value->success,
+                    'invoice'         => $value->invoice,
+                    'date'            => $day->format('Y-m-d')
                 ]; 
             }
             $result[] = $data;
